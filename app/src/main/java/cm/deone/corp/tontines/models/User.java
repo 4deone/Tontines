@@ -5,6 +5,7 @@ public class User {
     private String nameUser;
     private String phoneUser;
     private String photoUser;
+    private String emailUser;
     private String cniUser;
     private String dateDelivrancecCniUser;
     private String villeUser;
@@ -14,12 +15,16 @@ public class User {
     public User() {
     }
 
-    public User(String idUser, String nameUser, String phoneUser, String photoUser, String cniUser, String dateCreationUser, boolean activeUser) {
+    public User(String idUser, String nameUser, String phoneUser, String photoUser, String emailUser, String cniUser,
+                String dateDelivrancecCniUser, String villeUser, String dateCreationUser, boolean activeUser) {
         this.idUser = idUser;
         this.nameUser = nameUser;
         this.phoneUser = phoneUser;
         this.photoUser = photoUser;
+        this.emailUser = emailUser;
         this.cniUser = cniUser;
+        this.dateDelivrancecCniUser = dateDelivrancecCniUser;
+        this.villeUser = villeUser;
         this.dateCreationUser = dateCreationUser;
         this.activeUser = activeUser;
     }
@@ -68,6 +73,14 @@ public class User {
         return dateCreationUser;
     }
 
+    public String getEmailUser() {
+        return emailUser;
+    }
+
+    public void setEmailUser(String emailUser) {
+        this.emailUser = emailUser;
+    }
+
     public void setDateCreationUser(String dateCreationUser) {
         this.dateCreationUser = dateCreationUser;
     }
@@ -78,5 +91,21 @@ public class User {
 
     public void setActiveUser(boolean activeUser) {
         this.activeUser = activeUser;
+    }
+
+    public String getDateDelivrancecCniUser() {
+        return dateDelivrancecCniUser;
+    }
+
+    public void setDateDelivrancecCniUser(String dateDelivrancecCniUser) {
+        this.dateDelivrancecCniUser = dateDelivrancecCniUser;
+    }
+
+    public String getVilleUser() {
+        return villeUser;
+    }
+
+    public void setVilleUser(String villeUser) {
+        this.villeUser = villeUser;
     }
 }
