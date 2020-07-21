@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.VISIBLE);
 
         String email, password, confirm;
-        email = mUserEmailEdt.getText().toString();
-        password = mUserPasswordEdt.getText().toString();
-        confirm = mUserConfirmPasswordEdt.getText().toString();
+        email = mUserEmailEdt.getText().toString().trim();
+        password = mUserPasswordEdt.getText().toString().trim();
+        confirm = mUserConfirmPasswordEdt.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                             mProgressBar.setVisibility(View.GONE);
 
-                            Intent intent = new Intent(MainActivity.this, Dashboard.class);
+                            Intent intent = new Intent(MainActivity.this, Profil.class);
                             startActivity(intent);
                             finish();
                         }
