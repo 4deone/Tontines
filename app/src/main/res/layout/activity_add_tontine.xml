@@ -36,7 +36,7 @@
         android:layout_below="@id/textView"
         android:layout_marginTop="20dp"
         android:drawablePadding="10dp"
-        android:hint="enter your tontine name"
+        android:hint="Nom de la tontine"
         android:inputType="textPersonName" />
 
     <EditText
@@ -46,7 +46,7 @@
         android:layout_below="@id/tontineNameEdtv"
         android:layout_marginTop="20dp"
         android:drawablePadding="10dp"
-        android:hint="enter your Dévise"
+        android:hint="Dévise de la tontine"
         android:inputType="textMultiLine" />
 
     <EditText
@@ -56,7 +56,7 @@
         android:layout_below="@id/deviseEdtv"
         android:layout_marginTop="20dp"
         android:drawablePadding="10dp"
-        android:hint="enter your tontine description"
+        android:hint="Description de la tontine"
         android:inputType="textMultiLine" />
 
     <CheckBox
@@ -64,14 +64,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/descriptionEdtv"
-        android:text="Tontine privée"
+        android:text="Tontine privée."
+        android:layout_marginTop="10dp" />
+
+    <CheckBox
+        android:id="@+id/conditionCb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/privateCb"
+        android:text="J'accepte les condition d'utilisation et la chrte de gestion des tontines."
         android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/buttonContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/privateCb"
+        android:layout_below="@id/conditionCb"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@color/colorPrimaryDark"

@@ -2,11 +2,15 @@ package cm.deone.corp.tontines;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,13 +40,15 @@ public class Dashboard extends AppCompatActivity {
     private FloatingActionButton mFloatingActionButtonab;
     private RecyclerView mRecyclerView;
 
+    private Toolbar dashboardToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         checkUser();
         initializeUI();
-        tontine.allTontines(this, mRecyclerView);
+        tontine.allTontines(this, mRecyclerView, idUser);
         mFloatingActionButtonab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,14 +78,37 @@ public class Dashboard extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.dashboard, menu);
-        return true;
+        MenuItem searchItem = menu.findItem(R.id.menu_action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!TextUtils.isEmpty(query)){
+                    tontine.searchTontines(Dashboard.this, mRecyclerView, idUser, query);
+                }else {
+                    tontine.allTontines(Dashboard.this, mRecyclerView, idUser);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!TextUtils.isEmpty(newText)){
+                    tontine.searchTontines(Dashboard.this, mRecyclerView, idUser, newText);
+                }else {
+                    tontine.allTontines(Dashboard.this, mRecyclerView, idUser);
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case R.id.settings:
+            case R.id.menu_action_settings:
                 //Lancer la page Settings
                 return true;
             default:
@@ -100,6 +129,10 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void initializeUI() {
+        dashboardToolbar = findViewById(R.id.dasboardToolbar);
+        dashboardToolbar.setTitle("DashBoard");
+        dashboardToolbar.setSubtitle("Mes tontines.");
+        setSupportActionBar(dashboardToolbar);
         tontine = new Tontine();
         mRecyclerView = findViewById(R.id.recycleTontine);
         mRecyclerView.setHasFixedSize(true);

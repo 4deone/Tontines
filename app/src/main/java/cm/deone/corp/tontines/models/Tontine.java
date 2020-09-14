@@ -1,6 +1,8 @@
 package cm.deone.corp.tontines.models;
 
 import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +12,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,8 +110,8 @@ public class Tontine {
 
     }
 
-    public void allTontines(final Activity activity, final RecyclerView recyclerview){
-        // L'objectif est d'afficher les tontines dont l'utilisateur est membre pour celle qui sont privé et toutes les tontine public
+    public void allTontines(final Activity activity, final RecyclerView recyclerview, final String uID){
+        // L'objectif est d'afficher les tontines dont l'utilisateur est membre pour celle qui sont privé et toutes les nav_tontine public
         final List<Tontine> tontineList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tontines");
@@ -117,17 +120,49 @@ public class Tontine {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tontineList.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    Tontine tontine = ds.getValue(Tontine.class);
+                    Tontine tontine = ds.child("Description").getValue(Tontine.class);
+                    assert tontine != null;
                     if (tontine.isActiveTontine()){
                         tontineList.add(tontine);
                     }
                     recyclerview.setAdapter(new AdapterTontines(activity, tontineList));
+
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    public void searchTontines(final Activity activity, final RecyclerView recyclerview, final String uID, final String searchQuery){
+
+        final List<Tontine> tontines = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tontines");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tontines.clear();
+                for (DataSnapshot ds:dataSnapshot.getChildren()){
+                    Tontine tontine = ds.child("Description").getValue(Tontine.class);
+                    assert tontine != null;
+                    if (tontine.getNameTontine().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            tontine.getDeviseTontine().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            tontine.getDescriptionTontine().toLowerCase().contains(searchQuery.toLowerCase()) ){
+                        tontines.add(tontine);
+                    }
+
+                    recyclerview.setAdapter(new AdapterTontines(activity, tontines));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(activity, ""+databaseError.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

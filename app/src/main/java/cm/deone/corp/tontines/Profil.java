@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class Profil extends AppCompatActivity {
     private EditText mCniDeliveryDate;
     private EditText mCity;
     private Button mSaveProfil;
+    private Spinner mCountryCode;
     private ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
@@ -61,6 +63,7 @@ public class Profil extends AppCompatActivity {
         mCniDeliveryDate = findViewById(R.id.cniDateEdtv);
         mCity = findViewById(R.id.villeEdtv);
         mSaveProfil = findViewById(R.id.buttonContinue);
+        mCountryCode = findViewById(R.id.spCountry);
         mProgressBar = findViewById(R.id.progressBar);
     }
 

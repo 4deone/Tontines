@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/imageView"
-        android:orientation="vertical"
         android:padding="20dp">
 
         <TextView
@@ -42,23 +41,41 @@
             android:hint="enter your name"
             android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/phoneEdtv"
+        <RelativeLayout
+            android:id="@+id/rlPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/nameEdtv"
-            android:layout_marginTop="10dp"
-            android:digits="0123456789"
-            android:drawablePadding="10dp"
-            android:hint="enter your phone"
-            android:inputType="phone"
-            android:maxLength="9" />
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/phoneEdtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/spCountry"
+                android:digits="0123456789"
+                android:drawablePadding="10dp"
+                android:hint="enter your phone"
+                android:inputType="phone"
+                android:maxLength="9" />
+
+            <Spinner
+                android:id="@+id/spCountry"
+                android:entries="@array/country_code"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/cniEdtv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/phoneEdtv"
+            android:layout_below="@id/rlPhone"
             android:layout_marginTop="10dp"
             android:digits="0123456789"
             android:drawablePadding="10dp"

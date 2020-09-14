@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,12 +25,13 @@ public class AddTontine extends AppCompatActivity {
     private EditText mTontineDevise;
     private EditText mTontineDescription;
     private CheckBox mPrivateCb;
+    private CheckBox mConditionCb;
     private Button mTontineCreate;
     private ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
+    private String idUser;
     private User user;
 
     @Override
@@ -48,25 +50,37 @@ public class AddTontine extends AppCompatActivity {
             finish();
         }else{
             initializeUI();
+            idUser = mUser.getUid();
             mTontineCreate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String nameTontine = mTontineName.getText().toString().trim();
-                    String deviseTontine = mTontineDevise.getText().toString().trim();
-                    String descriptionTontine = mTontineDescription.getText().toString().trim();
-                    boolean privateTontine = mPrivateCb.isChecked();
-                    boolean activateTontine = true;
-                    String timestamp = String.valueOf(System.currentTimeMillis());
-                    //registerNewUser();
-                    HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("idTontine", timestamp);
-                    hashMap.put("nameTontine", nameTontine);
-                    hashMap.put("deviseTontine", deviseTontine);
-                    hashMap.put("descriptionTontine", descriptionTontine);
-                    hashMap.put("dateCreationTontine", timestamp);
-                    hashMap.put("statusTontine", privateTontine);
-                    hashMap.put("activeTontine", activateTontine);
-                    user.createTontine(AddTontine.this, hashMap);
+                    if (mConditionCb.isChecked()){
+                        String nameTontine = mTontineName.getText().toString().trim();
+                        String deviseTontine = mTontineDevise.getText().toString().trim();
+                        String descriptionTontine = mTontineDescription.getText().toString().trim();
+                        boolean privateTontine = mPrivateCb.isChecked();
+                        boolean activateTontine = true;
+                        String timestamp = String.valueOf(System.currentTimeMillis());
+
+                        HashMap<String, Object> hashMapDescription = new HashMap<>();
+                        hashMapDescription.put("idTontine", timestamp);
+                        hashMapDescription.put("nameTontine", nameTontine);
+                        hashMapDescription.put("deviseTontine", deviseTontine);
+                        hashMapDescription.put("descriptionTontine", descriptionTontine);
+                        hashMapDescription.put("dateCreationTontine", timestamp);
+                        hashMapDescription.put("statusTontine", privateTontine);
+                        hashMapDescription.put("activeTontine", activateTontine);
+
+                        HashMap<String, Object> hashMapBureau = new HashMap<>();
+                        hashMapBureau.put("fondateur", idUser);
+
+                        HashMap<String, Object> hashMapMembres = new HashMap<>();
+                        hashMapMembres.put(idUser, timestamp);
+
+                        user.createTontine(AddTontine.this, hashMapDescription, hashMapBureau, hashMapMembres, timestamp, idUser);
+                    }else {
+                        Toast.makeText(AddTontine.this, "Il faut accepter les conditions d'utilistion.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -77,6 +91,7 @@ public class AddTontine extends AppCompatActivity {
         mTontineDevise = findViewById(R.id.deviseEdtv);
         mTontineDescription = findViewById(R.id.descriptionEdtv);
         mPrivateCb = findViewById(R.id.privateCb);
+        mConditionCb = findViewById(R.id.conditionCb);
         mTontineCreate = findViewById(R.id.buttonContinue);
         mProgressBar = findViewById(R.id.progressBar);
         user = new User();

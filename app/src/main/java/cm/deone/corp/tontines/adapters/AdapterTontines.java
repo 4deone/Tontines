@@ -1,6 +1,7 @@
 package cm.deone.corp.tontines.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import cm.deone.corp.tontines.R;
+import cm.deone.corp.tontines.ShowTontine;
 import cm.deone.corp.tontines.models.Tontine;
 
 public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHolder>{
@@ -46,7 +48,10 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+name+"("+devise+")", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, ""+tontineList.get(position).getIdTontine(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ShowTontine.class);
+                intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
+                context.startActivity(intent);
             }
         });
 

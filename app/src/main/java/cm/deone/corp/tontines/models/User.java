@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -29,6 +30,11 @@ public class User {
     private boolean activeUser;
 
     public User() {
+    }
+
+    public User(String nameUser, String phoneUser) {
+        this.nameUser = nameUser;
+        this.phoneUser = phoneUser;
     }
 
     public User(String idUser, String nameUser, String phoneUser, String photoUser, String emailUser, String cniUser,
@@ -174,7 +180,48 @@ public class User {
 
     }
 
-    public void createTontine(final Activity activity, HashMap<String, Object> hashMap){
-        // Création de la cmpagne et ajout du createur comme membre
+    public void createTontine(final Activity activity, final HashMap<String, Object> hashMapDescription, final HashMap<String, Object> hashMapBureau, final HashMap<String, Object>hashMapMembres, final String idTontine, final String idUtilisateur){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tontines");
+        reference.child(idTontine).child("Description").setValue(hashMapDescription)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        DatabaseReference referenceBureau = FirebaseDatabase.getInstance().getReference("Tontines");
+                        referenceBureau.child(idTontine).child("Bureau").setValue(hashMapBureau)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        DatabaseReference referenceMembres = FirebaseDatabase.getInstance().getReference("Tontines");
+                                        referenceMembres.child(idTontine).child("Membres").setValue(hashMapMembres)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        activity.startActivity(new Intent(activity, Dashboard.class));
+                                                        activity.finish();
+
+                                                    }
+                                                })  .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                                    }
+                                })  .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                    }
+                })  .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
+            }
+        });
     }
+
 }
