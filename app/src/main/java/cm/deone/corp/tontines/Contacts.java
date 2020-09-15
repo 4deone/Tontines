@@ -3,10 +3,16 @@ package cm.deone.corp.tontines;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,9 +32,9 @@ public class Contacts extends AppCompatActivity {
 
     private DatabaseReference reference;
     private RecyclerView rvContacts;
-    private AdapterContacts adapterContacts;
     private List<User> contactList;
     private List<User> uContactList;
+    private Toolbar contactToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,52 @@ public class Contacts extends AppCompatActivity {
         contactsCompareDatabase();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.dashboard, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!TextUtils.isEmpty(query)){
+                    searchDatabase(query);
+                }else {
+                    contactsCompareDatabase();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!TextUtils.isEmpty(newText)){
+                    searchDatabase(newText);
+                }else {
+                    contactsCompareDatabase();
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.menu_action_settings:
+                //Lancer la page Settings
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void initViews(){
+        contactToolbar = findViewById(R.id.contactToolbar);
+        contactToolbar.setTitle("Mes contacts");
+        setSupportActionBar(contactToolbar);
         contactList = loadAllContacts();
         uContactList = new ArrayList<>();
         rvContacts = findViewById(R.id.recycleContacts);
@@ -56,6 +107,31 @@ public class Contacts extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
                     for (int count = 0; count < contactList.size(); count++){
                         if (contactList.get(count).getPhoneUser().equals(user.getPhoneUser())) {
+                            uContactList.add(user);
+                            break;
+                        }
+                    }
+                    rvContacts.setAdapter(new AdapterContacts(Contacts.this, uContactList));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void searchDatabase(final String searchQuery) {
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                uContactList.clear();
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    User user = dataSnapshot.getValue(User.class);
+                    for (int count = 0; count < contactList.size(); count++){
+                        if (contactList.get(count).getPhoneUser().equals(user.getPhoneUser())&&(user.getNameUser().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                                user.getPhoneUser().toLowerCase().contains(searchQuery.toLowerCase()))) {
                             uContactList.add(user);
                             break;
                         }

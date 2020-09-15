@@ -18,6 +18,8 @@ import java.util.HashMap;
 import cm.deone.corp.tontines.Dashboard;
 
 public class User {
+    private Activity activity;
+
     private String idUser;
     private String nameUser;
     private String phoneUser;
@@ -30,6 +32,14 @@ public class User {
     private boolean activeUser;
 
     public User() {
+    }
+
+    public User(Activity activity) {
+        this.activity = activity;
+    }
+
+    public User(String idUser) {
+        this.idUser = idUser;
     }
 
     public User(String nameUser, String phoneUser) {
@@ -131,27 +141,26 @@ public class User {
         this.villeUser = villeUser;
     }
 
-    public void createUser(final Activity activity, FirebaseDatabase database){
-        HashMap<String, Object> hashMap = new HashMap<>();
-
-        hashMap.put("idUser", idUser);
-        hashMap.put("nameUser", nameUser);
-        hashMap.put("phoneUser", phoneUser);
-        hashMap.put("emailUser", emailUser);
-        hashMap.put("villeUser", villeUser);
+    public void createUser(){
+        HashMap<String, Object> hashNewUser = new HashMap<>();
+        hashNewUser.put("idUser", idUser);
+        hashNewUser.put("nameUser", nameUser);
+        hashNewUser.put("phoneUser", phoneUser);
+        hashNewUser.put("emailUser", emailUser);
+        hashNewUser.put("villeUser", villeUser);
 
         if (!TextUtils.isEmpty(cniUser)) {
-            hashMap.put("cniUser", cniUser);
+            hashNewUser.put("cniUser", cniUser);
             if (!TextUtils.isEmpty(deliveryCniUser)) {
-                hashMap.put("deliveryCniUser", deliveryCniUser);
+                hashNewUser.put("deliveryCniUser", deliveryCniUser);
             }else {return;}
-            hashMap.put("activeUser", true);
+            hashNewUser.put("activeUser", true);
         }else {
-            hashMap.put("activeUser", false);
+            hashNewUser.put("activeUser", false);
         }
 
-        DatabaseReference reference = database.getReference("Users");
-        reference.child(idUser).setValue(hashMap)
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(idUser).setValue(hashNewUser)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -179,49 +188,4 @@ public class User {
     public void unFreezeUser(){
 
     }
-
-    public void createTontine(final Activity activity, final HashMap<String, Object> hashMapDescription, final HashMap<String, Object> hashMapBureau, final HashMap<String, Object>hashMapMembres, final String idTontine, final String idUtilisateur){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tontines");
-        reference.child(idTontine).child("Description").setValue(hashMapDescription)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        DatabaseReference referenceBureau = FirebaseDatabase.getInstance().getReference("Tontines");
-                        referenceBureau.child(idTontine).child("Bureau").setValue(hashMapBureau)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        DatabaseReference referenceMembres = FirebaseDatabase.getInstance().getReference("Tontines");
-                                        referenceMembres.child(idTontine).child("Membres").setValue(hashMapMembres)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        activity.startActivity(new Intent(activity, Dashboard.class));
-                                                        activity.finish();
-
-                                                    }
-                                                })  .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-
-                                    }
-                                })  .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                    }
-                })  .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
 }

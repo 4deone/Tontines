@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import cm.deone.corp.tontines.R;
-import cm.deone.corp.tontines.ShowTontine;
+import cm.deone.corp.tontines.tontine.ShowTontine;
 import cm.deone.corp.tontines.models.Tontine;
 
 public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHolder>{

@@ -12,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddArticle" />
+        <activity android:name=".reglement.AddArticle" />
         <activity android:name=".Contacts" />
-        <activity android:name=".ShowTontine" />
-        <activity android:name=".AddTontine" />
+        <activity android:name=".tontine.ShowTontine" />
+        <activity android:name=".tontine.AddTontine" />
         <activity android:name=".Profil" />
         <activity android:name=".Dashboard" />
         <activity android:name=".MainActivity">

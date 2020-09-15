@@ -6,8 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Contacts">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/contactToolbar"
+        android:layout_alignParentTop="true"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        app:subtitleTextColor="@color/white"
+        android:background="?attr/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleContacts"
+        android:layout_below="@+id/contactToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

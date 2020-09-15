@@ -86,7 +86,7 @@ public class Profil extends AppCompatActivity {
             Toast.makeText(this, "Please enter city...", Toast.LENGTH_LONG).show();
             return;
         }
-        User user = new User();
+        User user = new User(this);
         user.setIdUser(mUser.getUid());
         user.setEmailUser(mUser.getEmail());
         user.setNameUser(name);
@@ -98,8 +98,6 @@ public class Profil extends AppCompatActivity {
         if (!TextUtils.isEmpty(deliveryDateCni)) {
             user.setDeliveryCniUser(deliveryDateCni);
         }
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        user.createUser(this, database);
+        user.createUser();
     }
 }

@@ -1,7 +1,6 @@
 package cm.deone.corp.tontines.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +20,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 import cm.deone.corp.tontines.R;
+import cm.deone.corp.tontines.models.Membre;
 import cm.deone.corp.tontines.models.User;
 
-public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHolder> {
+public class AdapterMembres extends RecyclerView.Adapter<AdapterMembres.MyHolder> {
 
     private Context context;
-    private List<User> userList;
+    private List<Membre> membreList;
 
-    public AdapterContacts(Context context, List<User> userList) {
+    public AdapterMembres(Context context, List<Membre> membreList) {
         this.context = context;
-        this.userList = userList;
+        this.membreList = membreList;
     }
 
     @NonNull
@@ -41,12 +41,11 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AdapterContacts.MyHolder holder, final int position) {
-        final String nom = userList.get(position).getNameUser();
-        final String id = userList.get(position).getIdUser();
-        final String phone = userList.get(position).getPhoneUser();
+    public void onBindViewHolder(@NonNull final AdapterMembres.MyHolder holder, final int position) {
+        final String nom = membreList.get(position).getName();
+        final String bureau = membreList.get(position).getBureau();
         holder.mContactName.setText(nom);
-        contactNumberTontine(id, holder.mContactTontine);
+        holder.mContactTontine.setText(bureau);
 
 
        /* Log.e("User Database", "user phone : "+ userList.get(position).getPhoneUser());
@@ -55,42 +54,15 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Téléphone -> ("+phone+")", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Téléphone -> ("+phone+")", Toast.LENGTH_SHORT).show();
             }
         });
 
-    }
-
-    private void contactNumberTontine(final String id, final TextView mContactTontine) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tontines").child("Membres").child(id);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int numTontineFondateur = 0;
-                int numTontineMembre = 0;
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    String fondateur = ds.child("bureau").getValue(String.class);
-                    String membre = ds.child("name").getValue(String.class);
-                    if (!fondateur.equals(null)) {
-                        numTontineFondateur++;
-                    }
-                    if (!membre.equals(null)) {
-                        numTontineMembre++;
-                    }
-                }
-                mContactTontine.setText("Fondateur de "+numTontineFondateur+" tontines - Membre de "+numTontineMembre+" tontines");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return membreList.size();
     }
 
     static class MyHolder extends RecyclerView.ViewHolder{

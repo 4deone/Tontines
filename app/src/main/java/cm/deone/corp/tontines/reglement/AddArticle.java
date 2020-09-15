@@ -1,8 +1,10 @@
-package cm.deone.corp.tontines;
+package cm.deone.corp.tontines.reglement;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import cm.deone.corp.tontines.R;
 
 public class AddArticle extends AppCompatActivity {
 

@@ -1,13 +1,5 @@
 package cm.deone.corp.tontines;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,24 +23,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import cm.deone.corp.tontines.models.Tontine;
 import cm.deone.corp.tontines.models.User;
+import cm.deone.corp.tontines.tontine.AddTontine;
 
 public class Dashboard extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-
     private String idUser;
     private Tontine tontine;
-
     private FloatingActionButton mFloatingActionButtonab;
     private RecyclerView mRecyclerView;
-
-    private Toolbar dashboardToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +46,7 @@ public class Dashboard extends AppCompatActivity {
         mFloatingActionButtonab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        if (user.isActiveUser()){
-                            Intent intent = new Intent(Dashboard.this, AddTontine.class);
-                            startActivity(intent);
-                        }else {
-                            Toast.makeText(Dashboard.this, "Denied operation!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                addNewTontine();
             }
         });
     }
@@ -80,6 +57,21 @@ public class Dashboard extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.dashboard, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        manageSearchView(searchView);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_action_settings) {
+            //Lancer la page Settings
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void manageSearchView(SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -101,25 +93,34 @@ public class Dashboard extends AppCompatActivity {
                 return false;
             }
         });
-        return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case R.id.menu_action_settings:
-                //Lancer la page Settings
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void addNewTontine() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                assert user != null;
+                if (user.isActiveUser()){
+                    Intent intent = new Intent(Dashboard.this, AddTontine.class);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(Dashboard.this, "Denied operation!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Dashboard.this, ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkUser(){
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        if (mUser==null){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if (mUser ==null){
             Intent intent = new Intent(Dashboard.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -129,7 +130,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void initializeUI() {
-        dashboardToolbar = findViewById(R.id.dasboardToolbar);
+        Toolbar dashboardToolbar = findViewById(R.id.dasboardToolbar);
         dashboardToolbar.setTitle("DashBoard");
         dashboardToolbar.setSubtitle("Mes tontines.");
         setSupportActionBar(dashboardToolbar);

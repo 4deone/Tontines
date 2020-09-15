@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkUser(){
         mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        if (mUser!=null){
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if (mUser !=null){
             Intent intent = new Intent(MainActivity.this, Dashboard.class);
             startActivity(intent);
             finish();
@@ -65,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
     private void registerNewUser() {
         mProgressBar.setVisibility(View.VISIBLE);
 
-        String email, password, confirm;
+        String email;
+        String password;
+        String confirm;
+
         email = mUserEmailEdt.getText().toString().trim();
         password = mUserPasswordEdt.getText().toString().trim();
         confirm = mUserConfirmPasswordEdt.getText().toString().trim();
@@ -89,18 +91,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-                            mProgressBar.setVisibility(View.GONE);
-
-                            Intent intent = new Intent(MainActivity.this, Profil.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else {
+                            openProfilActivity();
+                        }else {
                             Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
                             mProgressBar.setVisibility(View.GONE);
                         }
                     }
                 });
+    }
+
+    private void openProfilActivity() {
+        Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
+        mProgressBar.setVisibility(View.GONE);
+        Intent intent = new Intent(MainActivity.this, Profil.class);
+        startActivity(intent);
+        finish();
     }
 }

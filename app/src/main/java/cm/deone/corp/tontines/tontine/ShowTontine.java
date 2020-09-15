@@ -1,4 +1,4 @@
-package cm.deone.corp.tontines;
+package cm.deone.corp.tontines.tontine;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import cm.deone.corp.tontines.MainActivity;
+import cm.deone.corp.tontines.R;
 import cm.deone.corp.tontines.fragments.ComptaTontine;
 import cm.deone.corp.tontines.fragments.HomeTontine;
 import cm.deone.corp.tontines.fragments.MembresTontine;
