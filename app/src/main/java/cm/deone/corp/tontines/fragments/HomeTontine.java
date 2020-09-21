@@ -30,11 +30,8 @@ import cm.deone.corp.tontines.R;
 import cm.deone.corp.tontines.models.Tontine;
 
 public class HomeTontine extends Fragment {
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
     private String idUser;
     private String idTontine;
-    private Tontine tontine;
     private TextView tv;
     private Toolbar homeToolbar;
 
@@ -63,7 +60,7 @@ public class HomeTontine extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         //inflate menu
         inflater.inflate(R.menu.home_tontine, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -74,18 +71,27 @@ public class HomeTontine extends Fragment {
         //handle menu item clicks
         int id = item.getItemId();
 
-        if (id == R.id.menu_action_reglement) {
+        if (id == R.id.menu_action_bureau) {
+            //do your function here
+            Toast.makeText(getActivity(), "Bureau", Toast.LENGTH_SHORT).show();
+        }else if (id == R.id.menu_action_operations) {
+            //do your function here
+            Toast.makeText(getActivity(), "Comptabilité", Toast.LENGTH_SHORT).show();
+        }else if (id == R.id.menu_action_reglement) {
             //do your function here
             Toast.makeText(getActivity(), "Reglement", Toast.LENGTH_SHORT).show();
+        }else if (id == R.id.menu_action_settings) {
+            //do your function here
+            Toast.makeText(getActivity(), "Settings", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void checkUserStatut(View view) {
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        if (mUser==null){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if (mUser ==null){
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             getActivity().finish();
@@ -126,7 +132,6 @@ public class HomeTontine extends Fragment {
     }
 
     private void initViews(View view) {
-        tontine = new Tontine();
         homeToolbar = view.findViewById(R.id.homeToolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(homeToolbar);
         tv = view.findViewById(R.id.tvTest);

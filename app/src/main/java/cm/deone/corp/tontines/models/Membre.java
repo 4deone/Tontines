@@ -4,14 +4,15 @@ public class Membre {
     private String bureau;
     private String date;
     private String name;
+    private String phone;
 
     public Membre() {
     }
-
-    public Membre(String bureau, String date, String name) {
+    public Membre(String bureau, String date, String name, String phone) {
         this.bureau = bureau;
         this.date = date;
         this.name = name;
+        this.phone = phone;
     }
 
     public String getBureau() {
@@ -36,5 +37,13 @@ public class Membre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

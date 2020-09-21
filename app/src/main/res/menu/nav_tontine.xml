@@ -3,27 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item  android:id="@+id/description"
-        android:title= "Home"
+        android:title= "@string/home"
         android:enabled="true"
         android:icon="@drawable/ic_action_home"
         app:showAsAction="ifRoom"/>
 
     <item  android:id="@+id/membres"
-        android:title= "Membres"
+        android:title= "@string/Membres"
         android:enabled="true"
         android:icon="@drawable/ic_action_membre"
-        app:showAsAction="ifRoom"/>
-
-    <item  android:id="@+id/comptabilite"
-        android:title= "Comptabilité"
-        android:enabled="true"
-        android:icon="@drawable/ic_action_compta"
-        app:showAsAction="ifRoom"/>
-
-    <item  android:id="@+id/reglement"
-        android:title= "Règlement"
-        android:enabled="true"
-        android:icon="@drawable/ic_action_reglement"
         app:showAsAction="ifRoom"/>
 
 </menu>

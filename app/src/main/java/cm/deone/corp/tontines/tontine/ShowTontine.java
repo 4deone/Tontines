@@ -14,14 +14,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import cm.deone.corp.tontines.MainActivity;
 import cm.deone.corp.tontines.R;
-import cm.deone.corp.tontines.fragments.ComptaTontine;
 import cm.deone.corp.tontines.fragments.HomeTontine;
 import cm.deone.corp.tontines.fragments.MembresTontine;
-import cm.deone.corp.tontines.fragments.ReglementTontine;
 
 public class ShowTontine extends AppCompatActivity {
 
-    private String idUser;
     private String idTontine;
 
     @Override
@@ -29,14 +26,13 @@ public class ShowTontine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_tontine);
         Intent intent = getIntent();
-        idTontine = ""+intent.getStringExtra("idTontine");
+        idTontine = ""+intent.getStringExtra(this.getResources().getString(R.string.idTontine));
         checkUserStatus();
     }
 
     private void checkUserStatus(){
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null){
-            idUser = mUser.getUid();
             initViews();
         }else {
             startActivity(new Intent(ShowTontine.this, MainActivity.class));
@@ -77,24 +73,6 @@ public class ShowTontine extends AppCompatActivity {
                     FragmentTransaction fragmentTransactionOne = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionOne.replace(R.id.content_fragment, membresTontine, "");
                     fragmentTransactionOne.commit();
-                    return true;
-                case R.id.comptabilite:
-                    Bundle bundle3 = new Bundle();
-                    bundle3.putString("idTontine", idTontine);
-                    ComptaTontine comptaTontine = new ComptaTontine();
-                    comptaTontine.setArguments(bundle3);
-                    FragmentTransaction fragmentTransactionTwo = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionTwo.replace(R.id.content_fragment, comptaTontine, "");
-                    fragmentTransactionTwo.commit();
-                    return true;
-                case R.id.reglement:
-                    Bundle bundle5 = new Bundle();
-                    bundle5.putString("idTontine", idTontine);
-                    ReglementTontine reglementTontine = new ReglementTontine();
-                    reglementTontine.setArguments(bundle5);
-                    FragmentTransaction fragmentTransactionQuatre = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionQuatre.replace(R.id.content_fragment, reglementTontine, "");
-                    fragmentTransactionQuatre.commit();
                     return true;
                 default:
             }

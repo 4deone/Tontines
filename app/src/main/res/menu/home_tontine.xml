@@ -2,8 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item  android:id="@+id/menu_action_bureau"
+        android:title= "@string/bureau"
+        app:showAsAction="withText"/>
+
+    <item  android:id="@+id/menu_action_operations"
+        android:title= "@string/operations"
+        app:showAsAction="withText"/>
+
     <item  android:id="@+id/menu_action_reglement"
-        android:title= "Reglement"
+        android:title= "@string/reglement"
+        app:showAsAction="withText"/>
+
+    <item  android:id="@+id/menu_action_settings"
+        android:title= "@string/settings"
         app:showAsAction="withText"/>
 
 </menu>

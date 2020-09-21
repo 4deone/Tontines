@@ -4,9 +4,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,11 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cm.deone.corp.tontines.adapters.AdapterContacts;
+import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.User;
 
 public class Contacts extends AppCompatActivity {
 
     private DatabaseReference reference;
+    private AdapterContacts adapterContacts;
     private RecyclerView rvContacts;
     private List<User> contactList;
     private List<User> uContactList;
@@ -103,21 +105,37 @@ public class Contacts extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 uContactList.clear();
+                int countContact = 0;
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     for (int count = 0; count < contactList.size(); count++){
+                        assert user != null;
                         if (contactList.get(count).getPhoneUser().equals(user.getPhoneUser())) {
                             uContactList.add(user);
+                            countContact++;
                             break;
                         }
                     }
-                    rvContacts.setAdapter(new AdapterContacts(Contacts.this, uContactList));
+                    contactToolbar.setSubtitle(""+countContact+" contacts");
+                    adapterContacts = new AdapterContacts(Contacts.this, uContactList);
+                    rvContacts.setAdapter(adapterContacts);
+                    adapterContacts.setOnItemClickListener(new IntRvClickListner() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Toast.makeText(Contacts.this, ""+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onLongItemClick(int position) {
+                            Toast.makeText(Contacts.this, ""+uContactList.get(position).getPhoneUser(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(Contacts.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -136,7 +154,19 @@ public class Contacts extends AppCompatActivity {
                             break;
                         }
                     }
-                    rvContacts.setAdapter(new AdapterContacts(Contacts.this, uContactList));
+                    adapterContacts = new AdapterContacts(Contacts.this, uContactList);
+                    rvContacts.setAdapter(adapterContacts);
+                    adapterContacts.setOnItemClickListener(new IntRvClickListner() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Toast.makeText(Contacts.this, ""+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onLongItemClick(int position) {
+                            Toast.makeText(Contacts.this, ""+uContactList.get(position).getPhoneUser(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
@@ -145,10 +175,6 @@ public class Contacts extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void findInList(User user) {
-
     }
 
     private List<User> loadAllContacts(){

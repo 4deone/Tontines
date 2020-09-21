@@ -1,7 +1,9 @@
 package cm.deone.corp.tontines;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import cm.deone.corp.tontines.models.User;
 
@@ -28,8 +29,9 @@ public class Profil extends AppCompatActivity {
     private Button mSaveProfil;
     private Spinner mCountryCode;
     private ProgressBar mProgressBar;
+    private TelephonyManager tm;
+    private String locale;
 
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     @Override
@@ -47,7 +49,7 @@ public class Profil extends AppCompatActivity {
     }
 
     private void checkUser(){
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         if (mUser==null){
             Intent intent = new Intent(Profil.this, MainActivity.class);
@@ -57,6 +59,8 @@ public class Profil extends AppCompatActivity {
     }
 
     private void initializeUI() {
+        tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        locale = tm.getNetworkCountryIso();
         mName = findViewById(R.id.nameEdtv);
         mPhone = findViewById(R.id.phoneEdtv);
         mCni = findViewById(R.id.cniEdtv);
@@ -65,11 +69,25 @@ public class Profil extends AppCompatActivity {
         mSaveProfil = findViewById(R.id.buttonContinue);
         mCountryCode = findViewById(R.id.spCountry);
         mProgressBar = findViewById(R.id.progressBar);
+
+        switch(locale){
+            case "cm":
+                mCountryCode.setSelection(1);
+                break;
+            case "fr":
+                mCountryCode.setSelection(0);
+                break;
+            case "us":
+                mCountryCode.setSelection(2);
+                break;
+            default:
+        }
     }
 
     private void saveUserProfil() {
         Toast.makeText(getApplicationContext(), "Save user...", Toast.LENGTH_LONG).show();
         String name = mName.getText().toString().trim();
+        String indicatif = mCountryCode.getSelectedItem().toString();
         String phone = mPhone.getText().toString().trim();
         String city = mCity.getText().toString().trim();
         String cni = mCni.getText().toString().trim();
@@ -86,11 +104,12 @@ public class Profil extends AppCompatActivity {
             Toast.makeText(this, "Please enter city...", Toast.LENGTH_LONG).show();
             return;
         }
+        String telephone = getResources().getString(R.string.telephone, indicatif, phone);
         User user = new User(this);
         user.setIdUser(mUser.getUid());
         user.setEmailUser(mUser.getEmail());
         user.setNameUser(name);
-        user.setPhoneUser(phone);
+        user.setPhoneUser(telephone);
         user.setVilleUser(city);
         if (!TextUtils.isEmpty(cni)) {
             user.setCniUser(cni);

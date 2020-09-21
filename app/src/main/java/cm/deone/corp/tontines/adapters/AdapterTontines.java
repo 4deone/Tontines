@@ -1,7 +1,6 @@
 package cm.deone.corp.tontines.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import cm.deone.corp.tontines.R;
-import cm.deone.corp.tontines.tontine.ShowTontine;
+import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.Tontine;
 
 public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHolder>{
 
 
     private Context context;
+    private IntRvClickListner listener;
     private List<Tontine> tontineList;
 
     public AdapterTontines(Context context, List<Tontine> tontineList) {
@@ -43,17 +43,6 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
 
         holder.mTitreTontine.setText(name);
         holder.mDeviseTontine.setText(devise);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(context, ""+tontineList.get(position).getIdTontine(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, ShowTontine.class);
-                intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
-                context.startActivity(intent);
-            }
-        });
-
     }
 
     @Override
@@ -61,7 +50,11 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
         return tontineList.size();
     }
 
-    static class MyHolder extends RecyclerView.ViewHolder{
+    public void setOnItemClickListener(IntRvClickListner listener){
+        this.listener = listener;
+    }
+
+    public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         TextView mTitreTontine;
         TextView mDeviseTontine;
@@ -70,6 +63,26 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
             super(itemView);
             mTitreTontine = itemView.findViewById(R.id.titreTontine);
             mDeviseTontine = itemView.findViewById(R.id.deviseTontine);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && listener != null) {
+                listener.onItemClick(position);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && listener != null) {
+                listener.onLongItemClick(position);
+            }
+            return true;
         }
     }
 }

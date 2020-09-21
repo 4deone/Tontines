@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".membres.ShowMembre">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/showMemmberToolbar"
+        android:layout_alignParentTop="true"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        app:subtitleTextColor="@color/white"
+        android:background="?attr/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:id="@+id/memberHeader"
+        android:layout_below="@+id/showMemmberToolbar"
+        android:background="#abcdef"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imContact"
+            android:src="@drawable/ic_action_members"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/todo_espace_membre" />
+
+        <TextView
+            android:id="@+id/tvMemberName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imContact"
+            android:text="@string/member_name"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/tvBureauMembre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:layout_toEndOf="@+id/imContact"
+            android:layout_below="@+id/tvMemberName"
+            android:textColor="@color/black"
+            android:text="Membre"
+            android:textSize="10sp"
+            tools:ignore="RtlSymmetry,SmallSp" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:layout_toEndOf="@+id/imContact"
+            android:layout_below="@+id/tvBureauMembre"
+            android:textColor="@color/black"
+            android:text="+237677665544"
+            android:textSize="10sp"
+            tools:ignore="RtlSymmetry,SmallSp" />
+
+        <TextView
+            android:id="@+id/tvCni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:layout_toEndOf="@+id/imContact"
+            android:layout_below="@+id/tvPhone"
+            android:textColor="@color/black"
+            android:text="CNI N° 1147552455  du 15/07/2021"
+            android:textSize="10sp"
+            tools:ignore="RtlSymmetry,SmallSp" />
+
+        <TextView
+            android:id="@+id/tvAnciennete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:layout_toEndOf="@+id/imContact"
+            android:layout_below="@+id/tvCni"
+            android:textColor="@color/black"
+            android:text="Ancienneté 2 ans"
+            android:textSize="10sp"
+            tools:ignore="RtlSymmetry,SmallSp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/memberHeader"
+        android:background="#55abcdef"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="#000000"
+            android:text="Espace membre"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

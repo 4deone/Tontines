@@ -22,10 +22,15 @@ import java.util.List;
 import cm.deone.corp.tontines.Dashboard;
 import cm.deone.corp.tontines.R;
 import cm.deone.corp.tontines.adapters.AdapterTontines;
+import cm.deone.corp.tontines.interfaces.IntRvClickListner;
+import cm.deone.corp.tontines.interfaces.IntTontine;
+import cm.deone.corp.tontines.tontine.ShowTontine;
 
-public class Tontine {
+public class Tontine implements IntTontine {
 
     private Activity activity;
+    private AdapterTontines adapterTontines;
+    private List<Tontine> tontineList;
     private String idTontine;
     private String nameTontine;
     private String deviseTontine;
@@ -116,7 +121,8 @@ public class Tontine {
 
     }
 
-    public void createTontine(final String idUtilisateur, String name){
+    @Override
+    public void createTontine(final String idUtilisateur, String name, String phone) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         HashMap<String, Object> hashMapDescription = new HashMap<>();
         hashMapDescription.put("idTontine", timestamp);
@@ -130,6 +136,7 @@ public class Tontine {
         hashMapMembres.put("date", timestamp);
         hashMapMembres.put("bureau", "fondateur");
         hashMapMembres.put("name", name);
+        hashMapMembres.put("phone", phone);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
         reference.child(idTontine).child(activity.getResources().getString(R.string.Description)).setValue(hashMapDescription)
@@ -161,8 +168,9 @@ public class Tontine {
         });
     }
 
-    public void allTontines(final RecyclerView recyclerview, final String uID){
-        final List<Tontine> tontineList = new ArrayList<>();
+    @Override
+    public void allTontines(final RecyclerView recyclerview, final String uID) {
+        tontineList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
         ref.addValueEventListener(new ValueEventListener() {
@@ -171,13 +179,27 @@ public class Tontine {
                 tontineList.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Tontine tontine = ds.child(activity.getResources().getString(R.string.Description)).getValue(Tontine.class);
-                    String idMembre = ds.child(activity.getResources().getString(R.string.Membres)).getKey();
+                    String idMembre = ds.child(activity.getResources().getString(R.string.Membres)).child(uID).getKey();
                     assert tontine != null;
                     assert idMembre != null;
                     if (tontine.isActiveTontine()&&idMembre.equals(uID)){
                         tontineList.add(tontine);
                     }
-                    recyclerview.setAdapter(new AdapterTontines(activity, tontineList));
+                    adapterTontines = new AdapterTontines(activity, tontineList);
+                    recyclerview.setAdapter(adapterTontines);
+                    adapterTontines.setOnItemClickListener(new IntRvClickListner() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Intent intent = new Intent(activity, ShowTontine.class);
+                            intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
+                            activity.startActivity(intent);
+                        }
+
+                        @Override
+                        public void onLongItemClick(int position) {
+                            Toast.makeText(activity, ""+tontineList.get(position).getDescriptionTontine(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
@@ -188,15 +210,15 @@ public class Tontine {
         });
     }
 
-    public void searchTontines(final RecyclerView recyclerview, final String uID, final String searchQuery){
-
-        final List<Tontine> tontines = new ArrayList<>();
+    @Override
+    public void searchTontines(final RecyclerView recyclerview, final String uID, final String searchQuery) {
+        tontineList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tontines.clear();
+                tontineList.clear();
                 for (DataSnapshot ds:dataSnapshot.getChildren()){
                     Tontine tontine = ds.child(activity.getResources().getString(R.string.Description)).getValue(Tontine.class);
                     String idMembre = ds.child(activity.getResources().getString(R.string.Membres)).getKey();
@@ -205,9 +227,23 @@ public class Tontine {
                     if ((tontine.getNameTontine().toLowerCase().contains(searchQuery.toLowerCase()) ||
                             tontine.getDeviseTontine().toLowerCase().contains(searchQuery.toLowerCase()) ||
                             tontine.getDescriptionTontine().toLowerCase().contains(searchQuery.toLowerCase()))&&idMembre.equals(uID)){
-                        tontines.add(tontine);
+                        tontineList.add(tontine);
                     }
-                    recyclerview.setAdapter(new AdapterTontines(activity, tontines));
+                    adapterTontines = new AdapterTontines(activity, tontineList);
+                    recyclerview.setAdapter(adapterTontines);
+                    adapterTontines.setOnItemClickListener(new IntRvClickListner() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Intent intent = new Intent(activity, ShowTontine.class);
+                            intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
+                            activity.startActivity(intent);
+                        }
+
+                        @Override
+                        public void onLongItemClick(int position) {
+                            Toast.makeText(activity, ""+tontineList.get(position).getDescriptionTontine(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 

@@ -8,8 +8,16 @@
         app:showAsAction="ifRoom|collapseActionView"
         android:title="@string/search" />
 
-    <item  android:id="@+id/menu_action_settings"
-        android:title= "@string/settings"
+    <item  android:id="@+id/menu_action_edit"
+        android:title= "Edit"
+        app:showAsAction="withText"/>
+
+    <item  android:id="@+id/menu_action_freeze"
+        android:title= "Freeze"
+        app:showAsAction="withText"/>
+
+    <item  android:id="@+id/menu_action_delete"
+        android:title= "Delete"
         app:showAsAction="withText"/>
 
 </menu>

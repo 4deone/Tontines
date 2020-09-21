@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="Votre profil"
+            android:text="@string/votre_profil"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorPrimary" />
 
@@ -38,7 +38,7 @@
             android:layout_below="@id/textView"
             android:layout_marginTop="20dp"
             android:drawablePadding="10dp"
-            android:hint="enter your name"
+            android:hint="@string/enter_your_name"
             android:inputType="textPersonName" />
 
         <RelativeLayout
@@ -56,7 +56,7 @@
                 android:layout_toEndOf="@+id/spCountry"
                 android:digits="0123456789"
                 android:drawablePadding="10dp"
-                android:hint="enter your phone"
+                android:hint="@string/enter_your_phone"
                 android:inputType="phone"
                 android:maxLength="9" />
 
@@ -79,7 +79,7 @@
             android:layout_marginTop="10dp"
             android:digits="0123456789"
             android:drawablePadding="10dp"
-            android:hint="enter your cni number"
+            android:hint="@string/enter_your_cni_number"
             android:inputType="phone"
             android:maxLength="10" />
 
@@ -90,7 +90,7 @@
             android:layout_below="@id/cniEdtv"
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
-            android:hint="enter your cni delivery date"
+            android:hint="@string/enter_your_cni_delivery_date"
             android:inputType="date" />
 
         <EditText
@@ -100,7 +100,7 @@
             android:layout_below="@id/cniDateEdtv"
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
-            android:hint="enter your city"
+            android:hint="@string/enter_your_city"
             android:inputType="text"
             android:maxLength="30" />
 

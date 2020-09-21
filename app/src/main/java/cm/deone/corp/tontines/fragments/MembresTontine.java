@@ -37,9 +37,11 @@ import cm.deone.corp.tontines.Contacts;
 import cm.deone.corp.tontines.MainActivity;
 import cm.deone.corp.tontines.R;
 import cm.deone.corp.tontines.adapters.AdapterMembres;
-import cm.deone.corp.tontines.adapters.AdapterTontines;
+import cm.deone.corp.tontines.interfaces.IntRvClickListner;
+import cm.deone.corp.tontines.membres.ShowMembre;
 import cm.deone.corp.tontines.models.Membre;
 import cm.deone.corp.tontines.models.Tontine;
+import cm.deone.corp.tontines.tontine.ShowTontine;
 
 public class MembresTontine extends Fragment {
 
@@ -48,6 +50,7 @@ public class MembresTontine extends Fragment {
     private Toolbar membresToolbar;
     private String idUser;
     private String idTontine;
+    private AdapterMembres adapterMembres;
     private RecyclerView rvTontineMembers;
     private FloatingActionButton fabAddMembre;
     private TextView tvNoMembers;
@@ -106,31 +109,6 @@ public class MembresTontine extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void searchMembres(final String searchQuery) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tontines").child(idTontine).child("Membres");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                membreList.clear();
-                for (DataSnapshot ds:dataSnapshot.getChildren()){
-                    Membre membre = ds.getValue(Membre.class);
-                    assert membre != null;
-                    if (membre.getBureau().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                            membre.getName().toLowerCase().contains(searchQuery.toLowerCase())){
-                        membreList.add(membre);
-                    }
-                    rvTontineMembers.setAdapter(new AdapterMembres(getActivity(), membreList));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //handle menu item clicks
@@ -165,7 +143,7 @@ public class MembresTontine extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 membreList.clear();
-                for(DataSnapshot ds:dataSnapshot.getChildren()){
+                for(final DataSnapshot ds:dataSnapshot.getChildren()){
                     Membre membre = ds.getValue(Membre.class);
                     membreList.add(membre);
                     if (membreList.isEmpty()) {
@@ -174,16 +152,68 @@ public class MembresTontine extends Fragment {
                     }else{
                         tvNoMembers.setVisibility(View.GONE);
                         rvTontineMembers.setVisibility(View.VISIBLE);
-                        rvTontineMembers.setAdapter(new AdapterMembres(getActivity(), membreList));
+                        adapterMembres = new AdapterMembres(getActivity(), membreList);
+                        rvTontineMembers.setAdapter(adapterMembres);
+                        adapterMembres.setOnItemClickListener(new IntRvClickListner() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Intent intent = new Intent(getActivity(), ShowMembre.class);
+                                intent.putExtra("mID", ds.getKey());
+                                intent.putExtra("idTontine", idTontine);
+                                getActivity().startActivity(intent);
+                            }
+
+                            @Override
+                            public void onLongItemClick(int position) {
+                                Toast.makeText(getActivity(), ""+membreList.get(position).getPhone(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void searchMembres(final String searchQuery) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tontines").child(idTontine).child("Membres");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                membreList.clear();
+                for (DataSnapshot ds:dataSnapshot.getChildren()){
+                    Membre membre = ds.getValue(Membre.class);
+                    assert membre != null;
+                    if (membre.getBureau().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            membre.getName().toLowerCase().contains(searchQuery.toLowerCase())){
+                        membreList.add(membre);
+                    }
+                    adapterMembres = new AdapterMembres(getActivity(), membreList);
+                    rvTontineMembers.setAdapter(adapterMembres);
+                    adapterMembres.setOnItemClickListener(new IntRvClickListner() {
+                        @Override
+                        public void onItemClick(int position) {
+                            Toast.makeText(getActivity(), ""+membreList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onLongItemClick(int position) {
+                            Toast.makeText(getActivity(), ""+membreList.get(position).getPhone(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void getTontine() {
@@ -227,5 +257,64 @@ public class MembresTontine extends Fragment {
                 startActivity(new Intent(getActivity(), Contacts.class));
             }
         });
+    }
+
+    private void selectOptions(int position) {
+        /*
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        String[] membre = {"Edit opération", "Edit ville", "Edit quartier", "Edit lieu-dit", "Edit budget"
+                , "Edit superficie",  "Edit titre foncier", "Edit travaux", "Edit propraitire", "Edit status", "Edit description",
+                "Edit pièces", "Edit séjours", "Edit chambres", "Edit douches", "Edit cuisines", "Edit sécurité", "Edit standing", "Edit chauffage", "Edit commodités"};
+        String[] bureau = {"Edit opération", "Edit ville", "Edit quartier", "Edit lieu-dit", "Edit budget"
+                , "Edit superficie", "Edit titre foncier", "Edit dispo titre", "Edit travaux", "Edit status", "Edit description"};
+
+        builder.setTitle("Edit member ");
+        builder.setItems(role.equals("membre") ? membre : bureau, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                switch (which){
+                    case 0:
+                        String[] operations = getResources().getStringArray(R.array.operations);
+                        updateAutoCompleteEt("pOperation", operations);
+                        break;
+                    case 1:
+                        String[] villes = getResources().getStringArray(R.array.villes);
+                        updateAutoCompleteEt("pVille", villes);
+                        break;
+                    case 2: updateEt("pQuartier");break;
+                    case 3:updateEt("pLieudit");break;
+                    case 4:updateEt("pBudget");break;
+                    case 5:updateEt("pSuperficie");break;
+                    case 6:updateTitreFoncier();break;
+                    case 7:updateTravaux();break;
+                    case 8:updateSwitch("pProprietaire");break;
+                    case 9:updateSwitch("pStatus");break;
+                    case 10:updateEt("pDescription");break;
+                    case 11:updateNumberPick("pPieces");break;
+                    case 12:updateNumberPick("pSejours");break;
+                    case 13:updateNumberPick("pChambres");break;
+                    case 14:updateNumberPick("pDouches");break;
+                    case 15:updateNumberPick("pCuisines");break;
+                    case 16:
+                        String[] securites = getResources().getStringArray(R.array.securites);
+                        updateAutoCompleteEt("pSecurite", securites);
+                        break;
+                    case 17:
+                        String[] standings = getResources().getStringArray(R.array.standing);
+                        updateAutoCompleteEt("pStanding", standings);
+                        break;
+                    case 18:
+                        String[] chauffages = getResources().getStringArray(R.array.chauffages);
+                        updateAutoCompleteEt("pChauffage", chauffages);
+                        break;
+                    case 19:commoditiesDialog();break;
+                    default:
+                }
+            }
+        });
+        builder.create().show();
+         */
     }
 }

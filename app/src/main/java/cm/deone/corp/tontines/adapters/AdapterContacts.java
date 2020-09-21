@@ -1,13 +1,11 @@
 package cm.deone.corp.tontines.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,11 +19,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 import cm.deone.corp.tontines.R;
+import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.User;
 
 public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHolder> {
 
     private Context context;
+    private IntRvClickListner listener;
     private List<User> userList;
 
     public AdapterContacts(Context context, List<User> userList) {
@@ -44,21 +44,8 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
     public void onBindViewHolder(@NonNull final AdapterContacts.MyHolder holder, final int position) {
         final String nom = userList.get(position).getNameUser();
         final String id = userList.get(position).getIdUser();
-        final String phone = userList.get(position).getPhoneUser();
         holder.mContactName.setText(nom);
         contactNumberTontine(id, holder.mContactTontine);
-
-
-       /* Log.e("User Database", "user phone : "+ userList.get(position).getPhoneUser());
-        Log.e("User Database", "Numbre de user : "+ userList.size());*/
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Téléphone -> ("+phone+")", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     private void contactNumberTontine(final String id, final TextView mContactTontine) {
@@ -70,11 +57,11 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
                 int numTontineMembre = 0;
                 for (DataSnapshot ds: snapshot.getChildren()){
                     String fondateur = ds.child("bureau").getValue(String.class);
-                    String membre = ds.child("name").getValue(String.class);
-                    if (!fondateur.equals(null)) {
+                    assert fondateur != null;
+                    if (!fondateur.equals("fondateur")) {
                         numTontineFondateur++;
                     }
-                    if (!membre.equals(null)) {
+                    if (ds.exists()) {
                         numTontineMembre++;
                     }
                 }
@@ -93,7 +80,11 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
         return userList.size();
     }
 
-    static class MyHolder extends RecyclerView.ViewHolder{
+    public void setOnItemClickListener(IntRvClickListner listener){
+        this.listener = listener;
+    }
+
+    public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         ImageView mAvatar;
         TextView mContactName;
@@ -104,6 +95,26 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
             mAvatar = itemView.findViewById(R.id.imContact);
             mContactName = itemView.findViewById(R.id.tvContactName);
             mContactTontine = itemView.findViewById(R.id.tvContactNumberTontine);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && listener != null) {
+                listener.onItemClick(position);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && listener != null) {
+                listener.onLongItemClick(position);
+            }
+            return true;
         }
     }
 }

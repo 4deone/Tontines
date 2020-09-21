@@ -66,6 +66,7 @@ public class AddTontine extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 String name = dataSnapshot.child("nameUser").getValue(String.class);
+                                String phone = dataSnapshot.child("phoneNumber").getValue(String.class);
 
                                 String nameTontine = mTontineName.getText().toString().trim();
                                 String deviseTontine = mTontineDevise.getText().toString().trim();
@@ -77,7 +78,7 @@ public class AddTontine extends AppCompatActivity {
                                 tontine.setStatusTontine(mPrivateCb.isChecked());
                                 tontine.setActiveTontine(true);
 
-                                tontine.createTontine(idUser, name);
+                                tontine.createTontine(idUser, name, phone);
                             }
 
                             @Override
@@ -101,6 +102,6 @@ public class AddTontine extends AppCompatActivity {
         mConditionCb = findViewById(R.id.conditionCb);
         mTontineCreate = findViewById(R.id.buttonContinue);
         mProgressBar = findViewById(R.id.progressBar);
-        tontine = new Tontine(this);
+        tontine = new Tontine(AddTontine.this);
     }
 }

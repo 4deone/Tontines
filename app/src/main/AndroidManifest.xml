@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".reglement.ShowReglement"></activity>
+        <activity android:name=".membres.ShowMembre" />
         <activity android:name=".reglement.AddArticle" />
         <activity android:name=".Contacts" />
         <activity android:name=".tontine.ShowTontine" />

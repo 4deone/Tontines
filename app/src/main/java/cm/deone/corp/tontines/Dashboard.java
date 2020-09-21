@@ -33,7 +33,7 @@ public class Dashboard extends AppCompatActivity {
 
     private String idUser;
     private Tontine tontine;
-    private FloatingActionButton mFloatingActionButtonab;
+    private FloatingActionButton mFabTontine;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -41,12 +41,10 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         checkUser();
-        initializeUI();
-        tontine.allTontines(this, mRecyclerView, idUser);
-        mFloatingActionButtonab.setOnClickListener(new View.OnClickListener() {
+        mFabTontine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewTontine();
+                startActivity(new Intent(Dashboard.this, AddTontine.class));
             }
         });
     }
@@ -76,9 +74,9 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!TextUtils.isEmpty(query)){
-                    tontine.searchTontines(Dashboard.this, mRecyclerView, idUser, query);
+                    tontine.searchTontines(mRecyclerView, idUser, query);
                 }else {
-                    tontine.allTontines(Dashboard.this, mRecyclerView, idUser);
+                    tontine.allTontines(mRecyclerView, idUser);
                 }
                 return false;
             }
@@ -86,35 +84,26 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText)){
-                    tontine.searchTontines(Dashboard.this, mRecyclerView, idUser, newText);
+                    tontine.searchTontines(mRecyclerView, idUser, newText);
                 }else {
-                    tontine.allTontines(Dashboard.this, mRecyclerView, idUser);
+                    tontine.allTontines(mRecyclerView, idUser);
                 }
                 return false;
             }
         });
     }
 
-    private void addNewTontine() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(idUser);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                if (user.isActiveUser()){
-                    Intent intent = new Intent(Dashboard.this, AddTontine.class);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(Dashboard.this, "Denied operation!", Toast.LENGTH_SHORT).show();
-                }
-            }
+    private void initializeUI() {
+        Toolbar dashboardToolbar = findViewById(R.id.dasboardToolbar);
+        dashboardToolbar.setTitle("DashBoard");
+        dashboardToolbar.setSubtitle("Mes tontines.");
+        setSupportActionBar(dashboardToolbar);
+        tontine = new Tontine(Dashboard.this);
+        mRecyclerView = findViewById(R.id.recycleTontine);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(Dashboard.this));
+        mFabTontine = findViewById(R.id.faButton);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Dashboard.this, ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void checkUser(){
@@ -125,19 +114,27 @@ public class Dashboard extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else {
+            initializeUI();
             idUser = mUser.getUid();
-        }
-    }
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(this.getResources().getString(R.string.Users)).child(idUser);
+            ref.addValueEventListener(new ValueEventListener(){
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    assert user != null;
+                    if (user.isActiveUser()) {
+                        tontine.allTontines(mRecyclerView, idUser);
+                        mFabTontine.setVisibility(View.VISIBLE);
+                    }else{
+                        mFabTontine.setVisibility(View.GONE);
+                    }
+                }
 
-    private void initializeUI() {
-        Toolbar dashboardToolbar = findViewById(R.id.dasboardToolbar);
-        dashboardToolbar.setTitle("DashBoard");
-        dashboardToolbar.setSubtitle("Mes tontines.");
-        setSupportActionBar(dashboardToolbar);
-        tontine = new Tontine();
-        mRecyclerView = findViewById(R.id.recycleTontine);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mFloatingActionButtonab = findViewById(R.id.faButton);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(Dashboard.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
