@@ -63,7 +63,7 @@ public class Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_action_settings) {
-            //Lancer la page Settings
+            startActivity(new Intent(Dashboard.this, Settings.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -137,4 +137,5 @@ public class Dashboard extends AppCompatActivity {
             });
         }
     }
+
 }

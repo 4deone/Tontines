@@ -29,11 +29,19 @@
         android:layout_toRightOf="@+id/imageView"
         android:layout_marginLeft="90dp" />
 
+    <Spinner
+        android:id="@+id/spTypeArticle"
+        android:entries="@array/type_article"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+                                        />
     <EditText
         android:id="@+id/tontineNameEdtv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/spTypeArticle"
         android:layout_marginTop="20dp"
         android:drawablePadding="10dp"
         android:hint="Titre de l'article"
@@ -64,6 +72,7 @@
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_below="@+id/buttonContinue"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:padding="8dp"
+    android:background="#aabbccdd">
+
+    <TextView
+        android:id="@+id/tvTypeArticle"
+        android:text="Préambule"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvTitreArticle"
+        android:layout_below="@+id/tvTypeArticle"
+        android:text="Titre"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvContenuArticle"
+        android:layout_below="@+id/tvTitreArticle"
+        android:text="Préambule"
+        android:textColor="@color/black"
+        android:textSize="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvDateArticle"
+        android:layout_below="@+id/tvContenuArticle"
+        android:text="Préambule"
+        android:textColor="@color/black"
+        android:textSize="8dp"
+        android:gravity="end"
+        android:textStyle="italic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

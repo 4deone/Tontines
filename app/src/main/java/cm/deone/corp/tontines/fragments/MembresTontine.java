@@ -185,26 +185,36 @@ public class MembresTontine extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 membreList.clear();
-                for (DataSnapshot ds:dataSnapshot.getChildren()){
+                for (final DataSnapshot ds:dataSnapshot.getChildren()){
                     Membre membre = ds.getValue(Membre.class);
                     assert membre != null;
                     if (membre.getBureau().toLowerCase().contains(searchQuery.toLowerCase()) ||
                             membre.getName().toLowerCase().contains(searchQuery.toLowerCase())){
                         membreList.add(membre);
                     }
-                    adapterMembres = new AdapterMembres(getActivity(), membreList);
-                    rvTontineMembers.setAdapter(adapterMembres);
-                    adapterMembres.setOnItemClickListener(new IntRvClickListner() {
-                        @Override
-                        public void onItemClick(int position) {
-                            Toast.makeText(getActivity(), ""+membreList.get(position).getName(), Toast.LENGTH_SHORT).show();
-                        }
+                    if (membreList.isEmpty()) {
+                        tvNoMembers.setVisibility(View.VISIBLE);
+                        rvTontineMembers.setVisibility(View.GONE);
+                    }else{
+                        tvNoMembers.setVisibility(View.GONE);
+                        rvTontineMembers.setVisibility(View.VISIBLE);
+                        adapterMembres = new AdapterMembres(getActivity(), membreList);
+                        rvTontineMembers.setAdapter(adapterMembres);
+                        adapterMembres.setOnItemClickListener(new IntRvClickListner() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Intent intent = new Intent(getActivity(), ShowMembre.class);
+                                intent.putExtra("mID", ds.getKey());
+                                intent.putExtra("idTontine", idTontine);
+                                getActivity().startActivity(intent);
+                            }
 
-                        @Override
-                        public void onLongItemClick(int position) {
-                            Toast.makeText(getActivity(), ""+membreList.get(position).getPhone(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onLongItemClick(int position) {
+                                Toast.makeText(getActivity(), ""+membreList.get(position).getPhone(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             }
 

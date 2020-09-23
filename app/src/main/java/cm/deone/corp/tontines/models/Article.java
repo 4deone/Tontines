@@ -2,16 +2,20 @@ package cm.deone.corp.tontines.models;
 
 public class Article {
     private String idArticle;
+    private String typeArticle;
     private String titreArticle;
-    private String descriptionArticle;
+    private String contenuArticle;
+    private String dateArticle;
 
     public Article() {
     }
 
-    public Article(String idArticle, String titreArticle, String descriptionArticle) {
+    public Article(String idArticle, String typeArticle, String titreArticle, String contenuArticle, String dateArticle) {
         this.idArticle = idArticle;
+        this.typeArticle = typeArticle;
         this.titreArticle = titreArticle;
-        this.descriptionArticle = descriptionArticle;
+        this.contenuArticle = contenuArticle;
+        this.dateArticle = dateArticle;
     }
 
     public String getIdArticle() {
@@ -22,6 +26,14 @@ public class Article {
         this.idArticle = idArticle;
     }
 
+    public String getTypeArticle() {
+        return typeArticle;
+    }
+
+    public void setTypeArticle(String typeArticle) {
+        this.typeArticle = typeArticle;
+    }
+
     public String getTitreArticle() {
         return titreArticle;
     }
@@ -30,11 +42,19 @@ public class Article {
         this.titreArticle = titreArticle;
     }
 
-    public String getDescriptionArticle() {
-        return descriptionArticle;
+    public String getContenuArticle() {
+        return contenuArticle;
     }
 
-    public void setDescriptionArticle(String descriptionArticle) {
-        this.descriptionArticle = descriptionArticle;
+    public void setContenuArticle(String contenuArticle) {
+        this.contenuArticle = contenuArticle;
+    }
+
+    public String getDateArticle() {
+        return dateArticle;
+    }
+
+    public void setDateArticle(String dateArticle) {
+        this.dateArticle = dateArticle;
     }
 }

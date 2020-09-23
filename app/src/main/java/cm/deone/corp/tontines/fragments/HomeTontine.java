@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import cm.deone.corp.tontines.MainActivity;
 import cm.deone.corp.tontines.R;
 import cm.deone.corp.tontines.models.Tontine;
+import cm.deone.corp.tontines.reglement.ShowReglement;
 
 public class HomeTontine extends Fragment {
     private String idUser;
@@ -78,8 +79,9 @@ public class HomeTontine extends Fragment {
             //do your function here
             Toast.makeText(getActivity(), "Comptabilité", Toast.LENGTH_SHORT).show();
         }else if (id == R.id.menu_action_reglement) {
-            //do your function here
-            Toast.makeText(getActivity(), "Reglement", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), ShowReglement.class);
+            intent.putExtra("idTontine", idTontine);
+            getActivity().startActivity(intent);
         }else if (id == R.id.menu_action_settings) {
             //do your function here
             Toast.makeText(getActivity(), "Settings", Toast.LENGTH_SHORT).show();

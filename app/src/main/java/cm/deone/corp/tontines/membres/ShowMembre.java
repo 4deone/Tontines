@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 import cm.deone.corp.tontines.MainActivity;
 import cm.deone.corp.tontines.R;
@@ -130,8 +131,10 @@ public class ShowMembre extends AppCompatActivity {
 
     private void initViews() {
         toolbar = findViewById(R.id.showMemmberToolbar);
-        //toolbar.setTitle("DashBoard");
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         mAvatar = findViewById(R.id.imContact);
         mName = findViewById(R.id.tvMemberName);
         mBureau = findViewById(R.id.tvBureauMembre);

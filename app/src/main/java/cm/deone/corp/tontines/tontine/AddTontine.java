@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -72,6 +73,21 @@ public class AddTontine extends AppCompatActivity {
                                 String deviseTontine = mTontineDevise.getText().toString().trim();
                                 String descriptionTontine = mTontineDescription.getText().toString().trim();
 
+                                if (TextUtils.isEmpty(nameTontine)) {
+                                    Toast.makeText(getApplicationContext(), "Entrez le nom de la tontine...", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                if (TextUtils.isEmpty(deviseTontine)) {
+                                    Toast.makeText(getApplicationContext(), "Entrez la dévise de la tontine...", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                if (TextUtils.isEmpty(descriptionTontine)) {
+                                    Toast.makeText(getApplicationContext(), "Entrez la description de la tontine...", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
                                 tontine.setNameTontine(nameTontine);
                                 tontine.setNameTontine(deviseTontine);
                                 tontine.setNameTontine(descriptionTontine);
@@ -87,7 +103,7 @@ public class AddTontine extends AppCompatActivity {
                             }
                         });
                     }else {
-                        Toast.makeText(AddTontine.this, "accept user conditions!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddTontine.this, "accepter les conditions d'utilisation!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
