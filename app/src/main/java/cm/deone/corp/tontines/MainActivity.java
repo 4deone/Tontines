@@ -1,8 +1,5 @@
 package cm.deone.corp.tontines;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,11 +9,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import cm.deone.corp.tontines.controler.ControlUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mUserConfirmPasswordEdt;
     private Button mRegisterbt;
     private ProgressBar mProgressBar;
-
-    private FirebaseAuth mAuth;
+    private ControlUser controlUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUser(){
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         if (mUser !=null){
             Intent intent = new Intent(MainActivity.this, Dashboard.class);
@@ -59,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mUserConfirmPasswordEdt = findViewById(R.id.passwordConfirmEdtv);
         mRegisterbt = findViewById(R.id.buttonContinue);
         mProgressBar = findViewById(R.id.progressBar);
+        this.controlUser = ControlUser.getInstance();
     }
 
     private void registerNewUser() {
@@ -86,25 +84,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            openProfilActivity();
-                        }else {
-                            Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
-                            mProgressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
-    }
-
-    private void openProfilActivity() {
-        Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-        mProgressBar.setVisibility(View.GONE);
-        Intent intent = new Intent(MainActivity.this, Profil.class);
-        startActivity(intent);
-        finish();
+        controlUser.createNewUser(email);
+        controlUser.signUser(MainActivity.this, mProgressBar, password);
     }
 }

@@ -21,13 +21,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Objects;
 
 import cm.deone.corp.tontines.MainActivity;
 import cm.deone.corp.tontines.R;
+
+import static cm.deone.corp.tontines.outils.MesOutils.dateToString;
 
 public class ShowMembre extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class ShowMembre extends AppCompatActivity {
     private String mID;
     private Toolbar toolbar;
     private ImageView mAvatar;
+    private ImageView mCover;
     private TextView mName;
     private TextView mBureau;
     private TextView mPhone;
@@ -59,9 +61,6 @@ public class ShowMembre extends AppCompatActivity {
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         manageSearchView(searchView);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    private void manageSearchView(SearchView searchView) {
     }
 
     @Override
@@ -108,11 +107,22 @@ public class ShowMembre extends AppCompatActivity {
                 String cniNumero = snapshot.child("Users").child(mID).child("cniUser").getValue(String.class);
                 String cniDelivery = snapshot.child("Users").child(mID).child("deliveryCniUser").getValue(String.class);
 
-                SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-                Calendar calendar = Calendar.getInstance();
-                assert timestamp != null;
-                calendar.setTimeInMillis(Long.parseLong(timestamp));
-                String date = formater.format(calendar.getTime());
+                String avatar = snapshot.child("Users").child(mID).child("avatarUser").getValue(String.class);
+                String cover = snapshot.child("Users").child(mID).child("coverUser").getValue(String.class);
+
+                try{
+                    Picasso.get().load(avatar).into(mAvatar);
+                }catch(Exception e){
+                    Picasso.get().load(avatar).placeholder(R.drawable.ic_action_cover).into(mAvatar);
+                }
+
+                try{
+                    Picasso.get().load(cover).into(mCover);
+                }catch(Exception e){
+                    Picasso.get().load(cover).placeholder(R.drawable.ic_action_cover).into(mCover);
+                }
+
+                String date = dateToString("dd/MM/yyyy hh:mm:ss", timestamp);
 
                 mName.setText(name);
                 mBureau.setText(bureau);
@@ -135,11 +145,15 @@ public class ShowMembre extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        mCover = findViewById(R.id.expandedImage);
         mAvatar = findViewById(R.id.imContact);
         mName = findViewById(R.id.tvMemberName);
         mBureau = findViewById(R.id.tvBureauMembre);
         mPhone = findViewById(R.id.tvPhone);
         mCni = findViewById(R.id.tvCni);
         mAciennete = findViewById(R.id.tvAnciennete);
+    }
+
+    private void manageSearchView(SearchView searchView) {
     }
 }

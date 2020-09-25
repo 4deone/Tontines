@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import cm.deone.corp.tontines.controler.ControlTontine;
 import cm.deone.corp.tontines.models.Tontine;
 import cm.deone.corp.tontines.models.User;
 import cm.deone.corp.tontines.tontine.AddTontine;
@@ -35,6 +36,7 @@ public class Dashboard extends AppCompatActivity {
     private Tontine tontine;
     private FloatingActionButton mFabTontine;
     private RecyclerView mRecyclerView;
+    private ControlTontine controlTontine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +76,9 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!TextUtils.isEmpty(query)){
-                    tontine.searchTontines(mRecyclerView, idUser, query);
+                    controlTontine.searchTontines(Dashboard.this, mRecyclerView, idUser, query);
                 }else {
-                    tontine.allTontines(mRecyclerView, idUser);
+                    controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
                 }
                 return false;
             }
@@ -84,9 +86,9 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText)){
-                    tontine.searchTontines(mRecyclerView, idUser, newText);
+                    controlTontine.searchTontines(Dashboard.this, mRecyclerView, idUser, newText);
                 }else {
-                    tontine.allTontines(mRecyclerView, idUser);
+                    controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
                 }
                 return false;
             }
@@ -98,12 +100,11 @@ public class Dashboard extends AppCompatActivity {
         dashboardToolbar.setTitle("DashBoard");
         dashboardToolbar.setSubtitle("Mes tontines.");
         setSupportActionBar(dashboardToolbar);
-        tontine = new Tontine(Dashboard.this);
         mRecyclerView = findViewById(R.id.recycleTontine);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(Dashboard.this));
         mFabTontine = findViewById(R.id.faButton);
-
+        this.controlTontine = ControlTontine.getInstance();
     }
 
     private void checkUser(){
@@ -123,7 +124,7 @@ public class Dashboard extends AppCompatActivity {
                     User user = snapshot.getValue(User.class);
                     assert user != null;
                     if (user.isActiveUser()) {
-                        tontine.allTontines(mRecyclerView, idUser);
+                        controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
                         mFabTontine.setVisibility(View.VISIBLE);
                     }else{
                         mFabTontine.setVisibility(View.GONE);

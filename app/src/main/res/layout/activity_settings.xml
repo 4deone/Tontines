@@ -27,10 +27,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/terre"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
                 android:contentDescription="@string/todo_colapstoolbar" />
+            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+                android:id="@+id/avatarImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="100dp"

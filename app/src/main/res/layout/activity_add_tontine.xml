@@ -83,6 +83,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@color/colorPrimaryDark"
+        android:enabled="false"
         android:text="Continue"
         android:textAllCaps="false"
         android:textColor="#cdd8f1" />

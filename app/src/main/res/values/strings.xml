@@ -28,6 +28,7 @@
     <string name="date_pattern">dd/MM/yyyy hh:mm:ss</string>
     <string name="ajouter">Ajouter</string>
     <string name="todo_colapstoolbar">TODO_ColapsToolbar</string>
+    <string name="todo_choose_date_validity">TODO_CHOOSE_DATE_VALIDITY</string>
 
     <string-array name="country_code">
         <item>+33</item>

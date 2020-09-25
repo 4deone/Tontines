@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:drawablePadding="10dp"
             android:hint="@string/enter_your_name"
             android:inputType="textPersonName" />
@@ -83,26 +83,40 @@
             android:inputType="phone"
             android:maxLength="10" />
 
-        <EditText
-            android:id="@+id/cniDateEdtv"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/cniDateTv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_below="@id/cniEdtv"
+            android:layout_toStartOf="@+id/pickDateImb"
+            android:text="Validité"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:drawablePadding="10dp"
-            android:hint="@string/enter_your_cni_delivery_date"
-            android:inputType="date" />
+            android:drawablePadding="10dp" />
+
+        <ImageButton
+            android:id="@+id/pickDateImb"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/cniEdtv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_action_date"
+            android:contentDescription="@string/todo_choose_date_validity" />
 
         <EditText
             android:id="@+id/villeEdtv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cniDateEdtv"
+            android:layout_below="@id/cniDateTv"
             android:layout_marginTop="10dp"
             android:drawablePadding="10dp"
             android:hint="@string/enter_your_city"
             android:inputType="text"
-            android:maxLength="30" />
+            android:maxLength="30"
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/buttonContinue"

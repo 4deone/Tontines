@@ -25,6 +25,8 @@ import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.Article;
 import cm.deone.corp.tontines.models.User;
 
+import static cm.deone.corp.tontines.outils.MesOutils.dateToString;
+
 public class AdapterReglement extends RecyclerView.Adapter<AdapterReglement.MyHolder> {
 
     private Context context;
@@ -52,19 +54,12 @@ public class AdapterReglement extends RecyclerView.Adapter<AdapterReglement.MyHo
         holder.mType.setText(type);
         holder.mTitre.setText(titre);
         holder.mContenu.setText(contenu);
-        holder.mDate.setText(convertTimestamp(timestamp));
+        holder.mDate.setText(dateToString(context.getResources().getString(R.string.date_pattern), timestamp));
     }
 
     @Override
     public int getItemCount() {
         return articleList.size();
-    }
-
-    private String convertTimestamp(String timestamp) {
-        SimpleDateFormat formater = new SimpleDateFormat(context.getResources().getString(R.string.date_pattern));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(timestamp));
-        return formater.format(calendar.getTime());
     }
 
     public void setOnItemClickListener(IntRvClickListner listener){

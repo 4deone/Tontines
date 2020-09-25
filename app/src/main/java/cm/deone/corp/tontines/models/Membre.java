@@ -4,14 +4,19 @@ public class Membre {
     private String bureau;
     private String date;
     private String name;
+    private String avatar;
+    private String cover;
     private String phone;
 
     public Membre() {
     }
-    public Membre(String bureau, String date, String name, String phone) {
+
+    public Membre(String bureau, String date, String name, String avatar, String cover, String phone) {
         this.bureau = bureau;
         this.date = date;
         this.name = name;
+        this.avatar = avatar;
+        this.cover = cover;
         this.phone = phone;
     }
 
@@ -45,5 +50,21 @@ public class Membre {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 }

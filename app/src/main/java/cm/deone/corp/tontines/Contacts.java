@@ -1,8 +1,6 @@
 package cm.deone.corp.tontines;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +26,8 @@ import java.util.List;
 import cm.deone.corp.tontines.adapters.AdapterContacts;
 import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.User;
+
+import static cm.deone.corp.tontines.outils.MesOutils.loadAllContacts;
 
 public class Contacts extends AppCompatActivity {
 
@@ -92,7 +92,7 @@ public class Contacts extends AppCompatActivity {
         contactToolbar = findViewById(R.id.contactToolbar);
         contactToolbar.setTitle("Mes contacts");
         setSupportActionBar(contactToolbar);
-        contactList = loadAllContacts();
+        contactList = loadAllContacts(Contacts.this);
         uContactList = new ArrayList<>();
         rvContacts = findViewById(R.id.recycleContacts);
         rvContacts.setHasFixedSize(true);
@@ -172,30 +172,9 @@ public class Contacts extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(Contacts.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private List<User> loadAllContacts(){
-        List<User> uContacts = new ArrayList<>();
-        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-
-        while (phones.moveToNext()) {
-            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-            // Cleanup the phone number
-            //phoneNumber = phoneNumber.replaceAll("[()\\s-]+", "");
-            phoneNumber = phoneNumber.replaceAll(" ", "");
-            //phoneNumber = phoneNumber.replaceAll("[()\\s-]+", "");
-
-            // Add in the list
-            User uContact = new User(name,phoneNumber);
-            uContacts.add(uContact);
-        }
-        phones.close();
-        return uContacts;
     }
 
 }

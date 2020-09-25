@@ -1,29 +1,12 @@
 package cm.deone.corp.tontines.models;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.text.TextUtils;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-
-import cm.deone.corp.tontines.Dashboard;
-
 public class User {
-    private Activity activity;
 
     private String idUser;
     private String nameUser;
+    private String avatarUser;
+    private String coverUser;
     private String phoneUser;
-    private String photoUser;
     private String emailUser;
     private String cniUser;
     private String deliveryCniUser;
@@ -34,12 +17,8 @@ public class User {
     public User() {
     }
 
-    public User(Activity activity) {
-        this.activity = activity;
-    }
-
-    public User(String idUser) {
-        this.idUser = idUser;
+    public User(String emailUser) {
+        this.emailUser = emailUser;
     }
 
     public User(String nameUser, String phoneUser) {
@@ -47,12 +26,14 @@ public class User {
         this.phoneUser = phoneUser;
     }
 
-    public User(String idUser, String nameUser, String phoneUser, String photoUser, String emailUser, String cniUser,
-                String deliveryCniUser, String villeUser, String dateCreationUser, boolean activeUser) {
+    public User(String idUser, String nameUser, String avatarUser, String coverUser,
+                String phoneUser, String emailUser, String cniUser, String deliveryCniUser,
+                String villeUser, String dateCreationUser, boolean activeUser) {
         this.idUser = idUser;
         this.nameUser = nameUser;
+        this.avatarUser = avatarUser;
+        this.coverUser = coverUser;
         this.phoneUser = phoneUser;
-        this.photoUser = photoUser;
         this.emailUser = emailUser;
         this.cniUser = cniUser;
         this.deliveryCniUser = deliveryCniUser;
@@ -77,20 +58,28 @@ public class User {
         this.nameUser = nameUser;
     }
 
+    public String getAvatarUser() {
+        return avatarUser;
+    }
+
+    public void setAvatarUser(String avatarUser) {
+        this.avatarUser = avatarUser;
+    }
+
+    public String getCoverUser() {
+        return coverUser;
+    }
+
+    public void setCoverUser(String coverUser) {
+        this.coverUser = coverUser;
+    }
+
     public String getPhoneUser() {
         return phoneUser;
     }
 
     public void setPhoneUser(String phoneUser) {
         this.phoneUser = phoneUser;
-    }
-
-    public String getPhotoUser() {
-        return photoUser;
-    }
-
-    public void setPhotoUser(String photoUser) {
-        this.photoUser = photoUser;
     }
 
     public String getCniUser() {
@@ -141,51 +130,4 @@ public class User {
         this.villeUser = villeUser;
     }
 
-    public void createUser(){
-        HashMap<String, Object> hashNewUser = new HashMap<>();
-        hashNewUser.put("idUser", idUser);
-        hashNewUser.put("nameUser", nameUser);
-        hashNewUser.put("phoneUser", phoneUser);
-        hashNewUser.put("emailUser", emailUser);
-        hashNewUser.put("villeUser", villeUser);
-
-        if (!TextUtils.isEmpty(cniUser)) {
-            hashNewUser.put("cniUser", cniUser);
-            if (!TextUtils.isEmpty(deliveryCniUser)) {
-                hashNewUser.put("deliveryCniUser", deliveryCniUser);
-            }else {return;}
-            hashNewUser.put("activeUser", true);
-        }else {
-            hashNewUser.put("activeUser", false);
-        }
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(idUser).setValue(hashNewUser)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                activity.startActivity(new Intent(activity, Dashboard.class));
-                activity.finish();
-            }
-        })  .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(activity, "Please enter city...", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-    }
-
-    public void deleteUser(){
-
-    }
-
-    public void freezeUser(){
-
-    }
-
-    public void unFreezeUser(){
-
-    }
 }

@@ -1,9 +1,7 @@
 package cm.deone.corp.tontines.adapters;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Typeface;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,8 @@ import java.util.List;
 import cm.deone.corp.tontines.R;
 import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.Membre;
+
+import static cm.deone.corp.tontines.outils.MesOutils.findContact;
 
 public class AdapterMembres extends RecyclerView.Adapter<AdapterMembres.MyHolder> {
 
@@ -42,7 +42,7 @@ public class AdapterMembres extends RecyclerView.Adapter<AdapterMembres.MyHolder
         final String nom = membreList.get(position).getName();
         final String bureau = membreList.get(position).getBureau();
         final String phone = membreList.get(position).getPhone();
-        boolean myContact = findContact(phone);
+        boolean myContact = findContact(context, phone);
 
         holder.mContactTontine.setText(bureau);
 
@@ -58,23 +58,6 @@ public class AdapterMembres extends RecyclerView.Adapter<AdapterMembres.MyHolder
     @Override
     public int getItemCount() {
         return membreList.size();
-    }
-
-    private boolean findContact(String membrePhone){
-        boolean result = false;
-        Cursor phones = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null, null, null, null);
-
-        while (phones.moveToNext()) {
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            phoneNumber = phoneNumber.replaceAll(" ", "");
-            if (phoneNumber.equals(membrePhone)) {
-                result = true;
-                break;
-            }
-        }
-        phones.close();
-        return result;
     }
 
     public void setOnItemClickListener(IntRvClickListner listener){
