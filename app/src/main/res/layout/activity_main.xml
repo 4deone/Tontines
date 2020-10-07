@@ -12,7 +12,8 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/logo" />
+        android:background="@drawable/logo"
+        android:contentDescription="@string/todo_logo" />
 
     <RelativeLayout
         android:id="@+id/container"
@@ -79,6 +80,7 @@
             android:layout_below="@+id/buttonContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:visibility="gone" />
 
     </RelativeLayout>

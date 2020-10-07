@@ -78,8 +78,8 @@ public class ControlUser implements IntUser, IntMedia {
      */
     public void createNewUser(String idUser, String nameUser, String avatarUser, String coverUser,
                               String phoneUser, String emailUser, String cniUser, String deliveryCniUser,
-                              String villeUser, String dateCreationUser, boolean activeUser){
-        user = new User(idUser, nameUser, avatarUser, coverUser, phoneUser, emailUser, cniUser, deliveryCniUser, villeUser, dateCreationUser, activeUser);
+                              String villeUser, String dateCreationUser, String ruleUser, boolean activeUser){
+        user = new User(idUser, nameUser, avatarUser, coverUser, phoneUser, emailUser, cniUser, deliveryCniUser, villeUser, dateCreationUser, ruleUser, activeUser);
     }
 
     public void createNewUser(String emailUser){
@@ -117,9 +117,12 @@ public class ControlUser implements IntUser, IntMedia {
         HashMap<String, Object> hashNewUser = new HashMap<>();
         hashNewUser.put("idUser", user.getIdUser());
         hashNewUser.put("nameUser", user.getNameUser());
+        hashNewUser.put("avatarUser", user.getAvatarUser());
+        hashNewUser.put("coverUser", user.getCoverUser());
         hashNewUser.put("phoneUser", user.getPhoneUser());
         hashNewUser.put("emailUser", user.getEmailUser());
         hashNewUser.put("villeUser", user.getVilleUser());
+        hashNewUser.put("ruleUser", user.getRuleUser());
 
         if (!TextUtils.isEmpty(user.getCniUser())) {
             hashNewUser.put("cniUser", user.getCniUser());

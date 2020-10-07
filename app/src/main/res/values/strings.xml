@@ -2,6 +2,7 @@
     <string name="app_name">Tontines</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="formatCNI">CNI n° %s du %s</string>
     <string name="Users">Users</string>
     <string name="Tontines">Tontines</string>
     <string name="Description">Description</string>
@@ -29,15 +30,20 @@
     <string name="ajouter">Ajouter</string>
     <string name="todo_colapstoolbar">TODO_ColapsToolbar</string>
     <string name="todo_choose_date_validity">TODO_CHOOSE_DATE_VALIDITY</string>
+    <string name="todo_logo">TODO_LOGO</string>
+    <string name="annonces">Annonces</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
 
-    <string-array name="country_code">
-        <item>+33</item>
-        <item>+237</item>
-        <item>+1</item>
-    </string-array>
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
 
-    <string-array name="type_article">
-        <item>Préambule</item>
-        <item>Article</item>
-    </string-array>
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

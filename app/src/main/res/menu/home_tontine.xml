@@ -6,14 +6,6 @@
         android:title= "@string/bureau"
         app:showAsAction="withText"/>
 
-    <item  android:id="@+id/menu_action_operations"
-        android:title= "@string/operations"
-        app:showAsAction="withText"/>
-
-    <item  android:id="@+id/menu_action_reglement"
-        android:title= "@string/reglement"
-        app:showAsAction="withText"/>
-
     <item  android:id="@+id/menu_action_settings"
         android:title= "@string/settings"
         app:showAsAction="withText"/>

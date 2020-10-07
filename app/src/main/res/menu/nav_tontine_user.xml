@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item  android:id="@+id/description"
+        android:title= "@string/home"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_home"
+        app:showAsAction="ifRoom"/>
+
+    <item  android:id="@+id/caisse"
+        android:title= "Caisses"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_cotisations"
+        app:showAsAction="ifRoom"/>
+
+    <item  android:id="@+id/status"
+        android:title= "Status"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_aides"
+        app:showAsAction="ifRoom"/>
+
+    <item  android:id="@+id/reglement"
+        android:title= "Reglement"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_amendes"
+        app:showAsAction="ifRoom"/>
+
+</menu>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc001122"
+    tools:context=".SettingsOne">
+
+    <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        android:id="@+id/avatarUserIv"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_action_members"
+        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+
+    <ImageView
+        android:id="@+id/editProfilIv"
+        android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="70dp"
+        android:src="@drawable/ic_action_edit"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="TODO_ADD_AVATAR" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userInfos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/avatarUserIv"
+        app:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/usernameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="User Name"/>
+
+            <TextView
+                android:id="@+id/cniTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_below="@+id/usernameTv"
+                android:textSize="15dp"
+                android:text="CNI n° 1147552455 au 15/07/2021"/>
+
+            <TextView
+                android:id="@+id/telephoneTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_below="@+id/cniTv"
+                android:textSize="15dp"
+                android:text="+237677665544"/>
+
+            <TextView
+                android:id="@+id/emailUserTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_below="@+id/telephoneTv"
+                android:textSize="10dp"
+                android:text="test@tontine.cm"/>
+
+            <TextView
+                android:id="@+id/villeTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_below="@+id/emailUserTv"
+                android:textSize="10dp"
+                android:text="City"/>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/userInfos"
+        app:contentPadding="10dp">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/enableNotificationSw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tontine notification"/>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

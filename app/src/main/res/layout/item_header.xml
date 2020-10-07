@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        android:id="@+id/avatarUserIv"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_action_members"
+        android:layout_centerHorizontal="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+
+    <ImageView
+        android:id="@+id/addAvatarIv"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="100dp"
+        android:src="@drawable/ic_action_addpicture"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="TODO_ADD_AVATAR" />
+
+
+</RelativeLayout>

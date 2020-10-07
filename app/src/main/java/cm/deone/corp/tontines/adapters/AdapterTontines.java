@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,13 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
 
         final String devise = tontineList.get(position).getDeviseTontine();
         final String name = tontineList.get(position).getNameTontine();
+        final boolean privateTontine = tontineList.get(position).isStatusTontine();
+        //final boolean name = tontineList.get(position).getNameTontine();
 
+        holder.mPrivateTontine.setVisibility(privateTontine?View.VISIBLE:View.GONE);
+        if (privateTontine) {
+            holder.mPrivateTontine.setImageResource(R.drawable.ic_action_private);
+        }
         holder.mTitreTontine.setText(name);
         holder.mDeviseTontine.setText(devise);
     }
@@ -58,11 +65,15 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
 
         TextView mTitreTontine;
         TextView mDeviseTontine;
+        ImageView mPrivateTontine;
+        ImageView mFavoriteTontine;
 
         MyHolder(@NonNull View itemView) {
             super(itemView);
             mTitreTontine = itemView.findViewById(R.id.titreTontine);
             mDeviseTontine = itemView.findViewById(R.id.deviseTontine);
+            mPrivateTontine = itemView.findViewById(R.id.privateTontine);
+            mFavoriteTontine = itemView.findViewById(R.id.favoriteTontine);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

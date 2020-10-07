@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import cm.deone.corp.tontines.models.User;
 
@@ -82,6 +83,34 @@ public abstract class MesOutils {
             }
         }
         phones.close();
+        return result;
+    }
+
+    /**
+     * Generation d'un ID unique
+     * @param timestamp La date du jour
+     * @return ID unique
+     */
+    public static String keygenerator(String timestamp){
+        String source = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"+timestamp;
+        StringBuilder sB = new StringBuilder();
+        Random rD = new Random();
+        for (int count = 0; count< 17; count++){
+            sB.append(source.charAt(rD.nextInt(source.length())));
+        }
+        return sB.toString();
+    }
+
+    /**
+     * Conversion d'une chaine de caractère en tableau
+     * @param source
+     * @return
+     */
+    public static char[] stringToTable(String source){
+        char[] result = new char[source.length()];
+        for (int count = 0; count < source.length(); count++){
+            result[count] = source.charAt(count);
+        }
         return result;
     }
 

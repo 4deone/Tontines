@@ -1,31 +1,5 @@
 package cm.deone.corp.tontines.models;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import cm.deone.corp.tontines.Dashboard;
-import cm.deone.corp.tontines.R;
-import cm.deone.corp.tontines.adapters.AdapterTontines;
-import cm.deone.corp.tontines.interfaces.IntRvClickListner;
-import cm.deone.corp.tontines.interfaces.IntTontine;
-import cm.deone.corp.tontines.tontine.ShowTontine;
-
 public class Tontine {
 
     private String idTontine;

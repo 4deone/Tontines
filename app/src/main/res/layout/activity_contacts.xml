@@ -22,6 +22,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/noContacts"
+        android:layout_below="@+id/contactToolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="No found contacts"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabRefreshContact"
         android:layout_alignParentBottom="true"

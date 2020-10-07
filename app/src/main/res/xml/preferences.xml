@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        android:layout="@layout/item_header"
+        android:defaultValue=""
+        android:key="avatar_preference"
+        android:title="avatar preference"
+        />
+
+    <PreferenceCategory
+        android:title="Personal Informations"
+        android:key="personal_category">
+
+
+        <EditTextPreference
+            android:key="key_full_name"
+            android:title="Name"
+            android:summary="Enter Your Complete Name"
+            android:dialogTitle="Your Name"
+            android:dialogMessage="Enter Your Complete Name"
+            android:defaultValue=""
+            android:inputType="text|textCapWords"/>
+
+        <EditTextPreference
+            android:key="key_telephone"
+            android:title="Phone"
+            android:summary="Enter Your phone number"
+            android:dialogTitle="Enter Your phone number"
+            android:dialogMessage="Enter Your phone number"
+            android:defaultValue=""
+            android:inputType="phone"/>
+
+        <EditTextPreference
+            android:key="key_email_address"
+            android:title="Email Address"
+            android:summary="Enter Your Email Address"
+            android:dialogTitle="Enter Your Email Address"
+            android:dialogMessage="Enter Your Email Address"
+            android:defaultValue=""
+            android:inputType="textEmailAddress"/>
+
+
+        <EditTextPreference
+            android:key="key_cni"
+            android:title="CNI"
+            android:summary="Enter Your CNI number"
+            android:dialogTitle="Your CNI number"
+            android:dialogMessage="Enter Your CNI number"
+            android:defaultValue=""
+            android:inputType="number"/>
+
+        <EditTextPreference
+            android:key="key_ville"
+            android:title="Ville"
+            android:summary="Enter Your city"
+            android:dialogTitle="Your city"
+            android:dialogMessage="Enter Your city"
+            android:defaultValue=""
+            android:inputType="text|textCapSentences"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="System"
+        android:key="system_category">
+
+        <SwitchPreference
+            android:key="key_app_notification"
+            app:summaryOff="Activer les notifications"
+            app:summaryOn="Désactiver les notifications"
+            app:defaultValue="true"
+            app:title="Enable or disable app notification"/>
+
+        <RingtonePreference
+            android:key="key_notification_ringtone"
+            android:title="Notification Ringtone"
+            android:summary="Customise Notification Ringtone for you"
+            android:dialogTitle="Notification Ringtone"
+            android:dialogMessage="Customise Notification Ringtone for you"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

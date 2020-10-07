@@ -27,7 +27,7 @@ import cm.deone.corp.tontines.adapters.AdapterTontines;
 import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.interfaces.IntTontine;
 import cm.deone.corp.tontines.models.Tontine;
-import cm.deone.corp.tontines.tontine.ShowTontine;
+import cm.deone.corp.tontines.ShowTontine;
 
 public final class ControlTontine implements IntTontine {
     private static  ControlTontine instance = null;
@@ -90,6 +90,7 @@ public final class ControlTontine implements IntTontine {
         hashMapMembres.put("bureau", "fondateur");
         hashMapMembres.put("name", name);
         hashMapMembres.put("phone", phone);
+        hashMapMembres.put("rule", "1111-1111-1111-1111"); //tontine-membre-operation-reglement
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
         reference.child(tontine.getIdTontine()).child(activity.getResources().getString(R.string.Description)).setValue(hashMapDescription)
@@ -137,12 +138,12 @@ public final class ControlTontine implements IntTontine {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tontineList.clear();
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                for (final DataSnapshot ds: dataSnapshot.getChildren()){
                     Tontine mTontine = ds.child(activity.getResources().getString(R.string.Description)).getValue(Tontine.class);
-                    String idMembre = ds.child(activity.getResources().getString(R.string.Membres)).child(uID).getKey();
+                    //String idMembre = ds.child(activity.getResources().getString(R.string.Membres)).child(uID).getKey();
                     assert mTontine != null;
-                    assert idMembre != null;
-                    if (mTontine.isActiveTontine()&&idMembre.equals(uID)){
+                    //assert idMembre != null;
+                    if (mTontine.isActiveTontine()&& ds.child(activity.getResources().getString(R.string.Membres)).child(uID).exists()){
                         tontineList.add(mTontine);
                     }
                     AdapterTontines adapterTontines = new AdapterTontines(activity, tontineList);
@@ -152,6 +153,7 @@ public final class ControlTontine implements IntTontine {
                         public void onItemClick(int position) {
                             Intent intent = new Intent(activity, ShowTontine.class);
                             intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
+                            intent.putExtra("mRole", ds.child(activity.getResources().getString(R.string.Membres)).child(uID).child("bureau").getValue(String.class));
                             activity.startActivity(intent);
                         }
 
@@ -185,14 +187,16 @@ public final class ControlTontine implements IntTontine {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tontineList.clear();
-                for (DataSnapshot ds:dataSnapshot.getChildren()){
+                for (final DataSnapshot ds:dataSnapshot.getChildren()){
                     Tontine mTontine = ds.child(activity.getResources().getString(R.string.Description)).getValue(Tontine.class);
                     String idMembre = ds.child(activity.getResources().getString(R.string.Membres)).getKey();
                     assert mTontine != null;
                     assert idMembre != null;
                     if ((mTontine.getNameTontine().toLowerCase().contains(searchQuery.toLowerCase()) ||
                             mTontine.getDeviseTontine().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                            mTontine.getDescriptionTontine().toLowerCase().contains(searchQuery.toLowerCase()))&&idMembre.equals(uID)){
+                            mTontine.getDescriptionTontine().toLowerCase().contains(searchQuery.toLowerCase())) &&
+                            ds.child(activity.getResources().getString(R.string.Membres)).child(uID).exists() &&
+                            mTontine.isActiveTontine()){
                         tontineList.add(mTontine);
                     }
                     AdapterTontines adapterTontines = new AdapterTontines(activity, tontineList);
@@ -202,6 +206,7 @@ public final class ControlTontine implements IntTontine {
                         public void onItemClick(int position) {
                             Intent intent = new Intent(activity, ShowTontine.class);
                             intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
+                            intent.putExtra("mRole", ds.child(activity.getResources().getString(R.string.Membres)).child(uID).child("bureau").getValue(String.class));
                             activity.startActivity(intent);
                         }
 

@@ -162,8 +162,9 @@ public class Profil extends AppCompatActivity {
             return;
         }
         String telephone = getResources().getString(R.string.telephone, indicatif, phone);
+        String rule = "user";
 
-        controlUser.createNewUser(mUser.getUid(), name, avatar, cover, telephone, mUser.getEmail(), cni, deliveryDateCni, city, timestamp, true);
+        controlUser.createNewUser(mUser.getUid(), name, avatar, cover, telephone, mUser.getEmail(), cni, deliveryDateCni, city, timestamp, rule, true);
         controlUser.addUser(Profil.this, mProgressBar);
     }
 }

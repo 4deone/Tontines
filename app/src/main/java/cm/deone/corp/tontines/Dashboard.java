@@ -1,7 +1,11 @@
 package cm.deone.corp.tontines;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,14 +32,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import cm.deone.corp.tontines.controler.ControlTontine;
-import cm.deone.corp.tontines.models.Tontine;
+import cm.deone.corp.tontines.interfaces.IntSystem;
 import cm.deone.corp.tontines.models.User;
-import cm.deone.corp.tontines.tontine.AddTontine;
 
-public class Dashboard extends AppCompatActivity {
-
+public class Dashboard extends AppCompatActivity implements IntSystem {
+    private static final int READ_CONTACT_REQUEST_CODE = 100;
+    private FirebaseDatabase database;
     private String idUser;
-    private Tontine tontine;
     private FloatingActionButton mFabTontine;
     private RecyclerView mRecyclerView;
     private ControlTontine controlTontine;
@@ -49,6 +54,36 @@ public class Dashboard extends AppCompatActivity {
                 startActivity(new Intent(Dashboard.this, AddTontine.class));
             }
         });
+    }
+
+    @Override
+    public void checkUser() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if (mUser ==null){
+            Intent intent = new Intent(Dashboard.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            idUser = mUser.getUid();
+            checkPermission();
+            initializeViews();
+            showAllTontines();
+        }
+    }
+
+    @Override
+    public void initializeViews() {
+        Toolbar dashboardToolbar = findViewById(R.id.dasboardToolbar);
+        dashboardToolbar.setTitle("DashBoard");
+        dashboardToolbar.setSubtitle("Mes tontines.");
+        setSupportActionBar(dashboardToolbar);
+        database = FirebaseDatabase.getInstance();
+        mRecyclerView = findViewById(R.id.recycleTontine);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(Dashboard.this));
+        mFabTontine = findViewById(R.id.faButton);
+        this.controlTontine = ControlTontine.getInstance();
     }
 
     @Override
@@ -69,6 +104,24 @@ public class Dashboard extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == READ_CONTACT_REQUEST_CODE) {
+
+            // Checking whether user granted the permission or not.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                // Showing the toast message
+                Toast.makeText(Dashboard.this, "Camera Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(Dashboard.this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void manageSearchView(SearchView searchView) {
@@ -95,48 +148,40 @@ public class Dashboard extends AppCompatActivity {
         });
     }
 
-    private void initializeUI() {
-        Toolbar dashboardToolbar = findViewById(R.id.dasboardToolbar);
-        dashboardToolbar.setTitle("DashBoard");
-        dashboardToolbar.setSubtitle("Mes tontines.");
-        setSupportActionBar(dashboardToolbar);
-        mRecyclerView = findViewById(R.id.recycleTontine);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(Dashboard.this));
-        mFabTontine = findViewById(R.id.faButton);
-        this.controlTontine = ControlTontine.getInstance();
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(Dashboard.this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(Dashboard.this, new String[] {Manifest.permission.READ_CONTACTS}, Dashboard.READ_CONTACT_REQUEST_CODE);
+        }
     }
 
-    private void checkUser(){
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser mUser = mAuth.getCurrentUser();
-        if (mUser ==null){
-            Intent intent = new Intent(Dashboard.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }else {
-            initializeUI();
-            idUser = mUser.getUid();
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(this.getResources().getString(R.string.Users)).child(idUser);
-            ref.addValueEventListener(new ValueEventListener(){
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User user = snapshot.getValue(User.class);
-                    assert user != null;
-                    if (user.isActiveUser()) {
-                        controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
-                        mFabTontine.setVisibility(View.VISIBLE);
-                    }else{
-                        mFabTontine.setVisibility(View.GONE);
-                    }
+    private void showAllTontines() {
+        DatabaseReference ref = database.getReference(this.getResources().getString(R.string.Users)).child(idUser);
+        ref.addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                assert user != null;
+                if (user.isActiveUser()) {
+                    controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
+                    mFabTontine.setVisibility(View.VISIBLE);
+                }else{
+                    mFabTontine.setVisibility(View.GONE);
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(Dashboard.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Dashboard.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+    private void retrievePreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 
 }

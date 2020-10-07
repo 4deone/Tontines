@@ -12,6 +12,7 @@ public class User {
     private String deliveryCniUser;
     private String villeUser;
     private String dateCreationUser;
+    private String ruleUser;
     private boolean activeUser;
 
     public User() {
@@ -28,7 +29,7 @@ public class User {
 
     public User(String idUser, String nameUser, String avatarUser, String coverUser,
                 String phoneUser, String emailUser, String cniUser, String deliveryCniUser,
-                String villeUser, String dateCreationUser, boolean activeUser) {
+                String villeUser, String dateCreationUser, String ruleUser, boolean activeUser) {
         this.idUser = idUser;
         this.nameUser = nameUser;
         this.avatarUser = avatarUser;
@@ -39,6 +40,7 @@ public class User {
         this.deliveryCniUser = deliveryCniUser;
         this.villeUser = villeUser;
         this.dateCreationUser = dateCreationUser;
+        this.ruleUser = ruleUser;
         this.activeUser = activeUser;
     }
 
@@ -120,6 +122,14 @@ public class User {
 
     public void setDeliveryCniUser(String deliveryCniUser) {
         this.deliveryCniUser = deliveryCniUser;
+    }
+
+    public String getRuleUser() {
+        return ruleUser;
+    }
+
+    public void setRuleUser(String ruleUser) {
+        this.ruleUser = ruleUser;
     }
 
     public String getVilleUser() {

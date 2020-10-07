@@ -2,22 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_action_search"
-        android:icon="@drawable/ic_action_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:title="@string/search" />
+    <item  android:id="@+id/caisse"
+        android:title= "Caisses"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_home"
+        app:showAsAction="ifRoom"/>
 
-    <item  android:id="@+id/menu_action_edit"
-        android:title= "Edit"
-        app:showAsAction="withText"/>
+    <item  android:id="@+id/cotisation"
+        android:title= "Cotisation"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_membre"
+        app:showAsAction="ifRoom"/>
 
-    <item  android:id="@+id/menu_action_freeze"
-        android:title= "Freeze"
-        app:showAsAction="withText"/>
+    <item  android:id="@+id/status"
+        android:title= "Aides"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_annonces"
+        app:showAsAction="ifRoom"/>
 
-    <item  android:id="@+id/menu_action_delete"
-        android:title= "Delete"
-        app:showAsAction="withText"/>
+    <item  android:id="@+id/reglement"
+        android:title= "Amendes"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_annonces"
+        app:showAsAction="ifRoom"/>
 
 </menu>
