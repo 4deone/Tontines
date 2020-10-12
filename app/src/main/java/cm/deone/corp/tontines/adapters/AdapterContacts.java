@@ -87,11 +87,13 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
     public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         ImageView mAvatar;
+        ImageView mSelected;
         TextView mContactName;
         TextView mContactTontine;
 
         MyHolder(@NonNull View itemView) {
             super(itemView);
+            mSelected = itemView.findViewById(R.id.selectedIv);
             mAvatar = itemView.findViewById(R.id.imContact);
             mContactName = itemView.findViewById(R.id.tvContactName);
             mContactTontine = itemView.findViewById(R.id.tvContactNumberTontine);
@@ -104,7 +106,7 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION && listener != null) {
-                listener.onItemClick(position);
+                listener.onItemClick(v, position);
             }
         }
 
@@ -112,7 +114,7 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION && listener != null) {
-                listener.onLongItemClick(position);
+                listener.onLongItemClick(v, position);
             }
             return true;
         }

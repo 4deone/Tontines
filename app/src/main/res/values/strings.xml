@@ -46,4 +46,9 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="todo_selected_contact">TODO_SELECTED_CONTACT</string>
+    <string name="ajouter_tontine">AJOUTER TONTINE</string>
+    <string name="todo_send_message">TODO_SEND_MESSAGE</string>
+    <string name="your_message">Your message</string>
+    <string name="last_seen">Last seen at: %s</string>
 </resources>

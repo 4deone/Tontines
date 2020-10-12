@@ -8,6 +8,11 @@
         app:showAsAction="ifRoom|collapseActionView"
         android:title="@string/search" />
 
+    <item  android:id="@+id/menu_action_add_into_tontine"
+        android:title= "@string/ajouter_tontine"
+        android:visible="false"
+        app:showAsAction="always"/>
+
     <item  android:id="@+id/menu_action_settings"
         android:title= "@string/settings"
         app:showAsAction="withText"/>

@@ -123,6 +123,8 @@ public class ControlUser implements IntUser, IntMedia {
         hashNewUser.put("emailUser", user.getEmailUser());
         hashNewUser.put("villeUser", user.getVilleUser());
         hashNewUser.put("ruleUser", user.getRuleUser());
+        hashNewUser.put("onlineUser", "online");
+        hashNewUser.put("typingTo", "noOne");
 
         if (!TextUtils.isEmpty(user.getCniUser())) {
             hashNewUser.put("cniUser", user.getCniUser());

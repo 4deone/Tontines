@@ -2,108 +2,35 @@ package cm.deone.corp.tontines;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import cm.deone.corp.tontines.controler.ControlTontine;
-import cm.deone.corp.tontines.interfaces.IntSystem;
-import cm.deone.corp.tontines.models.User;
+import cm.deone.corp.tontines.fragments.Chatlist;
+import cm.deone.corp.tontines.fragments.DasHome;
+import cm.deone.corp.tontines.fragments.Home;
 
-public class Dashboard extends AppCompatActivity implements IntSystem {
+public class Dashboard extends AppCompatActivity {
+
     private static final int READ_CONTACT_REQUEST_CODE = 100;
-    private FirebaseDatabase database;
-    private String idUser;
-    private FloatingActionButton mFabTontine;
-    private RecyclerView mRecyclerView;
-    private ControlTontine controlTontine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        checkUser();
-        mFabTontine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Dashboard.this, AddTontine.class));
-            }
-        });
-    }
-
-    @Override
-    public void checkUser() {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser mUser = mAuth.getCurrentUser();
-        if (mUser ==null){
-            Intent intent = new Intent(Dashboard.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }else {
-            idUser = mUser.getUid();
-            checkPermission();
-            initializeViews();
-            showAllTontines();
-        }
-    }
-
-    @Override
-    public void initializeViews() {
-        Toolbar dashboardToolbar = findViewById(R.id.dasboardToolbar);
-        dashboardToolbar.setTitle("DashBoard");
-        dashboardToolbar.setSubtitle("Mes tontines.");
-        setSupportActionBar(dashboardToolbar);
-        database = FirebaseDatabase.getInstance();
-        mRecyclerView = findViewById(R.id.recycleTontine);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(Dashboard.this));
-        mFabTontine = findViewById(R.id.faButton);
-        this.controlTontine = ControlTontine.getInstance();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dashboard, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        manageSearchView(searchView);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_action_settings) {
-            startActivity(new Intent(Dashboard.this, Settings.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        checkUserStatus();
     }
 
     @Override
@@ -124,28 +51,15 @@ public class Dashboard extends AppCompatActivity implements IntSystem {
         }
     }
 
-    private void manageSearchView(SearchView searchView) {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (!TextUtils.isEmpty(query)){
-                    controlTontine.searchTontines(Dashboard.this, mRecyclerView, idUser, query);
-                }else {
-                    controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!TextUtils.isEmpty(newText)){
-                    controlTontine.searchTontines(Dashboard.this, mRecyclerView, idUser, newText);
-                }else {
-                    controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
-                }
-                return false;
-            }
-        });
+    private void checkUserStatus(){
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mUser != null){
+            initViews();
+            checkPermission();
+        }else {
+            startActivity(new Intent(Dashboard.this, MainActivity.class));
+            finish();
+        }
     }
 
     private void checkPermission() {
@@ -156,32 +70,37 @@ public class Dashboard extends AppCompatActivity implements IntSystem {
         }
     }
 
-    private void showAllTontines() {
-        DatabaseReference ref = database.getReference(this.getResources().getString(R.string.Users)).child(idUser);
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                assert user != null;
-                if (user.isActiveUser()) {
-                    controlTontine.allTontines(Dashboard.this, mRecyclerView, idUser);
-                    mFabTontine.setVisibility(View.VISIBLE);
-                }else{
-                    mFabTontine.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Dashboard.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void initViews() {
+        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation_dashboard);
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.nav_tontine_dashboard);
+        navigationView.setOnNavigationItemSelectedListener(selectedListener);
+        pushFragment(new DasHome());
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()){
+                case R.id.HomeDashboard:
+                    pushFragment(new DasHome());
+                    return true;
+                case R.id.forumDaoshboard:
+                    pushFragment(new Chatlist());
+                    return true;
+                default:
+            }
+            return false;
+        }
+    };
 
+    protected void pushFragment(Fragment fragment){
+        if (fragment == null)
+            return;
 
-    private void retrievePreferences(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_fragment_dashboard, fragment, "");
+        ft.commit();
     }
 
 }

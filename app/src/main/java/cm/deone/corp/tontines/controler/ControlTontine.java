@@ -76,7 +76,7 @@ public final class ControlTontine implements IntTontine {
      * @param phone
      */
     @Override
-    public void addTontine(final Activity activity, final ProgressBar progressBar, final String idUser, String name, String phone) {
+    public void addTontine(final Activity activity, final ProgressBar progressBar, final String idUser, final String name, final String phone) {
         HashMap<String, Object> hashMapDescription = new HashMap<>();
         hashMapDescription.put("idTontine", tontine.getIdTontine());
         hashMapDescription.put("nameTontine", tontine.getNameTontine());
@@ -85,40 +85,51 @@ public final class ControlTontine implements IntTontine {
         hashMapDescription.put("dateCreationTontine", tontine.getIdTontine());
         hashMapDescription.put("statusTontine", tontine.isStatusTontine());
         hashMapDescription.put("activeTontine", tontine.isActiveTontine());
-        final HashMap<String, Object> hashMapMembres = new HashMap<>();
-        hashMapMembres.put("date", tontine.getIdTontine());
-        hashMapMembres.put("bureau", "fondateur");
-        hashMapMembres.put("name", name);
-        hashMapMembres.put("phone", phone);
-        hashMapMembres.put("rule", "1111-1111-1111-1111"); //tontine-membre-operation-reglement
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
         reference.child(tontine.getIdTontine()).child(activity.getResources().getString(R.string.Description)).setValue(hashMapDescription)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        DatabaseReference referenceMembres = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
-                        referenceMembres.child(tontine.getIdTontine()).child(activity.getResources().getString(R.string.Membres)).child(idUser).setValue(hashMapMembres)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        progressBar.setVisibility(View.GONE);
-                                        activity.startActivity(new Intent(activity, Dashboard.class));
-                                        activity.finish();
-
-                                    }
-                                })  .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        addMembres(name, phone, idUser, progressBar, activity);
 
                     }
                 })  .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     *
+     * @param name
+     * @param phone
+     * @param progressBar
+     * @param activity
+     */
+    private void addMembres(String name, String phone, final String idUser, final ProgressBar progressBar, final Activity activity) {
+        final HashMap<String, Object> hashMapMembres = new HashMap<>();
+        hashMapMembres.put("date", tontine.getIdTontine());
+        hashMapMembres.put("bureau", "fondateur");
+        hashMapMembres.put("name", name);
+        hashMapMembres.put("phone", phone);
+        hashMapMembres.put("rule", "1111-1111-1111-1111"); //tontine-membre-operation-reglement
+        DatabaseReference referenceMembres = FirebaseDatabase.getInstance().getReference(activity.getResources().getString(R.string.Tontines));
+        referenceMembres.child(tontine.getIdTontine()).child(activity.getResources().getString(R.string.Membres)).child(idUser).setValue(hashMapMembres)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        progressBar.setVisibility(View.GONE);
+                        activity.startActivity(new Intent(activity, Dashboard.class));
+                        activity.finish();
+
+                    }
+                })  .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(activity, "Error not saved nav_tontine...", Toast.LENGTH_LONG).show();
             }
         });
@@ -150,7 +161,7 @@ public final class ControlTontine implements IntTontine {
                     recyclerview.setAdapter(adapterTontines);
                     adapterTontines.setOnItemClickListener(new IntRvClickListner() {
                         @Override
-                        public void onItemClick(int position) {
+                        public void onItemClick(View view, int position) {
                             Intent intent = new Intent(activity, ShowTontine.class);
                             intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
                             intent.putExtra("mRole", ds.child(activity.getResources().getString(R.string.Membres)).child(uID).child("bureau").getValue(String.class));
@@ -158,7 +169,7 @@ public final class ControlTontine implements IntTontine {
                         }
 
                         @Override
-                        public void onLongItemClick(int position) {
+                        public void onLongItemClick(View view, int position) {
                             Toast.makeText(activity, ""+tontineList.get(position).getDescriptionTontine(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -203,7 +214,7 @@ public final class ControlTontine implements IntTontine {
                     recyclerview.setAdapter(adapterTontines);
                     adapterTontines.setOnItemClickListener(new IntRvClickListner() {
                         @Override
-                        public void onItemClick(int position) {
+                        public void onItemClick(View view, int position) {
                             Intent intent = new Intent(activity, ShowTontine.class);
                             intent.putExtra("idTontine", tontineList.get(position).getIdTontine());
                             intent.putExtra("mRole", ds.child(activity.getResources().getString(R.string.Membres)).child(uID).child("bureau").getValue(String.class));
@@ -211,7 +222,7 @@ public final class ControlTontine implements IntTontine {
                         }
 
                         @Override
-                        public void onLongItemClick(int position) {
+                        public void onLongItemClick(View view, int position) {
                             Toast.makeText(activity, ""+tontineList.get(position).getDescriptionTontine(), Toast.LENGTH_SHORT).show();
                         }
                     });

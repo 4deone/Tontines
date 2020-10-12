@@ -6,47 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Dashboard">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/dasboardToolbar"
+    <FrameLayout
+        android:id="@+id/content_fragment_dashboard"
         android:layout_alignParentTop="true"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/white"
-        app:subtitleTextColor="@color/white"
-        android:background="?attr/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleTontine"
-        android:layout_below="@+id/dasboardToolbar"
-        android:layout_margin="3dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/faButton"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/bottom_navigation_dashboard" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
-    <RelativeLayout
-        android:id="@+id/rlNotification"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="80dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_help" />
-
-    </RelativeLayout>
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/nav_tontine_dashboard" />
 
 </RelativeLayout>

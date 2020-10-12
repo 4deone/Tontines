@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class AddTontine extends AppCompatActivity {
     private int mYear;
     private int mMonth;
     private int mDay;
+    private ArrayList<String> membreList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +199,8 @@ public class AddTontine extends AppCompatActivity {
      * Initialisation des objets graphiques
      */
     private void initializeUI() {
+        membreList = (ArrayList<String>) getIntent().getSerializableExtra("membreList");
+        Toast.makeText(AddTontine.this, "Nombre de membre dans la tontine"+membreList.size(), Toast.LENGTH_SHORT).show();
         mTontineName = findViewById(R.id.tontineNameEdtv);
         mTontineDevise = findViewById(R.id.deviseEdtv);
         mTontineDescription = findViewById(R.id.descriptionEdtv);

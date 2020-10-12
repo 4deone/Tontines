@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsOne"></activity>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".SettingsOne" />
         <activity android:name=".Settings" />
         <activity android:name=".ShowMembre" />
         <activity android:name=".AddArticle" />

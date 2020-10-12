@@ -83,7 +83,7 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION && listener != null) {
-                listener.onItemClick(position);
+                listener.onItemClick(v, position);
             }
         }
 
@@ -91,7 +91,7 @@ public class AdapterTontines extends RecyclerView.Adapter<AdapterTontines.MyHold
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION && listener != null) {
-                listener.onLongItemClick(position);
+                listener.onLongItemClick(v, position);
             }
             return true;
         }

@@ -6,20 +6,30 @@
     android:layout_marginLeft="5sp"
     android:layout_marginTop="5sp"
     android:layout_marginRight="5sp"
-    android:layout_marginBottom="5sp"
-    app:cardBackgroundColor="#FAF5F5">
+    android:layout_marginBottom="5sp">
 
     <RelativeLayout
-        android:paddingStart="10dp"
+        android:padding="5dp"
+        android:background="#ccaabbcc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/imContact"
             android:src="@drawable/ic_action_members"
             android:layout_width="50dp"
             android:layout_height="50dp"
             />
+
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/selectedIv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_action_selected"
+            android:contentDescription="@string/todo_selected_contact" />
 
         <TextView
             android:id="@+id/tvContactName"
@@ -46,5 +56,6 @@
             />
 
     </RelativeLayout>
+
 
 </androidx.cardview.widget.CardView>

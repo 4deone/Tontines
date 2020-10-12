@@ -157,7 +157,7 @@ public class Membres extends Fragment {
                         rvTontineMembers.setAdapter(adapterMembres);
                         adapterMembres.setOnItemClickListener(new IntRvClickListner() {
                             @Override
-                            public void onItemClick(int position) {
+                            public void onItemClick(View view, int position) {
                                 if(idUser.equals(ds.getKey()) && !membreList.get(position).getBureau().equals("membre")){
                                     Intent intent = new Intent(getActivity(), ShowMembre.class);
                                     intent.putExtra("mID", ds.getKey());
@@ -169,7 +169,7 @@ public class Membres extends Fragment {
                             }
 
                             @Override
-                            public void onLongItemClick(int position) {
+                            public void onLongItemClick(View view, int position) {
                                 if(!idUser.equals(ds.getKey())){
                                     selectOptions(membreList.get(position).getBureau(), ds);
                                 }
@@ -209,7 +209,7 @@ public class Membres extends Fragment {
                         rvTontineMembers.setAdapter(adapterMembres);
                         adapterMembres.setOnItemClickListener(new IntRvClickListner() {
                             @Override
-                            public void onItemClick(int position) {
+                            public void onItemClick(View view, int position) {
                                 if(idUser.equals(ds.getKey())){
                                     Intent intent = new Intent(getActivity(), ShowMembre.class);
                                     intent.putExtra("mID", ds.getKey());
@@ -222,7 +222,7 @@ public class Membres extends Fragment {
                             }
 
                             @Override
-                            public void onLongItemClick(int position) {
+                            public void onLongItemClick(View view, int position) {
                                 if(!idUser.equals(ds.getKey())){
                                     selectOptions(membreList.get(position).getBureau(), ds);
                                 }

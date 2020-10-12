@@ -138,7 +138,7 @@ public class Reglement extends Fragment {
                         rvTontineArticles.setAdapter(adapterReglement);
                         adapterReglement.setOnItemClickListener(new IntRvClickListner() {
                             @Override
-                            public void onItemClick(int position) {
+                            public void onItemClick(View view, int position) {
                                 /*Intent intent = new Intent(getActivity(), ShowMembre.class);
                                 intent.putExtra("mID", ds.getKey());
                                 intent.putExtra("idTontine", idTontine);
@@ -146,7 +146,7 @@ public class Reglement extends Fragment {
                             }
 
                             @Override
-                            public void onLongItemClick(int position) {
+                            public void onLongItemClick(View view, int position) {
                                 //Toast.makeText(ShowReglement.this, ""+membreList.get(position).getPhone(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -184,7 +184,7 @@ public class Reglement extends Fragment {
                         rvTontineArticles.setAdapter(adapterReglement);
                         adapterReglement.setOnItemClickListener(new IntRvClickListner() {
                             @Override
-                            public void onItemClick(int position) {
+                            public void onItemClick(View view, int position) {
                                 /*Intent intent = new Intent(getActivity(), ShowMembre.class);
                                 intent.putExtra("mID", ds.getKey());
                                 intent.putExtra("idTontine", idTontine);
@@ -192,7 +192,7 @@ public class Reglement extends Fragment {
                             }
 
                             @Override
-                            public void onLongItemClick(int position) {
+                            public void onLongItemClick(View view, int position) {
                                 //Toast.makeText(ShowReglement.this, ""+membreList.get(position).getPhone(), Toast.LENGTH_SHORT).show();
                             }
                         });
