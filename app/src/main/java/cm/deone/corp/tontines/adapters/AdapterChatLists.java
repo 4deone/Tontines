@@ -51,12 +51,12 @@ public class AdapterChatLists extends RecyclerView.Adapter<AdapterChatLists.MyHo
         String lastmessage = lastmessageMap.get(hisUID);
 
         holder.nameTv.setText(hisName);
-        /*if (lastmessage!=null || lastmessage.equals("default")){
+        if (lastmessage==null || lastmessage.equals("default")){
             holder.lastmessageTv.setVisibility(View.GONE);
         }else{
             holder.lastmessageTv.setText(lastmessage);
             holder.lastmessageTv.setVisibility(View.VISIBLE);
-        }*/
+        }
         try {
             Picasso.get().load(hisAvatar).placeholder(R.drawable.ic_action_cover).into(holder.avatarIv);
         }catch(Exception e){
