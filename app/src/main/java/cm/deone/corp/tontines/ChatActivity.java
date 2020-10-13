@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,8 +45,22 @@ import java.util.Locale;
 import cm.deone.corp.tontines.adapters.AdapterChats;
 import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.Chat;
+import cm.deone.corp.tontines.models.User;
+import cm.deone.corp.tontines.notifications.APIService;
+import cm.deone.corp.tontines.notifications.Client;
+import cm.deone.corp.tontines.notifications.Data;
+import cm.deone.corp.tontines.notifications.MyResponse;
+import cm.deone.corp.tontines.notifications.Sender;
+import cm.deone.corp.tontines.notifications.Token;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
+
+
+    APIService apiService;
+    boolean notify = false;
 
     private Toolbar mChatToolbar;
     private ImageView mUserAvatarIv;
@@ -119,6 +136,7 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         mChatRv.setHasFixedSize(true);
         mChatRv.setLayoutManager(linearLayoutManager);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         mMessageEt = findViewById(R.id.messageEt);
         mSendIb = findViewById(R.id.sendIb);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -164,12 +182,15 @@ public class ChatActivity extends AppCompatActivity {
         mSendIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                notify = true;
                 String message = mMessageEt.getText().toString().trim();
                 if(TextUtils.isEmpty(message)){
                     Toast.makeText(ChatActivity.this, "Le message ne doit pas etre vide", Toast.LENGTH_SHORT).show();
                 }else{
                     sendMessage(message);
                 }
+
+                mMessageEt.setText("");
             }
         });
 
@@ -278,7 +299,7 @@ public class ChatActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void sendMessage(String message) {
+    private void sendMessage(final String message) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         DatabaseReference refMessage = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMessage = new HashMap<>();
@@ -287,9 +308,59 @@ public class ChatActivity extends AppCompatActivity {
         hashMessage.put("message", message);
         hashMessage.put("timestamp", timestamp);
         hashMessage.put("isSeen", false);
-
         refMessage.child("Chats").push().setValue(hashMessage);
-        mMessageEt.setText("");
+
+        DatabaseReference refNotif = FirebaseDatabase.getInstance().getReference("Users").child(myUID);
+        refNotif.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if (notify){
+                    sendNotifications(hisUID, user.getNameUser(), message);
+                }
+                notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ChatActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void sendNotifications(final String hisUID, final String nameUser, final String message) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query queryRef = ref.orderByKey().equalTo(hisUID);
+        queryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds:snapshot.getChildren()){
+                    Token token = ds.getValue(Token.class);
+                    Data data = new Data(myUID, nameUser+":"+message, "New message", hisUID, R.drawable.ic_notif);
+                    Sender sender = new Sender(data, token.getToken());
+                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                        @Override
+                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                            if (response.code() == 200) {
+                                if (response.body().success != 1) {
+                                    Toast.makeText(ChatActivity.this, "Failed ", Toast.LENGTH_LONG);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ChatActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkOnline(String status){
@@ -341,8 +412,15 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "Message supprimé...", Toast.LENGTH_SHORT).show();
                         view.findViewById(R.id.timeTv).setVisibility(View.GONE);
                         view.findViewById(R.id.isSeenTv).setVisibility(View.GONE);
+                        TextView textView = view.findViewById(R.id.hisMessageTv);
                         // Create corner background
-                        view.findViewById(R.id.hisMessageTv).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_arrondi));
+                        textView.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_arrondi));
+                        //mettre le text au centre
+                        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        //mettre en italic
+                        textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
+                        //définir la taille du text
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_IN,0.1f);
                     }else{
                         Toast.makeText(ChatActivity.this, "Impossible de supprimer ce message...", Toast.LENGTH_SHORT).show();
                     }

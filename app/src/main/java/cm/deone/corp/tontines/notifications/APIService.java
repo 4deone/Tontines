@@ -1,7 +1,5 @@
-package cm.deone.corp.tontines.fragments;
+package cm.deone.corp.tontines.notifications;
 
-import cm.deone.corp.tontines.notifications.MyResponse;
-import cm.deone.corp.tontines.notifications.Sender;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;

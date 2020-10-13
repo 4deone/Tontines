@@ -4,16 +4,14 @@ public class Data {
     private String user;
     private String body;
     private String title;
-    private String sented;
-    private String notificationType;
+    private String sent;
     private Integer icon;
 
-    public Data(String user, String body, String title, String sented, String notificationType, Integer icon) {
+    public Data(String user, String body, String title, String sent, Integer icon) {
         this.user = user;
         this.body = body;
         this.title = title;
-        this.sented = sented;
-        this.notificationType = notificationType;
+        this.sent = sent;
         this.icon = icon;
     }
 
@@ -26,14 +24,6 @@ public class Data {
 
     public void setUser(String user) {
         this.user = user;
-    }
-
-    public String getNotificationType() {
-        return notificationType;
-    }
-
-    public void setNotificationType(String notificationType) {
-        this.notificationType = notificationType;
     }
 
     public Integer getIcon() {
@@ -60,11 +50,11 @@ public class Data {
         this.title = title;
     }
 
-    public String getSented() {
-        return sented;
+    public String getSent() {
+        return sent;
     }
 
-    public void setSented(String sented) {
-        this.sented = sented;
+    public void setSent(String sent) {
+        this.sent = sent;
     }
 }

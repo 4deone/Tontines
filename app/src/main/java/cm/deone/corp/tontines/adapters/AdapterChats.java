@@ -1,7 +1,9 @@
 package cm.deone.corp.tontines.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,12 @@ public class AdapterChats extends RecyclerView.Adapter<AdapterChats.MyHolder> {
             holder.mTimestamp.setVisibility(View.GONE);
             holder.mDelivery.setVisibility(View.GONE);
             holder.mMessage.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_arrondi));
+            //mettre le text au centre
+            holder.mMessage.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            //mettre en italic
+            holder.mMessage.setTypeface(holder.mMessage.getTypeface(), Typeface.BOLD_ITALIC);
+            //définir la taille du text
+            holder.mMessage.setTextSize(TypedValue.COMPLEX_UNIT_IN,0.1f);
         }
         holder.mMessage.setText(message);
         holder.mTimestamp.setText(dateTime);

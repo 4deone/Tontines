@@ -2,6 +2,7 @@ package cm.deone.corp.tontines;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,20 +18,33 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import cm.deone.corp.tontines.fragments.Chatlist;
 import cm.deone.corp.tontines.fragments.DasHome;
 import cm.deone.corp.tontines.fragments.Home;
+import cm.deone.corp.tontines.notifications.Token;
 
 public class Dashboard extends AppCompatActivity {
 
     private static final int READ_CONTACT_REQUEST_CODE = 100;
+    private String myUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         checkUserStatus();
+        initViews();
+        checkPermission();
+        UpdateToken();
+    }
+
+    @Override
+    protected void onResume() { //// 22:15  sur la video
+        checkUserStatus();
+        super.onResume();
     }
 
     @Override
@@ -54,8 +68,11 @@ public class Dashboard extends AppCompatActivity {
     private void checkUserStatus(){
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser != null){
-            initViews();
-            checkPermission();
+            myUID = mUser.getUid();
+            SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("Current_USERID", myUID);
+            editor.apply();
         }else {
             startActivity(new Intent(Dashboard.this, MainActivity.class));
             finish();
@@ -101,6 +118,13 @@ public class Dashboard extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_dashboard, fragment, "");
         ft.commit();
+    }
+
+    private void UpdateToken(){
+        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token = new Token(refreshToken);
+        FirebaseDatabase.getInstance().getReference("Tokens").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
     }
 
 }
