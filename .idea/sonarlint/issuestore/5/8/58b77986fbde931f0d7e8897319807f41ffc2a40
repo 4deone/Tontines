@@ -1,0 +1,23 @@
+
+Ÿ
+java:S1186ô"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(†ø¥Æ8îŞŠÆÑ.
+W
+java:S1874N"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ8ª‹ÆÑ.
+Ÿ
+java:S1186ˆ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ó§Á8îŞŠÆÑ.
+X
+java:S1144±"5Remove this unused private "showAvatarDialog" method.(’ËÛçøÿÿÿÿ8ª‹ÆÑ.
+D
+java:S1172ô"&Remove these unused method parameters.(†ø¥Æ8ª‹ÆÑ.
+K	java:S108à")Either remove or fill this block of code.(íôÖéûÿÿÿÿ8ª‹ÆÑ.
+F	java:S108ä")Either remove or fill this block of code.(å¥‡8ö›§âÑ.
+M
+java:S1172ˆ"/Remove this unused method parameter "idMembre".(ó§Á8ª‹ÆÑ.
+K	java:S108Ş")Either remove or fill this block of code.(á÷ÿ´ùÿÿÿÿ8ª‹ÆÑ.
+]	java:S110)"<This class has 9 parents which is greater than 5 authorized.(òñÇÓÿÿÿÿÿ8Ùô™Ğ.
+p
+java:S3776Œ"RRefactor this method to reduce its Cognitive Complexity from 65 to the 15 allowed.(ÑÚ‰Á8ª‹ÆÑ.
+^	java:S125ã"<This block of commented-out lines of code should be removed.(èúó²ûÿÿÿÿ8ÿ·ØçÑ.
+K	java:S108Ù")Either remove or fill this block of code.(şùš›øÿÿÿÿ8ª‹ÆÑ.
+]
+java:S1144÷":Remove this unused private "showEditProfileDialog" method.(¶Äˆ¹şÿÿÿÿ8ÿ·ØçÑ.

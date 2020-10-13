@@ -1,0 +1,176 @@
+
+k
+java:S1192-"PUse already-defined constant 'PREF_PHONE' instead of duplicating its value here.(ĞïÍ×üÿÿÿÿ
+e
+java:S1192,"OUse already-defined constant 'PREF_NAME' instead of duplicating its value here.(ÏıÇ
+d
+java:S1192/"NUse already-defined constant 'PREF_CNI' instead of duplicating its value here.(¥òò
+r
+java:S11921"WUse already-defined constant 'PREF_NOTIFICATION' instead of duplicating its value here.(ïÀäçøÿÿÿÿ
+k
+java:S1192."PUse already-defined constant 'PREF_EMAIL' instead of duplicating its value here.(Ù»¢ıÿÿÿÿ
+k
+java:S11920"PUse already-defined constant 'PREF_VILLE' instead of duplicating its value here.(·âššùÿÿÿÿ
+f	java:S117C"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öí‘
+f	java:S117C"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öí‘
+k	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Áşüÿÿÿÿ
+k	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Áşüÿÿÿÿ
+f	java:S117E"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ä°õÕ
+f	java:S117E"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ä°õÕ
+N
+java:S1128"8Remove this unused import 'androidx.annotation.NonNull'.(ˆÛúÜ
+\
+java:S1128"FRemove this unused import 'com.google.firebase.database.DataSnapshot'.(şÇŒ„
+U
+java:S1128"?Remove this unused import 'cm.deone.corp.tontines.models.User'.(Ëõ›È
+`
+java:S1128"KRemove this unused import 'com.google.firebase.database.DatabaseReference'.(ÉÓ¹
+`
+java:S1128"JRemove this unused import 'com.google.firebase.database.FirebaseDatabase'.(×Ë—
+g
+java:S1128"LRemove this unused import 'com.google.firebase.database.ValueEventListener'.(‹ŞÜ‹ıÿÿÿÿ
+L
+java:S1128"1Remove this unused import 'android.widget.Toast'.(©›ïÍúÿÿÿÿ
+X
+java:S1128"=Remove this unused import 'cm.deone.corp.tontines.Dashboard'.(œøÅìùÿÿÿÿ
+b
+java:S1128"GRemove this unused import 'com.google.firebase.database.DatabaseError'.(ˆÔµıÿÿÿÿ
+P
+java:S1874":Remove this use of "PreferenceFragment"; it is deprecated.(şÁÍ‡
+`
+java:S1874("JDon't override a deprecated method or explicitly mark it as "@Deprecated".(ßìê¯
+K
+java:S1874)"0Remove this use of "onCreate"; it is deprecated.(î±¨Ôøÿÿÿÿ
+]
+java:S1874*"BRemove this use of "addPreferencesFromResource"; it is deprecated.(Š ¼Çÿÿÿÿÿ
+L
+java:S1874,"6Remove this use of "findPreference"; it is deprecated.(ÏıÇ
+Q
+java:S1874-"6Remove this use of "findPreference"; it is deprecated.(ĞïÍ×üÿÿÿÿ
+Q
+java:S1874."6Remove this use of "findPreference"; it is deprecated.(Ù»¢ıÿÿÿÿ
+L
+java:S1874/"6Remove this use of "findPreference"; it is deprecated.(¥òò
+Q
+java:S18740"6Remove this use of "findPreference"; it is deprecated.(·âššùÿÿÿÿ
+Q
+java:S18741"6Remove this use of "findPreference"; it is deprecated.(ïÀäçøÿÿÿÿ
+L
+java:S18743"6Remove this use of "findPreference"; it is deprecated.(è¿¨¼
+K
+java:S18744"6Remove this use of "findPreference"; it is deprecated.(Ê«¼7
+K
+java:S18745"6Remove this use of "findPreference"; it is deprecated.(Á’°A
+K
+java:S18746"6Remove this use of "findPreference"; it is deprecated.(±ûä+
+L
+java:S18747"6Remove this use of "findPreference"; it is deprecated.(¼´áÈ
+e
+java:S1874<"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(º£”úÿÿÿÿ
+I
+java:S1874=".Remove this use of "onStop"; it is deprecated.(å­Şıÿÿÿÿ
+L
+java:S1874>"6Remove this use of "findPreference"; it is deprecated.(Æê¨â
+L
+java:S1874>"6Remove this use of "findPreference"; it is deprecated.(Æê¨â
+L
+java:S1874?"6Remove this use of "findPreference"; it is deprecated.(¯î
+L
+java:S1874?"6Remove this use of "findPreference"; it is deprecated.(¯î
+L
+java:S1874?"6Remove this use of "findPreference"; it is deprecated.(¯î
+L
+java:S1874@"6Remove this use of "findPreference"; it is deprecated.(Ûå¨ù
+<
+java:S1172C"&Remove these unused method parameters.(öí‘
+H
+java:S1874C"2Remove this use of "Preference"; it is deprecated.(öí‘
+H
+java:S1874C"2Remove this use of "Preference"; it is deprecated.(öí‘
+M
+java:S1874D"2Remove this use of "Preference"; it is deprecated.(‡Áşüÿÿÿÿ
+M
+java:S1874D"2Remove this use of "Preference"; it is deprecated.(‡Áşüÿÿÿÿ
+H
+java:S1874E"2Remove this use of "Preference"; it is deprecated.(ä°õÕ
+H
+java:S1874E"2Remove this use of "Preference"; it is deprecated.(ä°õÕ
+O
+java:S1874F"9Remove this use of "PreferenceManager"; it is deprecated.(©´Çç
+Y
+java:S1874F"CRemove this use of "getDefaultSharedPreferences"; it is deprecated.(©´Çç
+I
+java:S1874F"3Remove this use of "getActivity"; it is deprecated.(©´Çç
+M
+java:S1874I"2Remove this use of "getSummary"; it is deprecated.(ã¾‚øÿÿÿÿ
+M
+java:S1874J"2Remove this use of "getSummary"; it is deprecated.(ÛÏúşÿÿÿÿ
+M
+java:S1874K"2Remove this use of "getSummary"; it is deprecated.(™‹°üşÿÿÿÿ
+G
+java:S1874L"2Remove this use of "getSummary"; it is deprecated.(Ê³é
+M
+java:S1874M"2Remove this use of "getSummary"; it is deprecated.(úß¸İşÿÿÿÿ
+M
+java:S1874R"2Remove this use of "Preference"; it is deprecated.(óÃ‹Ãúÿÿÿÿ
+O
+java:S1874S"9Remove this use of "PreferenceManager"; it is deprecated.(íñ„á
+Y
+java:S1874S"CRemove this use of "getDefaultSharedPreferences"; it is deprecated.(íñ„á
+H
+java:S1874S"2Remove this use of "getContext"; it is deprecated.(íñ„á
+D
+java:S1874S".Remove this use of "getKey"; it is deprecated.(íñ„á
+H
+java:S1874V"2Remove this use of "Preference"; it is deprecated.(…È¨İ
+[
+java:S1874W"ERemove this use of "setOnPreferenceChangeListener"; it is deprecated.(‘ßóÂ
+U
+java:S1874X":Remove this use of "onPreferenceChange"; it is deprecated.(ÊÍ¥Ìüÿÿÿÿ
+T
+java:S1874X"9Remove this use of "PreferenceManager"; it is deprecated.(ÊÍ¥Ìüÿÿÿÿ
+^
+java:S1874X"CRemove this use of "getDefaultSharedPreferences"; it is deprecated.(ÊÍ¥Ìüÿÿÿÿ
+M
+java:S1874X"2Remove this use of "getContext"; it is deprecated.(ÊÍ¥Ìüÿÿÿÿ
+D
+java:S1874Y".Remove this use of "getKey"; it is deprecated.(¤Œ¢ë
+M
+java:S1874\"2Remove this use of "Preference"; it is deprecated.(µ­Ï×ûÿÿÿÿ
+]
+java:S1874\"BRemove this use of "OnPreferenceChangeListener"; it is deprecated.(µ­Ï×ûÿÿÿÿ
+M
+java:S1874\"2Remove this use of "Preference"; it is deprecated.(µ­Ï×ûÿÿÿÿ
+H
+java:S1874^"2Remove this use of "Preference"; it is deprecated.(œğÄ¬
+Q
+java:S1874`"6Remove this use of "ListPreference"; it is deprecated.(‹˜×Œúÿÿÿÿ
+Q
+java:S1874a"6Remove this use of "ListPreference"; it is deprecated.(ş±ĞÇùÿÿÿÿ
+Q
+java:S1874a"6Remove this use of "ListPreference"; it is deprecated.(ş±ĞÇùÿÿÿÿ
+N
+java:S1874b"8Remove this use of "findIndexOfValue"; it is deprecated.(€ –¡
+M
+java:S1874c"2Remove this use of "setSummary"; it is deprecated.(šÓŞÿÿÿÿÿ
+M
+java:S1874d"2Remove this use of "getEntries"; it is deprecated.(¼„âîøÿÿÿÿ
+U
+java:S1874f":Remove this use of "EditTextPreference"; it is deprecated.(îğ²Êøÿÿÿÿ
+H
+java:S1874g"2Remove this use of "setSummary"; it is deprecated.(Ç¢á
+U
+java:S1874h":Remove this use of "RingtonePreference"; it is deprecated.(ğ¤ÓÇøÿÿÿÿ
+M
+java:S1874j"2Remove this use of "setSummary"; it is deprecated.(œ¶¹ùÿÿÿÿ
+M
+java:S1874l"2Remove this use of "getContext"; it is deprecated.(¡Î»†ùÿÿÿÿ
+M
+java:S1874n"2Remove this use of "setSummary"; it is deprecated.(ÌÄ©ùşÿÿÿÿ
+M
+java:S1874p"2Remove this use of "getContext"; it is deprecated.(Ë€ãëÿÿÿÿÿ
+M
+java:S1874q"2Remove this use of "setSummary"; it is deprecated.(Íå„Ñúÿÿÿÿ
+K
+java:S1068%"5Remove this unused "PREF_NOTIFICATION" private field.(É¥ŞÎ
+V	java:S125N"<This block of commented-out lines of code should be removed.(Âª¡Ùÿÿÿÿÿ

@@ -1,0 +1,24 @@
+
+c
+java:S1192c"HDefine a constant instead of duplicating this literal "Membres" 4 times.(ª½î–ûÿÿÿÿ
+P
+java:S18749"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ
+Q	java:S110"<This class has 9 parents which is greater than 5 authorized.(Ï‰øµ
+
+java:S1186’"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¹¹‹²þÿÿÿÿ
+A
+java:S1481j"+Remove this unused "avatar" local variable.(°‚š
+=
+java:S1068 "'Remove this unused "uID" private field.(‘ð¢Ð
+d
+java:S1192c"IDefine a constant instead of duplicating this literal "Tontines" 4 times.(ª½î–ûÿÿÿÿ
+P
+java:S1854j":Remove this useless assignment to local variable "avatar".(°‚š
+M
+java:S1172’"1Remove this unused method parameter "searchView".(¹¹‹²þÿÿÿÿ
+h
+java:S1450 "RRemove the "uID" field and declare it as a local variable in the relevant methods.(‘ð¢Ð
+l
+java:S1450#"VRemove the "toolbar" field and declare it as a local variable in the relevant methods.(þ®º—
+a
+java:S1192g"FDefine a constant instead of duplicating this literal "Users" 4 times.(ç™¶Áýÿÿÿÿ

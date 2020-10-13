@@ -1,0 +1,13 @@
+
+T
+java:S10686"2Remove this unused "controlTontine" private field.(›û‘œşÿÿÿÿ8õßÃæÑ.
+W
+java:S1874Y"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ8õéüÂÑ.
+
+java:S14506"]Remove the "controlTontine" field and declare it as a local variable in the relevant methods.(›û‘œşÿÿÿÿ8õßÃæÑ.
+f
+java:S1192À"HDefine a constant instead of duplicating this literal "Membres" 4 times.(ºÌŞó8é¬áæÑ.
+X	java:S125¿"<This block of commented-out lines of code should be removed.(¹Ô¹&8‡³æÑ.
+v
+java:S14507"YRemove the "mDasHomeTb" field and declare it as a local variable in the relevant methods.(öïš’8õéüÂÑ.
+^	java:S125½"<This block of commented-out lines of code should be removed.(µğêøûÿÿÿÿ8‡³æÑ.

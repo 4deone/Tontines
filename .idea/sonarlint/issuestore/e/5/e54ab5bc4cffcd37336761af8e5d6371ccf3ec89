@@ -1,0 +1,9 @@
+
+n	java:S117Ø"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ˜Áˆ8ýÐ®¤Ï.
+s	java:S117Ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­†°“ùÿÿÿÿ8»•²¤Ï.
+{
+java:S14509"YRemove the "membreList" field and declare it as a local variable in the relevant methods.(ô½Ã›ùÿÿÿÿ8ûË§ŸÐ.
+V	java:S110+"<This class has 9 parents which is greater than 5 authorized.(éïÐ¨ýÿÿÿÿ
+n	java:S117×"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³ãÛ¢8ýÐ®¤Ï.
+D	java:S108™")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ
+n	java:S117Ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±¼¦»8 ‘•«Ï.

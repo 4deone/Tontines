@@ -78,8 +78,9 @@ public class ControlUser implements IntUser, IntMedia {
      */
     public void createNewUser(String idUser, String nameUser, String avatarUser, String coverUser,
                               String phoneUser, String emailUser, String cniUser, String deliveryCniUser,
-                              String villeUser, String dateCreationUser, String ruleUser, boolean activeUser){
-        user = new User(idUser, nameUser, avatarUser, coverUser, phoneUser, emailUser, cniUser, deliveryCniUser, villeUser, dateCreationUser, ruleUser, activeUser);
+                              String villeUser, String dateCreationUser, String ruleUser, String onlineUser, String typingTo, boolean activeUser){
+        user = new User(idUser, nameUser, avatarUser, coverUser, phoneUser, emailUser, cniUser, deliveryCniUser, villeUser, dateCreationUser,
+                ruleUser, onlineUser, typingTo,  activeUser);
     }
 
     public void createNewUser(String emailUser){

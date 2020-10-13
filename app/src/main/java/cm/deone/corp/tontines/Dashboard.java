@@ -21,9 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import cm.deone.corp.tontines.fragments.Chatlist;
+import cm.deone.corp.tontines.fragments.ChatlistFrag;
 import cm.deone.corp.tontines.fragments.DasHome;
-import cm.deone.corp.tontines.fragments.Home;
 import cm.deone.corp.tontines.notifications.Token;
 
 public class Dashboard extends AppCompatActivity {
@@ -103,7 +102,7 @@ public class Dashboard extends AppCompatActivity {
                     pushFragment(new DasHome());
                     return true;
                 case R.id.forumDaoshboard:
-                    pushFragment(new Chatlist());
+                    pushFragment(new ChatlistFrag());
                     return true;
                 default:
             }

@@ -1,0 +1,13 @@
+
+o	java:S100z"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§€ŸÆøÿÿÿÿ8ˆù¥óÑ.
+d
+java:S1128"BRemove this unused import 'cm.deone.corp.tontines.fragments.Home'.(íùÆøÿÿÿÿ8òã÷ëÑ.
+R
+java:S1874|"0Remove this use of "getToken"; it is deprecated.(äÏ©²üÿÿÿÿ8ˆù¥óÑ.
+]
+java:S1854{"@Remove this useless assignment to local variable "firebaseUser".(İ¬ÛÑ8ˆù¥óÑ.
+N
+java:S1481{"1Remove this unused "firebaseUser" local variable.(İ¬ÛÑ8ˆù¥óÑ.
+v
+java:S1450"TRemove the "myUID" field and declare it as a local variable in the relevant methods.(À°ô¼ıÿÿÿÿ8ÌÔ¥÷Ñ.
+X	java:S110"<This class has 9 parents which is greater than 5 authorized.(¬¾ä„8–ÌÙÂÑ.

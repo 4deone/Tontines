@@ -1,0 +1,12 @@
+
+e
+java:S5361O"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ÆŞœ8‡ı¹Ì.
+;
+java:S2119a"Save and re-use this "Random".(­®í…8äŠÎÌ.
+{
+java:S32524"^Use static access with "android.provider.ContactsContract$ContactsColumns" for "DISPLAY_NAME".(¢Õ§ø8‚ñÆ¹Ì.
+]	java:S125%"<This block of commented-out lines of code should be removed.(ŞÅ×âüÿÿÿÿ8áß·¹Ì.
+j
+java:S5361'"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ô¡ã¹ıÿÿÿÿ8‡õ¹¹Ì.
+\
+java:S1118":Add a private constructor to hide the implicit public one.(ò´Éûûÿÿÿÿ8úÉı¹Ì.

@@ -129,6 +129,8 @@ public class Profil extends AppCompatActivity {
         String city = "";
         String cni = "";
         String deliveryDateCni = "";
+        String onlineUser = "online";
+        String typingTo = "noOne";
         try{
             name = mName.getText().toString().trim();
             indicatif = mCountryCode.getSelectedItem().toString();
@@ -137,7 +139,7 @@ public class Profil extends AppCompatActivity {
             cni = mCni.getText().toString().trim();
             deliveryDateCni = mCniDeliveryDate.getText().toString().trim();
         }catch (Exception e){
-
+            e.printStackTrace();
         }
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Please enter name...", Toast.LENGTH_LONG).show();
@@ -164,7 +166,7 @@ public class Profil extends AppCompatActivity {
         String telephone = getResources().getString(R.string.telephone, indicatif, phone);
         String rule = "user";
 
-        controlUser.createNewUser(mUser.getUid(), name, avatar, cover, telephone, mUser.getEmail(), cni, deliveryDateCni, city, timestamp, rule, true);
+        controlUser.createNewUser(mUser.getUid(), name, avatar, cover, telephone, mUser.getEmail(), cni, deliveryDateCni, city, timestamp, rule, onlineUser, typingTo, true);
         controlUser.addUser(Profil.this, mProgressBar);
     }
 }

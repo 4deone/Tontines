@@ -13,6 +13,8 @@ public class User {
     private String villeUser;
     private String dateCreationUser;
     private String ruleUser;
+    private String onlineUser;
+    private String typingTo;
     private boolean activeUser;
 
     public User() {
@@ -27,9 +29,11 @@ public class User {
         this.phoneUser = phoneUser;
     }
 
-    public User(String idUser, String nameUser, String avatarUser, String coverUser,
-                String phoneUser, String emailUser, String cniUser, String deliveryCniUser,
-                String villeUser, String dateCreationUser, String ruleUser, boolean activeUser) {
+    public User(String idUser, String nameUser, String avatarUser,
+                String coverUser, String phoneUser, String emailUser,
+                String cniUser, String deliveryCniUser, String villeUser,
+                String dateCreationUser, String ruleUser, String onlineUser,
+                String typingTo, boolean activeUser) {
         this.idUser = idUser;
         this.nameUser = nameUser;
         this.avatarUser = avatarUser;
@@ -41,6 +45,8 @@ public class User {
         this.villeUser = villeUser;
         this.dateCreationUser = dateCreationUser;
         this.ruleUser = ruleUser;
+        this.onlineUser = onlineUser;
+        this.typingTo = typingTo;
         this.activeUser = activeUser;
     }
 
@@ -106,6 +112,22 @@ public class User {
 
     public void setDateCreationUser(String dateCreationUser) {
         this.dateCreationUser = dateCreationUser;
+    }
+
+    public String getOnlineUser() {
+        return onlineUser;
+    }
+
+    public void setOnlineUser(String onlineUser) {
+        this.onlineUser = onlineUser;
+    }
+
+    public String getTypingTo() {
+        return typingTo;
+    }
+
+    public void setTypingTo(String typingTo) {
+        this.typingTo = typingTo;
     }
 
     public boolean isActiveUser() {

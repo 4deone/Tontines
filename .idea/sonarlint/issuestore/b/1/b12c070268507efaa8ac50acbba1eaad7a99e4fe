@@ -1,0 +1,9 @@
+
+w
+java:S1450 "[Remove the "firebaseUser" field and declare it as a local variable in the relevant methods.(©™Š8ÙâŠìÑ.
+u
+java:S26376"XThis method's return value is marked "androidx.annotation.NonNull" but null is returned.(¥¹ï8ÙâŠìÑ.
+P
+java:S1874E"3Remove this use of "getDrawable"; it is deprecated.(†É˜¨8ÙâŠìÑ.
+Z
+java:S1874E"=Remove this use of "setBackgroundDrawable"; it is deprecated.(†É˜¨8ÙâŠìÑ.

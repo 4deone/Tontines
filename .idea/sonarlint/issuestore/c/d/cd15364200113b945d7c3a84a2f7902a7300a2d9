@@ -1,0 +1,12 @@
+
+p
+java:S1450"URemove the "idUser" field and declare it as a local variable in the relevant methods.(Ğ¸Ÿºıÿÿÿÿ
+s
+java:S1450"XRemove the "idTontine" field and declare it as a local variable in the relevant methods.(Åµµ‘ûÿÿÿÿ
+E
+java:S1068"*Remove this unused "idUser" private field.(Ğ¸Ÿºıÿÿÿÿ
+@
+java:S1172X"+Remove this unused method parameter "view".(Òå$
+H
+java:S1068"-Remove this unused "idTontine" private field.(Åµµ‘ûÿÿÿÿ
+V	java:S125Y"<This block of commented-out lines of code should be removed.(‰¥Ëíşÿÿÿÿ

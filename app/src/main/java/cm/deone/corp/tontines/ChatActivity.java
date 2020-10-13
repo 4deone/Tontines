@@ -326,6 +326,39 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(ChatActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        // create chatlist
+        final DatabaseReference refChatlist1 = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(myUID)
+                .child(hisUID);
+        refChatlist1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()){
+                    refChatlist1.child("id").setValue(hisUID);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ChatActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        final DatabaseReference refChatlist2 = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(hisUID)
+                .child(myUID);
+        refChatlist2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()){
+                    refChatlist2.child("id").setValue(myUID);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ChatActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void sendNotifications(final String hisUID, final String nameUser, final String message) {

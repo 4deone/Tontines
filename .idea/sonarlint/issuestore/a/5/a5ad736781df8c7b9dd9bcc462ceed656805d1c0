@@ -1,0 +1,12 @@
+
+`
+java:S1192Q"JDefine a constant instead of duplicating this literal "idTontine" 3 times.(ñ·¦Ÿ
+i
+java:S1192s"GDefine a constant instead of duplicating this literal "bureau" 3 times.(šıÆùÿÿÿÿ8ı¯•Ğ.
+Q	java:S107A"<Method has 8 parameters, which is greater than 7 authorized.(öÑôÚ
+˜
+java:S1186ğ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¥–†’
+
+java:S1186õ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¢ç·àüÿÿÿÿ
+X	java:S125œ"<This block of commented-out lines of code should be removed.(¹Ô¹&8†öæÌ.
+^	java:S125š"<This block of commented-out lines of code should be removed.(µğêøûÿÿÿÿ8°ÓæÌ.

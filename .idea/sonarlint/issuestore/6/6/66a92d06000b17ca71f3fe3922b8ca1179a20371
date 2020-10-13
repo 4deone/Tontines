@@ -1,0 +1,11 @@
+
+W	java:S125–"<This block of commented-out lines of code should be removed.(–Óºüıÿÿÿÿ
+R	java:S125¼"<This block of commented-out lines of code should be removed.(ÂÜüÿ
+E
+java:S1068*"*Remove this unused "idUser" private field.(Ğ¸Ÿºıÿÿÿÿ
+p
+java:S1450*"URemove the "idUser" field and declare it as a local variable in the relevant methods.(Ğ¸Ÿºıÿÿÿÿ
+W	java:S125Ä"<This block of commented-out lines of code should be removed.(–Óºüıÿÿÿÿ
+P
+java:S1144b"5Remove this unused private "manageSearchView" method.(¹¹‹²şÿÿÿÿ
+R	java:S125"<This block of commented-out lines of code should be removed.(ÂÜüÿ

@@ -1,0 +1,16 @@
+
+X	java:S125E"<This block of commented-out lines of code should be removed.(Œ«Æô8ÒÓ½Ò.
+\
+java:S18543"?Remove this useless assignment to local variable "lastmessage".(ã­’8“Ô‘Ò.
+]	java:S125L"<This block of commented-out lines of code should be removed.(Ã×Ê¡üÿÿÿÿ8“ÕÒ.
+M
+java:S14813"0Remove this unused "lastmessage" local variable.(ã­’8“Ô‘Ò.
+O
+java:S1128"3Remove this unused import 'android.content.Intent'.(³ğ‹G8º¤ã‘Ò.
+G
+java:S1068"+Remove this unused "context" private field.(êİç8Ô¯ïÒ.
+X	java:S1256"<This block of commented-out lines of code should be removed.(›ÊÓá8“Ô‘Ò.
+L
+java:S1068"0Remove this unused "firebaseUser" private field.(©™Š8»âÇŒÒ.
+b
+java:S1128"@Remove this unused import 'cm.deone.corp.tontines.ChatActivity'.(ÇĞ›÷ıÿÿÿÿ8º¤ã‘Ò.

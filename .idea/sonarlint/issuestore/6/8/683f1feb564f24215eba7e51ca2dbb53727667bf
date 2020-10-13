@@ -1,0 +1,16 @@
+
+X	java:S110
+"<This class has 7 parents which is greater than 5 authorized.(ä÷ê£8õˆÔÍ.
+W
+java:S1874
+":Remove this use of "PreferenceActivity"; it is deprecated.(ä÷ê£8õˆÔÍ.
+l
+java:S1874"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(Û½Ê€şÿÿÿÿ8ş¯•Ğ.
+R
+java:S1874"0Remove this use of "onCreate"; it is deprecated.(î±¨Ôøÿÿÿÿ8ş¯•Ğ.
+W
+java:S1874":Remove this use of "getFragmentManager"; it is deprecated.(§õ†8ş¯•Ğ.
+U
+java:S1874"8Remove this use of "beginTransaction"; it is deprecated.(§õ†8ş¯•Ğ.
+L
+java:S1874"/Remove this use of "replace"; it is deprecated.(§õ†8ş¯•Ğ.
