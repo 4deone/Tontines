@@ -1,42 +1,38 @@
 
 ?
-java:S1116’"Remove this empty statement.(êúµ¶ÿÿÿÿÿ8¥²ô‰Ò.
-i
-java:S1128$"GRemove this unused import 'com.google.firebase.iid.FirebaseInstanceId'.(½ÉÈÊùÿÿÿÿ8£Â¥óÑ.
-x
-java:S1450A"[Remove the "mChatToolbar" field and declare it as a local variable in the relevant methods.(´¨ä8ºË­òÑ.
-Ÿ
-java:S1186Ç"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(«û³±8¨Œ€ùÑ.
-i
-java:S1192a"GDefine a constant instead of duplicating this literal "online" 3 times.(éØûÿÿÿÿÿ8ºË­òÑ.
-^	java:S125¹"<This block of commented-out lines of code should be removed.(â¶º¨şÿÿÿÿ8¥²ô‰Ò.
-Ÿ
-java:S1186Õ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(±¾ê8¨Œ€ùÑ.
-i
-java:S1192à"FDefine a constant instead of duplicating this literal "Chats" 4 times.(‡óş€ıÿÿÿÿ8¨Œ€ùÑ.
-|
-java:S1450S"_Remove the "firebaseDatabase" field and declare it as a local variable in the relevant methods.(­Õğ»8ë¿ÉÑ.
-^	java:S125¥"<This block of commented-out lines of code should be removed.(»ãºÇøÿÿÿÿ8©Œ€ùÑ.
-Ÿ
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ğ¡À8¥²ô‰Ò.
-f
-java:S1192"HDefine a constant instead of duplicating this literal "Effacer" 3 times.( ‘Û·8¨Œ€ùÑ.
-t
-java:S3776~"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(”«õûÿÿÿÿ8ºË­òÑ.
-x
-java:S1450G"VRemove the "mSendIb" field and declare it as a local variable in the relevant methods.(Ğƒ“–şÿÿÿÿ8ºË­òÑ.
-Q
-java:S1874Â"3Remove this use of "getDrawable"; it is deprecated.(È¶ğë8¥²ô‰Ò.
+java:S1116¤"Remove this empty statement.(êúµ¶ÿÿÿÿÿ8ã´›Ò.
 9
-java:S1116™"Remove this empty statement.(‰Ê¥S8¥²ô‰Ò.
-R
-java:S1066ú"/Merge this if statement with the enclosing one.(á²–ßşÿÿÿÿ8¥²ô‰Ò.
+java:S1116«"Remove this empty statement.(‰Ê¥S8ã´›Ò.
 [
-java:S1874Â"=Remove this use of "setBackgroundDrawable"; it is deprecated.(È¶ğë8¥²ô‰Ò.
-d
-java:S1192"FDefine a constant instead of duplicating this literal "Users" 4 times.(Ìéšş8¨Œ€ùÑ.
-]	java:S110;"<This class has 9 parents which is greater than 5 authorized.(ÏÎøìûÿÿÿÿ8ºË­òÑ.
-x
-java:S1450T"VRemove the "refUser" field and declare it as a local variable in the relevant methods.(Ã–¦°ıÿÿÿÿ8ºË­òÑ.
+java:S1874Ô"=Remove this use of "setBackgroundDrawable"; it is deprecated.(È¶ğë8ã´›Ò.
+i
+java:S1192æ"FDefine a constant instead of duplicating this literal "Chats" 4 times.(‡óş€ıÿÿÿÿ8¨Œ€ùÑ.
 ¤
-java:S1186ˆ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ì¤Èÿÿÿÿÿ8¨Œ€ùÑ.
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ì¤Èÿÿÿÿÿ8¨Œ€ùÑ.
+i
+java:S1192g"GDefine a constant instead of duplicating this literal "online" 3 times.(éØûÿÿÿÿÿ8ºË­òÑ.
+d
+java:S1192•"FDefine a constant instead of duplicating this literal "Users" 4 times.(Ìéšş8¨Œ€ùÑ.
+x
+java:S1450M"VRemove the "mSendIb" field and declare it as a local variable in the relevant methods.(Ğƒ“–şÿÿÿÿ8ºË­òÑ.
+^	java:S125«"<This block of commented-out lines of code should be removed.(»ãºÇøÿÿÿÿ8©Œ€ùÑ.
+x
+java:S1450G"[Remove the "mChatToolbar" field and declare it as a local variable in the relevant methods.(´¨ä8ºË­òÑ.
+^	java:S125Ë"<This block of commented-out lines of code should be removed.(â¶º¨şÿÿÿÿ8ã´›Ò.
+u
+java:S3776„"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(”«õûÿÿÿÿ8ºË­òÑ.
+]	java:S110A"<This class has 9 parents which is greater than 5 authorized.(ÏÎøìûÿÿÿÿ8ºË­òÑ.
+Q
+java:S1874Ô"3Remove this use of "getDrawable"; it is deprecated.(È¶ğë8ã´›Ò.
+f
+java:S1192¤"HDefine a constant instead of duplicating this literal "Effacer" 3 times.( ‘Û·8¨Œ€ùÑ.
+Ÿ
+java:S1186Í"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(«û³±8¨Œ€ùÑ.
+n
+java:S1128="LRemove this unused import 'cm.deone.corp.tontines.notifications.MyResponse'.(ˆø¢€ùÿÿÿÿ8‘¥÷Ò.
+|
+java:S1450Y"_Remove the "firebaseDatabase" field and declare it as a local variable in the relevant methods.(­Õğ»8ë¿ÉÑ.
+x
+java:S1450Z"VRemove the "refUser" field and declare it as a local variable in the relevant methods.(Ã–¦°ıÿÿÿÿ8ºË­òÑ.
+Ÿ
+java:S1186Û"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(±¾ê8¨Œ€ùÑ.

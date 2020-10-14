@@ -71,8 +71,6 @@ v
 Fapp/src/main/java/cm/deone/corp/tontines/notifications/MyResponse.java,a/c/acededeca7197721fb0521b5c863a4d8d1999a02
 r
 Bapp/src/main/java/cm/deone/corp/tontines/notifications/Sender.java,8/5/853fc06ea2b52732c6d163d8cd50f02e8d1f5db6
-r
-Bapp/src/main/java/cm/deone/corp/tontines/notifications/Client.java,d/a/daa15f52ac4139dc9fc519840e291d29f84b8c31
 p
 @app/src/main/java/cm/deone/corp/tontines/notifications/Data.java,2/1/21b2f47c0ff27a328b4c5d5414ad7c1c238cf78c
 
@@ -151,8 +149,6 @@ U
 %app/src/main/res/menu/nav_tontine.xml,7/c/7cc95ae467c8ba97e778bdc06463c036f0989da2
 R
 "app/src/main/res/values/arrays.xml,7/c/7cca4a2d94815c47d6a1ce79d4f7ac1c41c7b766
-T
-$app/src/main/res/xml/preferences.xml,d/5/d523c5f9a544775535a62275862e5be71ba0775f
 x
 Happ/src/main/java/cm/deone/corp/tontines/fragments/SettingsFragment.java,5/6/5691405017ab3bbfefdcd028bd05c712d74a5edd
 r
@@ -211,8 +207,6 @@ S
 #app/src/main/res/values/strings.xml,d/2/d2281fbb3027de2722081a53408dd77628bf080e
 „
 Tapp/src/main/java/cm/deone/corp/tontines/notifications/OreoAndAboveNotification.java,5/5/55cfb39412440e461e9ed3f1febedeaff3e84e83
-v
-Fapp/src/main/java/cm/deone/corp/tontines/notifications/APIService.java,6/2/6298f424f3e464236ea596c2ea186fc89d64ee68
 ]
 -app/src/main/res/drawable-anydpi/ic_notif.xml,1/7/17d589c1bf3401519b52e36ee382bf9d71bd0d02
 Q
@@ -223,3 +217,11 @@ t
 Dapp/src/main/java/cm/deone/corp/tontines/fragments/ChatlistFrag.java,d/0/d059fd7e383833813d2a2f17da352e8fbabe7d8f
 w
 Gapp/src/main/java/cm/deone/corp/tontines/adapters/AdapterChatLists.java,a/8/a8a105ce244e778581ed5b1550a26bf892f36e54
+W
+'app/src/main/res/drawable/bg_cercle.xml,6/d/6dce9a77f74981259638f6bf0f889a1e5403872a
+]
+-app/src/main/res/layout/fragment_chatlist.xml,1/5/15ad0b60fb1a4f14550fabd31d39776302358f98
+Y
+)app/src/main/res/layout/item_chatlist.xml,5/d/5d4ac4f3b0f8568ff33a0c1e87b527c8a9fb3ae3
+X
+(gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e

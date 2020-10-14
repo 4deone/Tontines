@@ -1,21 +1,21 @@
 
+^	java:S125Ï"<This block of commented-out lines of code should be removed.(™êğ­ÿÿÿÿÿ8œÅÉåÌ.
+b
+java:S1128$"@Remove this unused import 'cm.deone.corp.tontines.MainActivity'.(‡“‡çøÿÿÿÿ8–Õô¯Ì.
+¤
+java:S1186Ÿ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Èİ×³şÿÿÿÿ8œÅÉåÌ.
+W	java:S107O"=Method has 14 parameters, which is greater than 7 authorized.(ã–—¥ûÿÿÿÿ
+¤
+java:S1186¤"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(õù•şøÿÿÿÿ8œÅÉåÌ.
+£
+java:S1186o"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¢øâïüÿÿÿÿ8ãâä¯Ì.
 ¤
 java:S1186®"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‡§¶êûÿÿÿÿ8œÅÉåÌ.
 ¤
-java:S1186Ÿ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Èİ×³şÿÿÿÿ8œÅÉåÌ.
-b
-java:S1128$"@Remove this unused import 'cm.deone.corp.tontines.MainActivity'.(‡“‡çøÿÿÿÿ8–Õô¯Ì.
-W	java:S107O"=Method has 14 parameters, which is greater than 7 authorized.(ã–—¥ûÿÿÿÿ
+java:S1186©"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.( ÉÊªûÿÿÿÿ8œÅÉåÌ.
 Y
 java:S1874¼"6Remove this use of "ProgressDialog"; it is deprecated.(İÑ·•ûÿÿÿÿ8œÅÉåÌ.
 b
 java:S1854Í"?Remove this useless assignment to local variable "downloadUri".(Üø Éüÿÿÿÿ8œÅÉåÌ.
-^	java:S125Ï"<This block of commented-out lines of code should be removed.(™êğ­ÿÿÿÿÿ8œÅÉåÌ.
 S
 java:S1481Í"0Remove this unused "downloadUri" local variable.(Üø Éüÿÿÿÿ8œÅÉåÌ.
-£
-java:S1186o"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¢øâïüÿÿÿÿ8ãâä¯Ì.
-¤
-java:S1186¤"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(õù•şøÿÿÿÿ8œÅÉåÌ.
-¤
-java:S1186©"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.( ÉÊªûÿÿÿÿ8œÅÉåÌ.

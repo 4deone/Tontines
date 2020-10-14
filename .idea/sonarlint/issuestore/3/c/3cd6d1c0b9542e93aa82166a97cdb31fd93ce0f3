@@ -1,20 +1,21 @@
 
-b
-java:S1854R"@Remove this useless assignment to local variable "notification".(·ä‰Äûÿÿÿÿ8úÀêøÑ.
-S
-java:S1481R"1Remove this unused "notification" local variable.(·ä‰Äûÿÿÿÿ8úÀêøÑ.
-X	java:S125%"<This block of commented-out lines of code should be removed.(‘şÜ8Ö½Ì÷Ñ.
-Q
-java:S1066&"/Merge this if statement with the enclosing one.(Äî¶¡øÿÿÿÿ8›°Ó÷Ñ.
 d
-java:S1854D"GRemove this useless assignment to local variable "notificationManager".(øÔª8ÑÆöøÑ.
-X	java:S110"<This class has 6 parents which is greater than 5 authorized.(µò¾×8ûşÍ.
-Q
-java:S1874["/Remove this use of "Builder"; it is deprecated.(î«ıÿÿÿÿ8úÀêøÑ.
-S
-java:S14817"1Remove this unused "notification" local variable.(·ä‰Äûÿÿÿÿ8§´äøÑ.
-U
-java:S1481D"8Remove this unused "notificationManager" local variable.(øÔª8ÑÆöøÑ.
+java:S1854G"GRemove this useless assignment to local variable "notificationManager".(øÔª8ÑÆöøÑ.
+X	java:S125("<This block of commented-out lines of code should be removed.(‘şÜ8Ö½Ì÷Ñ.
 b
-java:S18547"@Remove this useless assignment to local variable "notification".(·ä‰Äûÿÿÿÿ8§´äøÑ.
-X	java:S125j"<This block of commented-out lines of code should be removed.(Ğè¦Ü8úÀêøÑ.
+java:S1854:"@Remove this useless assignment to local variable "notification".(·ä‰Äûÿÿÿÿ8§´äøÑ.
+b
+java:S1854U"@Remove this useless assignment to local variable "notification".(·ä‰Äûÿÿÿÿ8úÀêøÑ.
+S
+java:S1481:"1Remove this unused "notification" local variable.(·ä‰Äûÿÿÿÿ8§´äøÑ.
+S
+java:S1481U"1Remove this unused "notification" local variable.(·ä‰Äûÿÿÿÿ8úÀêøÑ.
+X	java:S110"<This class has 6 parents which is greater than 5 authorized.(µò¾×8ûşÍ.
+Q
+java:S1066)"/Merge this if statement with the enclosing one.(Äî¶¡øÿÿÿÿ8›°Ó÷Ñ.
+i
+java:S1128"GRemove this unused import 'com.google.firebase.iid.FirebaseInstanceId'.(½ÉÈÊùÿÿÿÿ8“ÕÒ.
+U
+java:S1481G"8Remove this unused "notificationManager" local variable.(øÔª8ÑÆöøÑ.
+Q
+java:S1874^"/Remove this use of "Builder"; it is deprecated.(î«ıÿÿÿÿ8úÀêøÑ.

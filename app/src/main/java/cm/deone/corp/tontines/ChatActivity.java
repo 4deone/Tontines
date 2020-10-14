@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,34 +40,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import cm.deone.corp.tontines.adapters.AdapterChats;
 import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.Chat;
 import cm.deone.corp.tontines.models.User;
-import cm.deone.corp.tontines.notifications.APIService;
-import cm.deone.corp.tontines.notifications.Client;
 import cm.deone.corp.tontines.notifications.Data;
 import cm.deone.corp.tontines.notifications.MyResponse;
 import cm.deone.corp.tontines.notifications.Sender;
 import cm.deone.corp.tontines.notifications.Token;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
 
 
-    APIService apiService;
-    boolean notify = false;
+    private RequestQueue requestQueue;
+    private boolean notify = false;
 
     private Toolbar mChatToolbar;
     private ImageView mUserAvatarIv;
@@ -135,8 +141,8 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         mChatRv.setHasFixedSize(true);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
         mChatRv.setLayoutManager(linearLayoutManager);
-        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         mMessageEt = findViewById(R.id.messageEt);
         mSendIb = findViewById(R.id.sendIb);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -369,23 +375,35 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds:snapshot.getChildren()){
                     Token token = ds.getValue(Token.class);
-                    Data data = new Data(myUID, nameUser+":"+message, "New message", hisUID, R.drawable.ic_notif);
+                    Data data = new Data(myUID, nameUser+": "+message, "New message", hisUID, R.drawable.ic_notif);
                     Sender sender = new Sender(data, token.getToken());
-                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
-                        @Override
-                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                            if (response.code() == 200) {
-                                if (response.body().success != 1) {
-                                    Toast.makeText(ChatActivity.this, "Failed ", Toast.LENGTH_LONG);
-                                }
+                    try {
+                        JSONObject senderJsonObj = new JSONObject(new Gson().toJson(sender));
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", senderJsonObj, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d("JSON_RESPONSE", "onResponse: "+response.toString());
                             }
-                        }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("JSON_RESPONSE", "onResponse: "+error.toString());
+                            }
+                        }){
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
 
-                        @Override
-                        public void onFailure(Call<MyResponse> call, Throwable t) {
+                                Map<String, String> headers = new HashMap<>();
+                                headers.put("Content-Type", "application/json");
+                                headers.put("Authorization", "key=AAAAaqKJdP0:APA91bFcvbly22wYH5G2lUq3dzXKc5WmpD2oIC7bA79q2li3OONMW0gZUZsmSf7rWYTPDamKfttV8tzo7FlUBcGkGRxfwcVfz5oy3fWKK5yyQ4T4H5y8gjtQK-GYy1DKD_7bVbQYjr2t");
 
-                        }
-                    });
+                                return headers;
+                            }
+                        };
+                        requestQueue.add(jsonObjectRequest); /// 12:28
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

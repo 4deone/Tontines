@@ -67,9 +67,7 @@
 
         <SwitchPreference
             android:key="key_app_notification"
-            app:summaryOff="Activer les notifications"
-            app:summaryOn="Désactiver les notifications"
-            app:defaultValue="true"
+            android:summary="Notification App"
             app:title="Enable or disable app notification"/>
 
         <RingtonePreference
