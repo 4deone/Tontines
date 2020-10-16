@@ -22,6 +22,9 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,15 +43,13 @@ import static cm.deone.corp.tontines.outils.MesOutils.loadAllContacts;
 
 public class Contacts extends AppCompatActivity {
 
-    private static final  String TAG_REQUEST_DASHBOARD_TONTINE = "TONTINES";
-    private static final  String TAG_REQUEST_DASHBOARD_FORUM = "MESSAGES";
+    private static final  String TAG_REQUEST_TONTINE = "TONTINES";
+    private static final  String TAG_REQUEST_MESSAGES = "MESSAGES";
     private static final  String TAG_REQUEST_MEMBRES = "MEMBRES";
+    private static final  String TAG_REQUEST_GROUPES = "GROUPES";
 
     private String request;
-
-    private MenuItem searchItem;
-    private MenuItem settingsItem;
-    private MenuItem newTontineItem;
+    private String myUID;
 
     private Toolbar contactToolbar;
 
@@ -59,66 +60,24 @@ public class Contacts extends AppCompatActivity {
     private List<User> contactList;
     private List<User> uContactList;
     private ArrayList<String> mMemberList;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
+        checkUser();
         initViews();
         contactsCompareDatabase();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dashboard, menu);
-        newTontineItem = menu.findItem(R.id.menu_action_add_into_tontine);
-        settingsItem = menu.findItem(R.id.menu_action_settings);
-        searchItem = menu.findItem(R.id.menu_action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (!TextUtils.isEmpty(query)){
-                    searchDatabase(query);
-                }else {
-                    contactsCompareDatabase();
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!TextUtils.isEmpty(newText)){
-                    searchDatabase(newText);
-                }else {
-                    contactsCompareDatabase();
-                }
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case R.id.menu_action_settings:
-                //Lancer la page SettingsFragment
-                return true;
-            case R.id.menu_action_add_into_tontine:
-                //Lancer la page Add Tontine / membreList
-                if(mMemberList.isEmpty()){
-                    Toast.makeText(Contacts.this, "LISTE DES MEMBRES VIDE",Toast.LENGTH_SHORT).show();
-                }else{
-                    Intent intent = new Intent(Contacts.this, AddTontine.class);
-                    intent.putExtra("membreList", mMemberList);
-                    startActivity(intent);
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    private void checkUser() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null){
+            startActivity(new Intent(Contacts.this, MainActivity.class));
+            finish();
+        }else{
+            myUID = firebaseUser.getUid();
         }
     }
 
@@ -130,11 +89,33 @@ public class Contacts extends AppCompatActivity {
         contactList = loadAllContacts(Contacts.this);
         uContactList = new ArrayList<>();
         mMemberList = new ArrayList<>();
+        floatingActionButton = findViewById(R.id.getSelectedContactFab);
         mNoContacts = findViewById(R.id.noContacts);
         rvContacts = findViewById(R.id.recycleContacts);
         rvContacts.setHasFixedSize(true);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         reference = FirebaseDatabase.getInstance().getReference("Users");
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Lancer la page Add Tontine / membreList
+                if(mMemberList.isEmpty()){
+                    Toast.makeText(Contacts.this, "LISTE DES MEMBRES VIDE",Toast.LENGTH_SHORT).show();
+                }else{
+                    mMemberList.add(myUID);
+                    if(request.equals(TAG_REQUEST_TONTINE)){
+                        Intent intent = new Intent(Contacts.this, AddTontine.class);
+                        intent.putExtra("membreList", mMemberList);
+                        startActivity(intent);
+                    }else  if(request.equals(TAG_REQUEST_GROUPES)){
+                        Intent intent = new Intent(Contacts.this, AddGroup.class);
+                        intent.putExtra("membreList", mMemberList);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
     }
 
     private void contactsCompareDatabase() {
@@ -172,62 +153,55 @@ public class Contacts extends AppCompatActivity {
                         adapterContacts.setOnItemClickListener(new IntRvClickListner() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                if (searchItem.isVisible()||settingsItem.isVisible()){
-                                    if(request.equals(TAG_REQUEST_DASHBOARD_FORUM)){
-                                        Intent intent = new Intent(Contacts.this, ChatActivity.class);
-                                        intent.putExtra("hisUID", uContactList.get(position).getIdUser());
-                                        startActivity(intent);
-                                    }
-                                }else{
-                                    settingsItem.setVisible(true);
-                                    searchItem.setVisible(true);
-                                    newTontineItem.setVisible(false);
-                                    mMemberList.remove(uContactList.get(position).getIdUser());
-                                    Toast.makeText(Contacts.this, "Nombre de membre dans la tontine"+mMemberList.size(), Toast.LENGTH_SHORT).show();
-                                    if(request.equals(TAG_REQUEST_DASHBOARD_TONTINE)){
-                                        ImageView mIvSelected = view.findViewById(R.id.selectedIv);
-                                        if(mIvSelected.getVisibility() == View.VISIBLE){
-                                            mIvSelected.setVisibility(View.GONE);
-                                        }else{
-                                            //Open chat
-                                            searchItem.setVisible(false);
+                                if(request.equals(TAG_REQUEST_TONTINE)){
+                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                    if (mIvSelected.getVisibility() == View.VISIBLE){
+                                        mIvSelected.setVisibility(View.GONE);
+                                        mMemberList.remove(uContactList.get(position).getIdUser());
+                                        if (mMemberList.size() == 0){
+                                            floatingActionButton.setVisibility(floatingActionButton.getVisibility() != View.GONE ? View.GONE:View.VISIBLE);
                                         }
-                                        Toast.makeText(Contacts.this, ""+TAG_REQUEST_DASHBOARD_TONTINE+" =>"+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
-                                    }else if(request.equals(TAG_REQUEST_MEMBRES)){
-                                        Toast.makeText(Contacts.this, ""+TAG_REQUEST_MEMBRES+" =>"+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
-                                    }else if(request.equals(TAG_REQUEST_DASHBOARD_FORUM)){
-                                        Intent intent = new Intent(Contacts.this, ChatActivity.class);
-                                        intent.putExtra("hisUID", uContactList.get(position).getIdUser());
-                                        startActivity(intent);
+                                    }else{
+
+                                    }
+                                }else if(request.equals(TAG_REQUEST_MEMBRES)){
+                                    Toast.makeText(Contacts.this, ""+TAG_REQUEST_MEMBRES+" =>"+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
+                                }else if(request.equals(TAG_REQUEST_MESSAGES)){
+                                    Intent intent = new Intent(Contacts.this, ChatActivity.class);
+                                    intent.putExtra("hisUID", uContactList.get(position).getIdUser());
+                                    startActivity(intent);
+                                }else if(request.equals(TAG_REQUEST_GROUPES)){
+                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                    if (mIvSelected.getVisibility() == View.VISIBLE){
+                                        mIvSelected.setVisibility(View.GONE);
+                                        mMemberList.remove(uContactList.get(position).getIdUser());
+                                        if (mMemberList.size() == 0){
+                                            floatingActionButton.setVisibility(floatingActionButton.getVisibility() != View.GONE ? View.GONE:View.VISIBLE);
+                                        }
+                                    }else{
+
                                     }
                                 }
                             }
 
                             @Override
                             public void onLongItemClick(View view, int position) {
-                                if (searchItem.isVisible()||settingsItem.isVisible()){
+                                if(request.equals(TAG_REQUEST_TONTINE)){
                                     mMemberList.add(uContactList.get(position).getIdUser());
-                                    Toast.makeText(Contacts.this, "Nombre de membre dans la tontine"+mMemberList.size(), Toast.LENGTH_SHORT).show();
-                                    searchItem.setVisible(false);
-                                    settingsItem.setVisible(false);
-                                    newTontineItem.setVisible(true);
+                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                    mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                    floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                }else if(request.equals(TAG_REQUEST_MEMBRES)){
 
-                                    if(request.equals(TAG_REQUEST_DASHBOARD_TONTINE)){
-                                        ImageView mIvSelected = view.findViewById(R.id.selectedIv);
-                                        if(mIvSelected.getVisibility() == View.VISIBLE){
+                                }else if(request.equals(TAG_REQUEST_MESSAGES)){
 
-                                        }else{
-                                            mIvSelected.setVisibility(View.VISIBLE);
-                                        }
-                                    }else if(request.equals(TAG_REQUEST_MEMBRES)){
-
-                                    }else if(request.equals(TAG_REQUEST_DASHBOARD_FORUM)){
-
-                                    }
-                                    //showEditProfileDialog(uContactList.get(position).getIdUser(), uContactList.get(position).getNameUser(),uContactList.get(position).getPhoneUser());
-                                }else{
-
+                                }else if(request.equals(TAG_REQUEST_GROUPES)){
+                                    mMemberList.add(uContactList.get(position).getIdUser());
+                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                    mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                    floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
                                 }
+                                //showEditProfileDialog(uContactList.get(position).getIdUser(), uContactList.get(position).getNameUser(),uContactList.get(position).getPhoneUser());
                             }
                         });
                     }
@@ -242,6 +216,7 @@ public class Contacts extends AppCompatActivity {
     }
 
     private void addMemberIntoTontine(String idMembre, String nameMembre, String phoneMembre) {
+
     }
 
     private void showEditProfileDialog(final String idMembre, final String nameMembre, final String phoneMembre) {
@@ -319,6 +294,49 @@ public class Contacts extends AppCompatActivity {
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.dashboard, menu);
+        MenuItem settingsItem = menu.findItem(R.id.menu_action_settings);
+        MenuItem searchItem = menu.findItem(R.id.menu_action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!TextUtils.isEmpty(query)){
+                    searchDatabase(query);
+                }else {
+                    contactsCompareDatabase();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!TextUtils.isEmpty(newText)){
+                    searchDatabase(newText);
+                }else {
+                    contactsCompareDatabase();
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.menu_action_settings:
+                //Lancer la page SettingsFragment
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

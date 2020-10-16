@@ -169,7 +169,7 @@ public class DasHome extends Fragment {
         mDasHomeTb.setTitle("DashBoard");
         mDasHomeTb.setSubtitle("Mes tontines.");
         ((AppCompatActivity)getActivity()).setSupportActionBar(mDasHomeTb);
-        tontineList = new ArrayList<>();
+
         database = FirebaseDatabase.getInstance();
         mRecyclerView = view.findViewById(R.id.recycleTontine);
         mRecyclerView.setHasFixedSize(true);
@@ -179,6 +179,7 @@ public class DasHome extends Fragment {
     }
 
     private void allTontines() {
+        tontineList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tontines");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -219,6 +220,7 @@ public class DasHome extends Fragment {
     }
 
     private void searchTontines(final String searchQuery) {
+        tontineList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tontines");
         ref.addValueEventListener(new ValueEventListener() {
             @Override

@@ -137,12 +137,15 @@ public class ChatActivity extends AppCompatActivity {
         mUserAvatarIv = findViewById(R.id.userAvatarIv);
         mUserNameTv = findViewById(R.id.userNameTv);
         mUserStatusTv = findViewById(R.id.userStatusTv);
+
         mChatRv = findViewById(R.id.chatRv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         mChatRv.setHasFixedSize(true);
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
         mChatRv.setLayoutManager(linearLayoutManager);
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
         mMessageEt = findViewById(R.id.messageEt);
         mSendIb = findViewById(R.id.sendIb);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -499,4 +502,5 @@ public class ChatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

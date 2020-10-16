@@ -9,9 +9,15 @@
         app:showAsAction="ifRoom"/>
 
     <item  android:id="@+id/forumDaoshboard"
-        android:title= "Forum"
+        android:title= "Messages"
         android:enabled="true"
         android:icon="@drawable/ic_action_forum"
+        app:showAsAction="ifRoom"/>
+
+    <item  android:id="@+id/groupDaoshboard"
+        android:title= "Groupes"
+        android:enabled="true"
+        android:icon="@drawable/ic_action_members"
         app:showAsAction="ifRoom"/>
 
 </menu>

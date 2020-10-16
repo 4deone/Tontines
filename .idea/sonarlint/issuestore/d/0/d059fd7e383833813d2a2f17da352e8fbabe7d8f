@@ -1,16 +1,20 @@
 
-X	java:S125e"<This block of commented-out lines of code should be removed.(Ñ’‹Ò8‹Ò.
-X	java:S125["<This block of commented-out lines of code should be removed.(Ñ’‹Ò8‹Ò.
-Ÿ
-java:S1186Ñ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ô°¤¦8ığšÒ.
-¤
-java:S1186Å"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Í¢ÄÁøÿÿÿÿ8ığšÒ.
+X	java:S125l"<This block of commented-out lines of code should be removed.(Ñ’‹Ò8—Ø»Ò.
+^
+java:S1128("<Remove this unused import 'cm.deone.corp.tontines.Settings'.(•ÏÊ¨úÿÿÿÿ8ùç¤³Ò.
 }
-java:S3923b"[Remove this conditional structure or edit its code blocks so that they're not all the same.(šöè‰ÿÿÿÿÿ8‹Ò.
+java:S3923s"[Remove this conditional structure or edit its code blocks so that they're not all the same.(šöè‰ÿÿÿÿÿ8—Ø»Ò.
+]	java:S125j"<This block of commented-out lines of code should be removed.(Úºüÿÿÿÿ8ùç¤³Ò.
 }
-java:S3923X"[Remove this conditional structure or edit its code blocks so that they're not all the same.(¶™Š®ÿÿÿÿÿ8‹Ò.
-]	java:S125Y"<This block of commented-out lines of code should be removed.(Úºüÿÿÿÿ8‹Ò.
+java:S3923i"[Remove this conditional structure or edit its code blocks so that they're not all the same.(¶™Š®ÿÿÿÿÿ8—Ø»Ò.
+v	java:S135á"YReduce the total number of break and continue statements in this loop to use at most one.(¤¶½8—Ø»Ò.
 W
-java:S1874O"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ8‹Ò.
-v	java:S135İ"YReduce the total number of break and continue statements in this loop to use at most one.(¤¶½8ığšÒ.
-]	java:S125c"<This block of commented-out lines of code should be removed.(ÔÙÓ×ùÿÿÿÿ8‹Ò.
+java:S1874Q"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ8ùç¤³Ò.
+Ÿ
+java:S1186Õ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ô°¤¦8—Ø»Ò.
+g
+java:S1128%"ERemove this unused import 'cm.deone.corp.tontines.GroupChatActivity'.(œË÷‘ıÿÿÿÿ8³Ù»Ò.
+¤
+java:S1186É"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Í¢ÄÁøÿÿÿÿ8—Ø»Ò.
+X	java:S125v"<This block of commented-out lines of code should be removed.(Ñ’‹Ò8—Ø»Ò.
+]	java:S125t"<This block of commented-out lines of code should be removed.(ÔÙÓ×ùÿÿÿÿ8ùç¤³Ò.

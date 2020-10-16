@@ -200,7 +200,7 @@ public class AddTontine extends AppCompatActivity {
      */
     private void initializeUI() {
         membreList = (ArrayList<String>) getIntent().getSerializableExtra("membreList");
-        Toast.makeText(AddTontine.this, "Nombre de membre dans la tontine"+membreList.size(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AddTontine.this, "Nombre de membre dans la tontine"+membreList.size(), Toast.LENGTH_SHORT).show();
         mTontineName = findViewById(R.id.tontineNameEdtv);
         mTontineDevise = findViewById(R.id.deviseEdtv);
         mTontineDescription = findViewById(R.id.descriptionEdtv);

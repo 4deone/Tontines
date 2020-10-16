@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginTop="3dp"
+    android:background="#cdfecd">
+
+    <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+        android:id="@+id/clAvatarIv"
+        android:src="@drawable/ic_action_membre"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+    <TextView
+        android:id="@+id/clGroupTitleTv"
+        android:layout_toEndOf="@+id/clAvatarIv"
+        android:layout_toStartOf="@+id/clLastSeenTv"
+        android:layout_marginStart="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group Title"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/clSenderTv"
+        android:layout_toEndOf="@+id/clAvatarIv"
+        android:layout_below="@+id/clGroupTitleTv"
+        android:layout_marginStart="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sender"
+        android:textColor="@color/black"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/clMessageTv"
+        android:layout_toEndOf="@+id/clSenderTv"
+        android:layout_toStartOf="@+id/clLastSeenTv"
+        android:layout_below="@+id/clGroupTitleTv"
+        android:maxLines="2"
+        android:layout_marginStart="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Last message"
+        android:textColor="@color/black"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/clOnlineTv"
+        android:layout_toEndOf="@+id/clAvatarIv"
+        android:layout_toStartOf="@+id/clLastSeenTv"
+        android:layout_below="@+id/clSenderTv"
+        android:layout_marginStart="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:text="online"
+        android:textColor="@color/black"
+        android:textSize="11sp"/>
+
+
+    <TextView
+        android:id="@+id/clNumberMessageNonLusTv"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/clLastSeenTv"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_cercle"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textSize="10sp"/>
+
+</RelativeLayout>

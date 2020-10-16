@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatActivity"/>
+        <activity android:name=".GroupParticipants"></activity>
+        <activity android:name=".GroupChatActivity" />
+        <activity android:name=".AddGroup" />
+        <activity android:name=".ChatActivity" />
         <activity android:name=".SettingsOne" />
         <activity android:name=".Settings" />
         <activity android:name=".ShowMembre" />
@@ -30,6 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".notifications.MyFirebaseIdService"
             android:enabled="true"

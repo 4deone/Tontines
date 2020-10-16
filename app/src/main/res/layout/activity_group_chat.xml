@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1dede"
-    tools:context=".ChatActivity">
+    tools:context=".GroupChatActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/chatToolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary">
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-            android:id="@+id/userAvatarIv"
+            android:id="@+id/groupAvatarIv"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="centerCrop"/>
@@ -28,16 +27,18 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/userNameTv"
+                android:id="@+id/groupTitleTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User Name"
+                android:layout_marginStart="5dp"
+                android:text="Group title"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/userStatusTv"
+                android:id="@+id/groupStatusTv"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Online"
@@ -49,10 +50,12 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatRv"
+        android:id="@+id/groupChatRv"
+        android:background="#f1dede"
+        app:stackFromEnd="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/chatToolbar"
+        android:layout_below="@+id/toolbar"
         android:layout_above="@+id/rlSendMessage"/>
 
     <RelativeLayout
@@ -62,11 +65,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageButton
+            android:id="@+id/joinFileIb"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_join_file"
+            android:background="@null" />
+
         <EditText
             android:id="@+id/messageEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/sendIb"
+            android:layout_toEndOf="@+id/joinFileIb"
             android:padding="15dp"
             android:background="@null"
             android:hint="@string/your_message"

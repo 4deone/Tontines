@@ -36,7 +36,6 @@ import cm.deone.corp.tontines.ChatActivity;
 import cm.deone.corp.tontines.Contacts;
 import cm.deone.corp.tontines.MainActivity;
 import cm.deone.corp.tontines.R;
-import cm.deone.corp.tontines.Settings;
 import cm.deone.corp.tontines.adapters.AdapterChatLists;
 import cm.deone.corp.tontines.interfaces.IntRvClickListner;
 import cm.deone.corp.tontines.models.Chat;
@@ -74,11 +73,27 @@ public class ChatlistFrag extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         //inflate menu
-        inflater.inflate(R.menu.dashboard, menu);
+        inflater.inflate(R.menu.nav_chat, menu);
+        menu.findItem(R.id.menu_action_edit_contact).setVisible(false);
         MenuItem searchItem = menu.findItem(R.id.menu_action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         manageSearchView(searchView);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //handle menu item clicks
+        int id = item.getItemId();
+
+        if (id == R.id.menu_action_new_group) {
+            Intent intent = new Intent(getActivity(), Contacts.class);
+            intent.putExtra("REQUEST", "GROUPES");
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void manageSearchView(SearchView searchView) {
@@ -103,19 +118,6 @@ public class ChatlistFrag extends Fragment {
                 return false;
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //handle menu item clicks
-        int id = item.getItemId();
-
-        if (id == R.id.menu_action_settings) {
-            startActivity(new Intent(getActivity(), Settings.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void checkUserStatut() {
@@ -185,23 +187,23 @@ public class ChatlistFrag extends Fragment {
                     }
                     adapterChatLists = new AdapterChatLists(getActivity(), userList);
                     mChatlistRv.setAdapter(adapterChatLists);
-                    adapterChatLists.setOnItemClickListener(new IntRvClickListner() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Intent intent = new Intent(getActivity(), ChatActivity.class);
-                            intent.putExtra("hisUID", userList.get(position).getIdUser());
-                            getActivity().startActivity(intent);
-                        }
-
-                        @Override
-                        public void onLongItemClick(View view, int position) {
-
-                        }
-                    });
-                    // set Last message
-                    for (int i=0; i<userList.size(); i++){
-                        lastmessage(userList.get(i).getIdUser());
+                }
+                adapterChatLists.setOnItemClickListener(new IntRvClickListner() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("hisUID", userList.get(position).getIdUser());
+                        getActivity().startActivity(intent);
                     }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                });
+                // set Last message
+                for (int i=0; i<userList.size(); i++){
+                    lastmessage(userList.get(i).getIdUser());
                 }
             }
 

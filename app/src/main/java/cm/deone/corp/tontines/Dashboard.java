@@ -23,6 +23,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import cm.deone.corp.tontines.fragments.ChatlistFrag;
 import cm.deone.corp.tontines.fragments.DasHome;
+import cm.deone.corp.tontines.fragments.GroupList;
 import cm.deone.corp.tontines.notifications.Token;
 
 public class Dashboard extends AppCompatActivity {
@@ -103,6 +104,9 @@ public class Dashboard extends AppCompatActivity {
                     return true;
                 case R.id.forumDaoshboard:
                     pushFragment(new ChatlistFrag());
+                    return true;
+                case R.id.groupDaoshboard:
+                    pushFragment(new GroupList());
                     return true;
                 default:
             }

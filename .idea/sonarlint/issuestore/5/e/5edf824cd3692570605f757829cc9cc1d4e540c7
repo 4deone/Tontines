@@ -1,54 +1,54 @@
 
-‚
-java:S14508"`Remove the "cameraPermissions" field and declare it as a local variable in the relevant methods.(ûÃú¶úÿÿÿÿ8’ËƒĞÏ.
-L
-java:S1068H"*Remove this unused "idUser" private field.(Ğ¸Ÿºıÿÿÿÿ8ôäƒĞÏ.
-R
-java:S1874F"6Remove this use of "ProgressDialog"; it is deprecated.(ƒŒ)8ôäƒĞÏ.
-O
-java:S1874u"2Remove this use of "setMessage"; it is deprecated.(¸Ï“½8ôäƒĞÏ.
-P
-java:S1199"-Extract this nested code block into a method.(®¹ƒúÿÿÿÿ8ôäƒĞÏ.
-d
-java:S1126R"BReplace this if-then-else statement by a single method invocation.(¬ù”Éıÿÿÿÿ8ôäƒĞÏ.
-P
-java:S1874€"2Remove this use of "setMessage"; it is deprecated.(¢çË§8ôäƒĞÏ.
-X	java:S125z"<This block of commented-out lines of code should be removed.(î¸³8ôäƒĞÏ.
-D	java:S131€""Add a default case to this switch.(×ö³–úÿÿÿÿ8ôäƒĞÏ.
-Y	java:S125¢"<This block of commented-out lines of code should be removed.(Ë¾±£8¼ïĞ”Ğ.
-n
-java:S1301€"KReplace this "switch" statement by "if" statements to increase readability.(×ö³–úÿÿÿÿ8ôäƒĞÏ.
-W
-java:S10688"5Remove this unused "cameraPermissions" private field.(ûÃú¶úÿÿÿÿ8’ËƒĞÏ.
-Y	java:S125¥"<This block of commented-out lines of code should be removed.(Ë¾±£8¼ïĞ”Ğ.
-w
-java:S1450H"URemove the "idUser" field and declare it as a local variable in the relevant methods.(Ğ¸Ÿºıÿÿÿÿ8ôäƒĞÏ.
-y
-java:S1450<"WRemove the "database" field and declare it as a local variable in the relevant methods.(­“óûÿÿÿÿ8ôäƒĞÏ.
 ^	java:S125«"<This block of commented-out lines of code should be removed.(ßÀÏÂşÿÿÿÿ8šĞ”Ğ.
 `
 java:S2259¡"BA "NullPointerException" could be thrown; "data" is nullable here.(µÛŸ©8ôäƒĞÏ.
-X	java:S110/"<This class has 9 parents which is greater than 5 authorized.(ï±í8ôäƒĞÏ.
-x
-java:S3252"[Use static access with "android.provider.MediaStore$Images$ImageColumns" for "DESCRIPTION".(¾ã§q8ôäƒĞÏ.
 X
 java:S10689"6Remove this unused "storagePermissions" private field.(ç»ĞÛøÿÿÿÿ8ôäƒĞÏ.
-Q
-java:S1128"4Remove this unused import 'android.content.Context'.(©Ê‰è8ÅÌÙÍÏ.
+w
+java:S1450H"URemove the "idUser" field and declare it as a local variable in the relevant methods.(Ğ¸Ÿºıÿÿÿÿ8ôäƒĞÏ.
+X	java:S110/"<This class has 9 parents which is greater than 5 authorized.(ï±í8ôäƒĞÏ.
 ƒ
 java:S14509"aRemove the "storagePermissions" field and declare it as a local variable in the relevant methods.(ç»ĞÛøÿÿÿÿ8ôäƒĞÏ.
+L
+java:S1068H"*Remove this unused "idUser" private field.(Ğ¸Ÿºıÿÿÿÿ8ôäƒĞÏ.
+X	java:S125z"<This block of commented-out lines of code should be removed.(î¸³8ôäƒĞÏ.
+Q
+java:S1128"4Remove this unused import 'android.content.Context'.(©Ê‰è8ÅÌÙÍÏ.
+p	java:S116:"TRename this field "image_uri" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†ä¨å8ôäƒĞÏ.
+U
+java:S1874ƒ"2Remove this use of "setMessage"; it is deprecated.(åÍì¾úÿÿÿÿ8ôäƒĞÏ.
+T
+java:S1874÷"6Remove this use of "ProgressDialog"; it is deprecated.(—Àƒ‹8ôäƒĞÏ.
+Y	java:S125¢"<This block of commented-out lines of code should be removed.(Ë¾±£8¼ïĞ”Ğ.
+W
+java:S10688"5Remove this unused "cameraPermissions" private field.(ûÃú¶úÿÿÿÿ8’ËƒĞÏ.
 Ÿ
 java:S1186º"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ô°¤¦8ôäƒĞÏ.
 P
 java:S1199"-Extract this nested code block into a method.(Ï¥‰§üÿÿÿÿ8ôäƒĞÏ.
-l
-java:S3252Œ"NUse static access with "android.provider.MediaStore$MediaColumns" for "TITLE".(—Å˜‘8’ËƒĞÏ.
-p	java:S116:"TRename this field "image_uri" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†ä¨å8ôäƒĞÏ.
-T
-java:S1874y"2Remove this use of "setMessage"; it is deprecated.(¨æëøÿÿÿÿ8ôäƒĞÏ.
-T
-java:S1874÷"6Remove this use of "ProgressDialog"; it is deprecated.(—Àƒ‹8ôäƒĞÏ.
+Y	java:S125¥"<This block of commented-out lines of code should be removed.(Ë¾±£8¼ïĞ”Ğ.
+y
+java:S1450<"WRemove the "database" field and declare it as a local variable in the relevant methods.(­“óûÿÿÿÿ8ôäƒĞÏ.
+‚
+java:S14508"`Remove the "cameraPermissions" field and declare it as a local variable in the relevant methods.(ûÃú¶úÿÿÿÿ8’ËƒĞÏ.
+P
+java:S1874€"2Remove this use of "setMessage"; it is deprecated.(¢çË§8ôäƒĞÏ.
+x
+java:S3252"[Use static access with "android.provider.MediaStore$Images$ImageColumns" for "DESCRIPTION".(¾ã§q8ôäƒĞÏ.
+D	java:S131€""Add a default case to this switch.(×ö³–úÿÿÿÿ8ôäƒĞÏ.
 O
 java:S1874}"2Remove this use of "setMessage"; it is deprecated.(Ò–ùı8ôäƒĞÏ.
-U
-java:S1874ƒ"2Remove this use of "setMessage"; it is deprecated.(åÍì¾úÿÿÿÿ8ôäƒĞÏ.
+O
+java:S1874u"2Remove this use of "setMessage"; it is deprecated.(¸Ï“½8ôäƒĞÏ.
+l
+java:S3252Œ"NUse static access with "android.provider.MediaStore$MediaColumns" for "TITLE".(—Å˜‘8’ËƒĞÏ.
+P
+java:S1199"-Extract this nested code block into a method.(®¹ƒúÿÿÿÿ8ôäƒĞÏ.
+T
+java:S1874y"2Remove this use of "setMessage"; it is deprecated.(¨æëøÿÿÿÿ8ôäƒĞÏ.
+R
+java:S1874F"6Remove this use of "ProgressDialog"; it is deprecated.(ƒŒ)8ôäƒĞÏ.
+n
+java:S1301€"KReplace this "switch" statement by "if" statements to increase readability.(×ö³–úÿÿÿÿ8ôäƒĞÏ.
+d
+java:S1126R"BReplace this if-then-else statement by a single method invocation.(¬ù”Éıÿÿÿÿ8ôäƒĞÏ.
