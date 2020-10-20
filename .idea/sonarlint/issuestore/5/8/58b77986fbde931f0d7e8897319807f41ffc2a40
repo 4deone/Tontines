@@ -1,37 +1,22 @@
 
 k
-java:S1871Æ"MThis branch's code block is the same as the block for the branch on line 189.(Ì¤ÁÒ8„Ã»Ò.
-F	java:S108Ä")Either remove or fill this block of code.(·‚8ĞÜšÁÒ.
-k
-java:S1871­"MThis branch's code block is the same as the block for the branch on line 156.(Ì¤ÁÒ8ÙÛ½»Ò.
-T
-java:S1481¯"1Remove this unused "settingsItem" local variable.(Âù¨öúÿÿÿÿ8ĞÜšÁÒ.
-Ÿ
-java:S1186ï"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ó§Á8ĞÜšÁÒ.
-F	java:S108¤")Either remove or fill this block of code.(å¥‡8ĞÜšÁÒ.
-Ÿ
-java:S1186Ú"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(†ø¥Æ8ĞÜšÁÒ.
-n
-java:S1301Í"KReplace this "switch" statement by "if" statements to increase readability.(Ò“ÿšùÿÿÿÿ8ĞÜšÁÒ.
-D
-java:S1172Ú"&Remove these unused method parameters.(†ø¥Æ8ĞÜšÁÒ.
-F	java:S108µ")Either remove or fill this block of code.(å¥‡8ĞÜšÁÒ.
-M
-java:S1172ï"/Remove this unused method parameter "idMembre".(ó§Á8ĞÜšÁÒ.
-X
-java:S1874±"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ8ĞÜšÁÒ.
-]
-java:S1144Ş":Remove this unused private "showEditProfileDialog" method.(¶Äˆ¹şÿÿÿÿ8ĞÜšÁÒ.
-X
-java:S1144˜"5Remove this unused private "showAvatarDialog" method.(’ËÛçøÿÿÿÿ8ĞÜšÁÒ.
-]	java:S110,"<This class has 9 parents which is greater than 5 authorized.(òñÇÓÿÿÿÿÿ8Ùô™Ğ.
-a
-java:S1155¡">Use isEmpty() to check whether the collection is empty or not.(“Îô¾øÿÿÿÿ8ĞÜšÁÒ.
-a
-java:S1155²">Use isEmpty() to check whether the collection is empty or not.(“Îô¾øÿÿÿÿ8ĞÜšÁÒ.
-o
-java:S3776y"RRefactor this method to reduce its Cognitive Complexity from 97 to the 15 allowed.(ÑÚ‰Á8ĞÜšÁÒ.
-K	java:S108Â")Either remove or fill this block of code.(á÷ÿ´ùÿÿÿÿ8ĞÜšÁÒ.
-^	java:S125Ì"<This block of commented-out lines of code should be removed.(èúó²ûÿÿÿÿ8ĞÜšÁÒ.
+java:S1871”"MThis branch's code block is the same as the block for the branch on line 267.(Ì¤ÁÒ8‰ìïÖÓ.
+F	java:S108Ü")Either remove or fill this block of code.(å¥‡8‰ìïÖÓ.
+K	java:S108")Either remove or fill this block of code.(á÷ÿ´ùÿÿÿÿ8‰ìïÖÓ.
 c
-java:S1854¯"@Remove this useless assignment to local variable "settingsItem".(Âù¨öúÿÿÿÿ8ĞÜšÁÒ.
+java:S1854Í"@Remove this useless assignment to local variable "settingsItem".(Âù¨öúÿÿÿÿ8‰ìïÖÓ.
+F	java:S108’")Either remove or fill this block of code.(·‚8‰ìïÖÓ.
+F	java:S108í")Either remove or fill this block of code.(å¥‡8‰ìïÖÓ.
+a
+java:S1155Ù">Use isEmpty() to check whether the collection is empty or not.(“Îô¾øÿÿÿÿ8‰ìïÖÓ.
+T
+java:S1481Í"1Remove this unused "settingsItem" local variable.(Âù¨öúÿÿÿÿ8‰ìïÖÓ.
+k
+java:S1871å"MThis branch's code block is the same as the block for the branch on line 212.(Ì¤ÁÒ8‰ìïÖÓ.
+a
+java:S1155ê">Use isEmpty() to check whether the collection is empty or not.(“Îô¾øÿÿÿÿ8‰ìïÖÓ.
+n
+java:S1301ë"KReplace this "switch" statement by "if" statements to increase readability.(Ò“ÿšùÿÿÿÿ8‰ìïÖÓ.
+X
+java:S1874Ï"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ8‰ìïÖÓ.
+]	java:S110/"<This class has 9 parents which is greater than 5 authorized.(òñÇÓÿÿÿÿÿ8Ùô™Ğ.

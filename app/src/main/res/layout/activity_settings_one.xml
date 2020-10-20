@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#cc001122"
-    tools:context=".SettingsOne">
+    tools:context=".SettingsActivity">
 
     <com.blogspot.atifsoftwares.circularimageview.CircularImageView
         android:id="@+id/avatarUserIv"
@@ -91,11 +91,31 @@
         android:layout_below="@+id/userInfos"
         app:contentPadding="10dp">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/enableNotificationSw"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tontine notification"/>
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enableNotificationSw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tontine notification"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enableNotificationChat"
+                android:layout_below="@+id/enableNotificationSw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chat notification"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enableNotificationArticle"
+                android:layout_below="@+id/enableNotificationChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Article notification"/>
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

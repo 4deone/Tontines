@@ -29,10 +29,10 @@ import static cm.deone.corp.tontines.outils.MesOutils.dateToString;
 
 public class ShowMembre extends AppCompatActivity {
 
+    private DatabaseReference reference;
     private String uID;
     private String tontineID;
     private String mID;
-    private Toolbar toolbar;
     private ImageView mCover;
     private TextView mName;
     private TextView mBureau;
@@ -44,11 +44,19 @@ public class ShowMembre extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_membre);
-        Intent intent = getIntent();
-        mID = ""+intent.getStringExtra(this.getResources().getString(R.string.mID));
-        tontineID = ""+intent.getStringExtra(this.getResources().getString(R.string.idTontine));
         checkUserStatus();
+        initViews();
+        reference.addValueEventListener(valMemberInfos);
     }
+
+    @Override
+    protected void onStop() {
+        if (valMemberInfos != null) {
+            reference.removeEventListener(valMemberInfos);
+        }
+        super.onStop();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -86,55 +94,52 @@ public class ShowMembre extends AppCompatActivity {
             finish();
         }else {
             uID = mUser.getUid();
-            initViews();
-            getMemberInfos();
         }
     }
 
-    private void getMemberInfos() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("name").getValue(String.class);
-                String bureau = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("bureau").getValue(String.class);
-                String phone = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("phone").getValue(String.class);
-                String timestamp = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("date").getValue(String.class);
-                String cniNumero = snapshot.child("Users").child(mID).child("cniUser").getValue(String.class);
-                String cniDelivery = snapshot.child("Users").child(mID).child("deliveryCniUser").getValue(String.class);
+    private ValueEventListener valMemberInfos = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            String name = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("name").getValue(String.class);
+            String bureau = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("bureau").getValue(String.class);
+            String phone = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("phone").getValue(String.class);
+            String timestamp = snapshot.child("Tontines").child(tontineID).child("Membres").child(mID).child("date").getValue(String.class);
+            String cniNumero = snapshot.child("Users").child(mID).child("cniUser").getValue(String.class);
+            String cniDelivery = snapshot.child("Users").child(mID).child("deliveryCniUser").getValue(String.class);
 
-                String avatar = snapshot.child("Users").child(mID).child("avatarUser").getValue(String.class);
-                String cover = snapshot.child("Users").child(mID).child("coverUser").getValue(String.class);
+            String avatar = snapshot.child("Users").child(mID).child("avatarUser").getValue(String.class);
+            String cover = snapshot.child("Users").child(mID).child("coverUser").getValue(String.class);
 
-                try{
-                    Picasso.get().load(cover).into(mCover);
-                }catch(Exception e){
-                    Picasso.get().load(cover).placeholder(R.drawable.ic_action_cover).into(mCover);
-                }
-
-                String date = dateToString("dd/MM/yyyy hh:mm:ss", timestamp);
-
-                mName.setText(name);
-                mBureau.setText(bureau);
-                mPhone.setText(phone);
-                mAciennete.setText(ShowMembre.this.getResources().getString(R.string.member_anciennete, date));
-                mCni.setText(ShowMembre.this.getResources().getString(R.string.member_cni, cniNumero, cniDelivery));
+            try{
+                Picasso.get().load(cover).into(mCover);
+            }catch(Exception e){
+                Picasso.get().load(cover).placeholder(R.drawable.ic_action_cover).into(mCover);
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ShowMembre.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+            String date = dateToString("dd/MM/yyyy hh:mm:ss", timestamp);
 
-    }
+            mName.setText(name);
+            mBureau.setText(bureau);
+            mPhone.setText(phone);
+            mAciennete.setText(ShowMembre.this.getResources().getString(R.string.member_anciennete, date));
+            mCni.setText(ShowMembre.this.getResources().getString(R.string.member_cni, cniNumero, cniDelivery));
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(ShowMembre.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void initViews() {
-        toolbar = findViewById(R.id.showMemmberToolbar);
+        Intent intent = getIntent();
+        mID = ""+intent.getStringExtra(this.getResources().getString(R.string.mID));
+        tontineID = ""+intent.getStringExtra(this.getResources().getString(R.string.idTontine));
+        reference = FirebaseDatabase.getInstance().getReference();
+        Toolbar toolbar = findViewById(R.id.showMemmberToolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         mCover = findViewById(R.id.expandedImage);
         mName = findViewById(R.id.tvMemberName);
         mBureau = findViewById(R.id.tvBureauMembre);
@@ -144,5 +149,6 @@ public class ShowMembre extends AppCompatActivity {
     }
 
     private void manageSearchView(SearchView searchView) {
+
     }
 }

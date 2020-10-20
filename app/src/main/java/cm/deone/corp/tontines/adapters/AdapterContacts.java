@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,13 +25,18 @@ import cm.deone.corp.tontines.models.User;
 
 public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHolder> {
 
+    private static final  String TAG_REQUEST_PARTICIPANTS = "PARTICIPANTS";
     private Context context;
     private IntRvClickListner listener;
     private List<User> userList;
+    private String tag_request;
+    private String groupId;
 
     public AdapterContacts(Context context, List<User> userList) {
         this.context = context;
         this.userList = userList;
+        tag_request = "";
+        groupId = "";
     }
 
     @NonNull
@@ -45,10 +51,38 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
         final String nom = userList.get(position).getNameUser();
         final String id = userList.get(position).getIdUser();
         holder.mContactName.setText(nom);
-        contactNumberTontine(id, holder.mContactTontine);
+        contactNumberTontine(id, holder);
+        if (tag_request.equals(TAG_REQUEST_PARTICIPANTS)){
+            isMemberGroup(id, holder);
+        }
     }
 
-    private void contactNumberTontine(final String id, final TextView mContactTontine) {
+    private void isMemberGroup(String id, final MyHolder holder) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groupes");
+        ref.child(groupId).child("Participants").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                holder.mSelected.setVisibility(snapshot.exists() ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void setTagRequest(String tag, String gUID){
+        tag_request = tag;
+        groupId = gUID;
+    }
+
+    @Override
+    public int getItemCount() {
+        return userList.size();
+    }
+
+    private void contactNumberTontine(final String id, final MyHolder holder) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tontines").child("Membres").child(id);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -65,7 +99,7 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
                         numTontineMembre++;
                     }
                 }
-                mContactTontine.setText("Fondateur de "+numTontineFondateur+" tontines - Membre de "+numTontineMembre+" tontines");
+                holder.mContactTontine.setText("Fondateur de "+numTontineFondateur+" tontines - Membre de "+numTontineMembre+" tontines");
             }
 
             @Override
@@ -73,11 +107,6 @@ public class AdapterContacts extends RecyclerView.Adapter<AdapterContacts.MyHold
 
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return userList.size();
     }
 
     public void setOnItemClickListener(IntRvClickListner listener){

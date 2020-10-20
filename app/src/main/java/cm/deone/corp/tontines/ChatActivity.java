@@ -64,7 +64,6 @@ import cm.deone.corp.tontines.notifications.Token;
 
 public class ChatActivity extends AppCompatActivity {
 
-
     private RequestQueue requestQueue;
     private boolean notify = false;
 
@@ -378,7 +377,13 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds:snapshot.getChildren()){
                     Token token = ds.getValue(Token.class);
-                    Data data = new Data(myUID, nameUser+": "+message, "New message", hisUID, R.drawable.ic_notif);
+                    Data data = new Data(
+                            ""+myUID,
+                            ""+nameUser+": "+message,
+                            "New message",
+                            ""+hisUID,
+                            "ChatNotification",
+                            R.drawable.ic_notif);
                     Sender sender = new Sender(data, token.getToken());
                     try {
                         JSONObject senderJsonObj = new JSONObject(new Gson().toJson(sender));

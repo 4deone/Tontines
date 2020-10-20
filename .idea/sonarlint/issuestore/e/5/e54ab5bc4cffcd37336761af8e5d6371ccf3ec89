@@ -1,12 +1,12 @@
 
-n	java:S117×"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³ãÛ¢8ýÐ®¤Ï.
-n	java:S117Ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±¼¦»8 ‘•«Ï.
 V	java:S110+"<This class has 9 parents which is greater than 5 authorized.(éïÐ¨ýÿÿÿÿ
-n	java:S117Ø"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ˜Áˆ8ýÐ®¤Ï.
-D	java:S108™")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ
-{
-java:S14509"YRemove the "membreList" field and declare it as a local variable in the relevant methods.(ô½Ã›ùÿÿÿÿ8ûË§ŸÐ.
 s	java:S117Ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­†°“ùÿÿÿÿ8»•²¤Ï.
-Y	java:S125Ë"<This block of commented-out lines of code should be removed.(ø¯ßÃ8ÑÀŽ¾Ò.
+n	java:S117Ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±¼¦»8 ‘•«Ï.
 P
 java:S10689".Remove this unused "membreList" private field.(ô½Ã›ùÿÿÿÿ8ÑÀŽ¾Ò.
+n	java:S117Ø"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ˜Áˆ8ýÐ®¤Ï.
+{
+java:S14509"YRemove the "membreList" field and declare it as a local variable in the relevant methods.(ô½Ã›ùÿÿÿÿ8ûË§ŸÐ.
+Y	java:S125Ë"<This block of commented-out lines of code should be removed.(ø¯ßÃ8ÑÀŽ¾Ò.
+n	java:S117×"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³ãÛ¢8ýÐ®¤Ï.
+D	java:S108™")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ

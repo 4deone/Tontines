@@ -5,13 +5,15 @@ public class Data {
     private String body;
     private String title;
     private String sent;
+    private String notificationType;
     private Integer icon;
 
-    public Data(String user, String body, String title, String sent, Integer icon) {
+    public Data(String user, String body, String title, String sent, String notificationType, Integer icon) {
         this.user = user;
         this.body = body;
         this.title = title;
         this.sent = sent;
+        this.notificationType = notificationType;
         this.icon = icon;
     }
 
@@ -48,6 +50,14 @@ public class Data {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
     }
 
     public String getSent() {

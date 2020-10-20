@@ -22,6 +22,8 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cm.deone.corp.tontines.adapters.AdapterContacts;
@@ -47,8 +50,10 @@ public class Contacts extends AppCompatActivity {
     private static final  String TAG_REQUEST_MESSAGES = "MESSAGES";
     private static final  String TAG_REQUEST_MEMBRES = "MEMBRES";
     private static final  String TAG_REQUEST_GROUPES = "GROUPES";
+    private static final  String TAG_REQUEST_PARTICIPANTS = "PARTICIPANTS";
 
     private String request;
+    private String gUID;
     private String myUID;
 
     private Toolbar contactToolbar;
@@ -66,9 +71,19 @@ public class Contacts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
+
         checkUser();
         initViews();
-        contactsCompareDatabase();
+
+        reference.addValueEventListener(valGetAllContacts);
+
+        floatingActionButton.setOnClickListener(fabOnClick);
+    }
+
+    @Override
+    protected void onStop() {
+        reference.removeEventListener(valGetAllContacts);
+        super.onStop();
     }
 
     private void checkUser() {
@@ -82,7 +97,9 @@ public class Contacts extends AppCompatActivity {
     }
 
     private void initViews(){
-        request = getIntent().getStringExtra("REQUEST");
+        Intent intent = getIntent();
+        request = intent.getStringExtra("REQUEST");
+        gUID = intent.getStringExtra("groupeId");
         contactToolbar = findViewById(R.id.contactToolbar);
         contactToolbar.setTitle("Mes contacts");
         setSupportActionBar(contactToolbar);
@@ -95,149 +112,29 @@ public class Contacts extends AppCompatActivity {
         rvContacts.setHasFixedSize(true);
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         reference = FirebaseDatabase.getInstance().getReference("Users");
+    }
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Lancer la page Add Tontine / membreList
-                if(mMemberList.isEmpty()){
-                    Toast.makeText(Contacts.this, "LISTE DES MEMBRES VIDE",Toast.LENGTH_SHORT).show();
-                }else{
-                    mMemberList.add(myUID);
-                    if(request.equals(TAG_REQUEST_TONTINE)){
-                        Intent intent = new Intent(Contacts.this, AddTontine.class);
-                        intent.putExtra("membreList", mMemberList);
-                        startActivity(intent);
-                    }else  if(request.equals(TAG_REQUEST_GROUPES)){
-                        Intent intent = new Intent(Contacts.this, AddGroup.class);
-                        intent.putExtra("membreList", mMemberList);
-                        startActivity(intent);
+    private void addParticipant(String idUser) {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("uid", ""+idUser);
+        hashMap.put("role", "participant");
+        hashMap.put("timestamp", ""+timestamp);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groupes");
+        ref.child(gUID).child("Participants").child(idUser).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(Contacts.this, "Added successfuly...", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Contacts.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void contactsCompareDatabase() {
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                uContactList.clear();
-                int countContact = 0;
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
-                    Cursor phones = getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null, null, null, null);
-                    while (phones.moveToNext()) {
-                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        // Cleanup the phone number
-                        phoneNumber = formatPhone(phoneNumber);
-                        // Add in the list
-                        assert user != null;
-                        if(phoneNumber.equals(user.getPhoneUser())){
-                            uContactList.add(user);
-                            countContact++;
-                            break;
-                        }
-                    }
-                    phones.close();
-                    contactToolbar.setSubtitle(""+countContact+" contacts");
-                    if(uContactList.isEmpty()){
-                        mNoContacts.setVisibility(View.VISIBLE);
-                        rvContacts.setVisibility(View.GONE);
-                    }else{
-                        rvContacts.setVisibility(View.VISIBLE);
-                        mNoContacts.setVisibility(View.GONE);
-                        adapterContacts = new AdapterContacts(Contacts.this, uContactList);
-                        rvContacts.setAdapter(adapterContacts);
-                        adapterContacts.setOnItemClickListener(new IntRvClickListner() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                if(request.equals(TAG_REQUEST_TONTINE)){
-                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
-                                    if (mIvSelected.getVisibility() == View.VISIBLE){
-                                        mIvSelected.setVisibility(View.GONE);
-                                        mMemberList.remove(uContactList.get(position).getIdUser());
-                                        if (mMemberList.size() == 0){
-                                            floatingActionButton.setVisibility(floatingActionButton.getVisibility() != View.GONE ? View.GONE:View.VISIBLE);
-                                        }
-                                    }else{
-
-                                    }
-                                }else if(request.equals(TAG_REQUEST_MEMBRES)){
-                                    Toast.makeText(Contacts.this, ""+TAG_REQUEST_MEMBRES+" =>"+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
-                                }else if(request.equals(TAG_REQUEST_MESSAGES)){
-                                    Intent intent = new Intent(Contacts.this, ChatActivity.class);
-                                    intent.putExtra("hisUID", uContactList.get(position).getIdUser());
-                                    startActivity(intent);
-                                }else if(request.equals(TAG_REQUEST_GROUPES)){
-                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
-                                    if (mIvSelected.getVisibility() == View.VISIBLE){
-                                        mIvSelected.setVisibility(View.GONE);
-                                        mMemberList.remove(uContactList.get(position).getIdUser());
-                                        if (mMemberList.size() == 0){
-                                            floatingActionButton.setVisibility(floatingActionButton.getVisibility() != View.GONE ? View.GONE:View.VISIBLE);
-                                        }
-                                    }else{
-
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-                                if(request.equals(TAG_REQUEST_TONTINE)){
-                                    mMemberList.add(uContactList.get(position).getIdUser());
-                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
-                                    mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
-                                    floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
-                                }else if(request.equals(TAG_REQUEST_MEMBRES)){
-
-                                }else if(request.equals(TAG_REQUEST_MESSAGES)){
-
-                                }else if(request.equals(TAG_REQUEST_GROUPES)){
-                                    mMemberList.add(uContactList.get(position).getIdUser());
-                                    ImageView mIvSelected = view.findViewById(R.id.selectedIv);
-                                    mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
-                                    floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
-                                }
-                                //showEditProfileDialog(uContactList.get(position).getIdUser(), uContactList.get(position).getNameUser(),uContactList.get(position).getPhoneUser());
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Contacts.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void addMemberIntoTontine(String idMembre, String nameMembre, String phoneMembre) {
-
-    }
-
-    private void showEditProfileDialog(final String idMembre, final String nameMembre, final String phoneMembre) {
-        String[] options = {"Inviter ce contact", "Voir ce contact" };
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose Action");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0){
-                    addMemberIntoTontine(idMembre, nameMembre, phoneMembre);
-                }else if (which == 1){
-                    voirCeContact(idMembre);
-                }
-            }
-        });
-        builder.create().show();
-    }
-
-    private void voirCeContact(String idMembre) {
-        
     }
 
     private void searchDatabase(final String searchQuery) {
@@ -277,24 +174,157 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
-    private void showAvatarDialog() {
-        String[] options = {"Camera", "Gallery"};
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setTitle("Sélectionner une image à partir");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch(which){
-                    case 0 :
+    ValueEventListener valGetAllContacts = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            uContactList.clear();
+            int countContact = 0;
+            for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                User user = dataSnapshot.getValue(User.class);
+                Cursor phones = getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null, null, null, null);
+                while (phones.moveToNext()) {
+                    String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    // Cleanup the phone number
+                    phoneNumber = formatPhone(phoneNumber);
+                    // Add in the list
+                    assert user != null;
+                    if(phoneNumber.equals(user.getPhoneUser())){
+                        uContactList.add(user);
+                        countContact++;
                         break;
-                    case 1 :
-                        break;
-                    default:
+                    }
+                }
+                phones.close();
+                contactToolbar.setSubtitle(""+countContact+" contacts");
+                if(uContactList.isEmpty()){
+                    mNoContacts.setVisibility(View.VISIBLE);
+                    rvContacts.setVisibility(View.GONE);
+                }else{
+                    rvContacts.setVisibility(View.VISIBLE);
+                    mNoContacts.setVisibility(View.GONE);
+                    adapterContacts = new AdapterContacts(Contacts.this, uContactList);
+                    rvContacts.setAdapter(adapterContacts);
+                    adapterContacts.setTagRequest(""+request, ""+gUID);
+                    adapterContacts.setOnItemClickListener(new IntRvClickListner() {
+                        @Override
+                        public void onItemClick(View view, final int position) {
+                            if(request.equals(TAG_REQUEST_TONTINE)){
+                                ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                if (mIvSelected.getVisibility() == View.VISIBLE){
+                                    mIvSelected.setVisibility(View.GONE);
+                                    mMemberList.remove(uContactList.get(position).getIdUser());
+                                    if (mMemberList.size() == 0){
+                                        floatingActionButton.setVisibility(floatingActionButton.getVisibility() != View.GONE ? View.GONE:View.VISIBLE);
+                                    }
+                                }else{
+
+                                }
+                            }else if(request.equals(TAG_REQUEST_MEMBRES)){
+                                Toast.makeText(Contacts.this, ""+TAG_REQUEST_MEMBRES+" =>"+uContactList.get(position).getNameUser(), Toast.LENGTH_SHORT).show();
+                            }else if(request.equals(TAG_REQUEST_MESSAGES)){
+                                Intent intent = new Intent(Contacts.this, ChatActivity.class);
+                                intent.putExtra("hisUID", uContactList.get(position).getIdUser());
+                                startActivity(intent);
+                            }else if(request.equals(TAG_REQUEST_GROUPES)){
+                                ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                if (mIvSelected.getVisibility() == View.VISIBLE){
+                                    mIvSelected.setVisibility(View.GONE);
+                                    mMemberList.remove(uContactList.get(position).getIdUser());
+                                    if (mMemberList.size() == 0){
+                                        floatingActionButton.setVisibility(floatingActionButton.getVisibility() != View.GONE ? View.GONE:View.VISIBLE);
+                                    }
+                                }else{
+
+                                }
+                            }else if(request.equals(TAG_REQUEST_PARTICIPANTS)){
+                                ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                if (mIvSelected.getVisibility() == View.VISIBLE){
+                                    Toast.makeText(Contacts.this, "Contact membre de ce groupe", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Contacts.this);
+                                    builder.setTitle("Ajouter un membre")
+                                            .setMessage("Ajouter cet utilisateur dans ce groupe")
+                                            .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    addParticipant(uContactList.get(position).getIdUser());
+                                                }
+                                            })
+                                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    builder.create().show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onLongItemClick(View view, final int position) {
+                            if(request.equals(TAG_REQUEST_TONTINE)){
+                                mMemberList.add(uContactList.get(position).getIdUser());
+                                ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                            }else if(request.equals(TAG_REQUEST_MEMBRES)){
+
+                            }else if(request.equals(TAG_REQUEST_MESSAGES)){
+
+                            }else if(request.equals(TAG_REQUEST_GROUPES)){
+                                mMemberList.add(uContactList.get(position).getIdUser());
+                                ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                            }else if(request.equals(TAG_REQUEST_PARTICIPANTS)){
+                                ImageView mIvSelected = view.findViewById(R.id.selectedIv);
+                                if (mIvSelected.getVisibility() == View.VISIBLE){
+                                    Toast.makeText(Contacts.this, "Contact membre de ce groupe", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    mMemberList.add(uContactList.get(position).getIdUser());
+                                    mIvSelected.setVisibility(mIvSelected.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                    floatingActionButton.setVisibility(floatingActionButton.getVisibility()!=View.VISIBLE?View.VISIBLE:View.GONE);
+                                }
+                            }
+                        }
+                    });
                 }
             }
-        });
-        builder.create().show();
-    }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(Contacts.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    View.OnClickListener fabOnClick = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            //Lancer la page Add Tontine / membreList
+            if(mMemberList.isEmpty()){
+                Toast.makeText(Contacts.this, "LISTE DES MEMBRES VIDE",Toast.LENGTH_SHORT).show();
+            }else{
+                if(request.equals(TAG_REQUEST_TONTINE)){
+                    mMemberList.add(myUID);
+                    Intent intent = new Intent(Contacts.this, AddTontine.class);
+                    intent.putExtra("membreList", mMemberList);
+                    startActivity(intent);
+                }else  if(request.equals(TAG_REQUEST_GROUPES)){
+                    mMemberList.add(myUID);
+                    Intent intent = new Intent(Contacts.this, AddGroup.class);
+                    intent.putExtra("membreList", mMemberList);
+                    startActivity(intent);
+                }else if(request.equals(TAG_REQUEST_PARTICIPANTS)){
+                    for (String item:mMemberList){
+                        addParticipant(item);
+                    }
+                }
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -309,7 +339,7 @@ public class Contacts extends AppCompatActivity {
                 if (!TextUtils.isEmpty(query)){
                     searchDatabase(query);
                 }else {
-                    contactsCompareDatabase();
+                    reference.addValueEventListener(valGetAllContacts);
                 }
                 return false;
             }
@@ -319,7 +349,7 @@ public class Contacts extends AppCompatActivity {
                 if (!TextUtils.isEmpty(newText)){
                     searchDatabase(newText);
                 }else {
-                    contactsCompareDatabase();
+                    reference.addValueEventListener(valGetAllContacts);
                 }
                 return false;
             }

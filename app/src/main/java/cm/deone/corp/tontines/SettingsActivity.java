@@ -9,7 +9,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,8 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,17 +33,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
 
 import cm.deone.corp.tontines.interfaces.IntSystem;
 
-public class SettingsOne extends AppCompatActivity implements IntSystem {
+public class SettingsActivity extends AppCompatActivity implements IntSystem {
 
     private static final String TOPIC_TONTINE_NOTIFICATION = "TONTINE";
+    private static final String TOPIC_CHAT_NOTIFICATION = "CHAT";
+    private static final String TOPIC_ARTICLE_NOTIFICATION = "ARTICLE";
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
@@ -69,6 +64,8 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
     private TextView userCity;
     private ProgressDialog pd;
     private SwitchCompat postNotificationSw;
+    private SwitchCompat enableNotificationChat;
+    private SwitchCompat enableNotificationArticle;
     private String idUser;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -78,11 +75,25 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_one);
         checkUser();
+        initializeViews();
+        getUserInformations();
         boolean isTontineEnable = sharedPreferences.getBoolean(""+TOPIC_TONTINE_NOTIFICATION, false);
+        boolean isChatEnable = sharedPreferences.getBoolean(""+TOPIC_CHAT_NOTIFICATION, false);
+        boolean isArticleEnable = sharedPreferences.getBoolean(""+TOPIC_ARTICLE_NOTIFICATION, false);
         if (isTontineEnable) {
             postNotificationSw.setChecked(true);
         }else{
             postNotificationSw.setChecked(false);
+        }
+        if (isChatEnable) {
+            enableNotificationChat.setChecked(true);
+        }else{
+            enableNotificationChat.setChecked(false);
+        }
+        if (isArticleEnable) {
+            enableNotificationArticle.setChecked(true);
+        }else{
+            enableNotificationArticle.setChecked(false);
         }
         postNotificationSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -97,12 +108,122 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
                 }
             }
         });
+        enableNotificationChat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor = sharedPreferences.edit();
+                editor.putBoolean(""+TOPIC_CHAT_NOTIFICATION, isChecked);
+                editor.apply();
+                if (isChecked){
+                    suscribeNotificationChat();
+                }else{
+                    unsuscribeNotificationChat();
+                }
+            }
+        });
+        enableNotificationArticle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor = sharedPreferences.edit();
+                editor.putBoolean(""+TOPIC_ARTICLE_NOTIFICATION, isChecked);
+                editor.apply();
+                if (isChecked){
+                    suscribeNotificationArticle();
+                }else{
+                    unsuscribeNotificationArticle();
+                }
+            }
+        });
         editProfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showEditDialogProfil();
             }
         });
+    }
+
+    private void unsuscribeNotificationArticle() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(""+TOPIC_ARTICLE_NOTIFICATION)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "You will receive article notifications";
+                        if(!task.isSuccessful()){
+                            msg = "Subscription failed";
+                        }
+                        Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void suscribeNotificationArticle() {
+        FirebaseMessaging.getInstance().subscribeToTopic(""+TOPIC_ARTICLE_NOTIFICATION)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "You will not receive article notifications";
+                        if(!task.isSuccessful()){
+                            msg = "Unsubscription failed";
+                        }
+                        Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void unsuscribeNotificationChat() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(""+TOPIC_CHAT_NOTIFICATION)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "You will receive chat notifications";
+                        if(!task.isSuccessful()){
+                            msg = "Subscription failed";
+                        }
+                        Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void suscribeNotificationChat() {
+        FirebaseMessaging.getInstance().subscribeToTopic(""+TOPIC_CHAT_NOTIFICATION)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "You will not receive chat notifications";
+                        if(!task.isSuccessful()){
+                            msg = "Unsubscription failed";
+                        }
+                        Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void suscribeNotification() {
+        FirebaseMessaging.getInstance().subscribeToTopic(""+TOPIC_TONTINE_NOTIFICATION)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "You will not receive post notifications";
+                        if(!task.isSuccessful()){
+                            msg = "Unsubscription failed";
+                        }
+                        Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void unsuscribeNotification() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(""+TOPIC_TONTINE_NOTIFICATION)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "You will receive post notifications";
+                        if(!task.isSuccessful()){
+                            msg = "Subscription failed";
+                        }
+                        Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void showEditDialogProfil() {
@@ -189,45 +310,15 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
         });
     }
 
-    private void suscribeNotification() {
-        FirebaseMessaging.getInstance().subscribeToTopic(""+TOPIC_TONTINE_NOTIFICATION)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "You will not receive post notifications";
-                        if(!task.isSuccessful()){
-                            msg = "Unsubscription failed";
-                        }
-                        Toast.makeText(SettingsOne.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void unsuscribeNotification() {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(""+TOPIC_TONTINE_NOTIFICATION)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "You will receive post notifications";
-                        if(!task.isSuccessful()){
-                            msg = "Subscription failed";
-                        }
-                        Toast.makeText(SettingsOne.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     @Override
     public void checkUser() {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mUser ==null){
-            Intent intent = new Intent(SettingsOne.this, MainActivity.class);
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }else {
             idUser = mUser.getUid();
-            initializeViews();
-            getUserInformations();
         }
     }
 
@@ -236,6 +327,8 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Users");
         postNotificationSw = findViewById(R.id.enableNotificationSw);
+        enableNotificationChat = findViewById(R.id.enableNotificationChat);
+        enableNotificationArticle = findViewById(R.id.enableNotificationArticle);
         userCity = findViewById(R.id.villeTv);
         userEmail = findViewById(R.id.emailUserTv);
         userCni = findViewById(R.id.cniTv);
@@ -261,7 +354,7 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
                     if (cameraAccepted && writeStorageAccepted){
                         pickFromCamera();
                     }else {
-                        Toast.makeText(SettingsOne.this, "Please enable camera & storage permissions.",
+                        Toast.makeText(SettingsActivity.this, "Please enable camera & storage permissions.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -273,7 +366,7 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
                     if (writeStorageAccepted){
                         pickFromGallery();
                     }else {
-                        Toast.makeText(SettingsOne.this, "Please enable storage permissions.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SettingsActivity.this, "Please enable storage permissions.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -317,13 +410,13 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
                         @Override
                         public void onSuccess(Void aVoid) {
                             progressDialog.dismiss();
-                            Toast.makeText(SettingsOne.this, "Images Updated...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this, "Images Updated...", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(SettingsOne.this, "Error Updating Images...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this, "Error Updating Images...", Toast.LENGTH_SHORT).show();
                         }
                     });
                     if (profileOrCoverPhoto.equals("image")){
@@ -379,14 +472,14 @@ public class SettingsOne extends AppCompatActivity implements IntSystem {
                     }
                 }else {
                     progressDialog.dismiss();
-                    Toast.makeText(SettingsOne.this, "Some error occured", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(SettingsOne.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }*/

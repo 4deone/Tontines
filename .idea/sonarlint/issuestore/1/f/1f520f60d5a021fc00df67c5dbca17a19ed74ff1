@@ -1,20 +1,20 @@
 
 j
-java:S14502"TRemove the "mUser" field and declare it as a local variable in the relevant methods.(çÎùÜ
-Q	java:S125t"<This block of commented-out lines of code should be removed.(şƒş¡
+java:S14501"TRemove the "mAuth" field and declare it as a local variable in the relevant methods.(ªĞ”’
 n
 java:S3776½"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ïÁãûÿÿÿÿ
-_
-java:S1192"IDefine a constant instead of duplicating this literal "Tontines" 3 times.(ÚûÚ=
-`
-java:S1192F"JDefine a constant instead of duplicating this literal "idTontine" 4 times.(ı‡Í
->
-java:S1185r"(Remove this method to simply inherit it.(ñ”Ò
 i
 java:S3776"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ÙÙ§
-P
-java:S1874X"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ
-j
-java:S14501"TRemove the "mAuth" field and declare it as a local variable in the relevant methods.(ªĞ”’
+>
+java:S1185r"(Remove this method to simply inherit it.(ñ”Ò
+Q	java:S125t"<This block of commented-out lines of code should be removed.(şƒş¡
 v
 java:S14508"[Remove the "fabAddMembre" field and declare it as a local variable in the relevant methods.(˜Ç¡£şÿÿÿÿ
+j
+java:S14502"TRemove the "mUser" field and declare it as a local variable in the relevant methods.(çÎùÜ
+P
+java:S1874X"5Remove this use of "getActionView"; it is deprecated.(§ÑŠ”üÿÿÿÿ
+`
+java:S1192F"JDefine a constant instead of duplicating this literal "idTontine" 4 times.(ı‡Í
+_
+java:S1192"IDefine a constant instead of duplicating this literal "Tontines" 3 times.(ÚûÚ=

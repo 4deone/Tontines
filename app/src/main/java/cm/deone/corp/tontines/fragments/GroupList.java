@@ -197,6 +197,7 @@ public class GroupList extends Fragment {
         //inflate menu
         inflater.inflate(R.menu.nav_chat, menu);
         menu.findItem(R.id.menu_action_edit_contact).setVisible(false);
+        menu.findItem(R.id.menu_action_details_group).setVisible(false);
         MenuItem searchItem = menu.findItem(R.id.menu_action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         manageSearchView(searchView);

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
@@ -17,10 +18,13 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,11 +51,18 @@ import static cm.deone.corp.tontines.outils.MesOutils.formatPhone;
 public class GroupParticipants extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private FloatingActionButton faButton;
     private List<User> userList;
     private AdapterParticipants adapterParticipants;
     private RecyclerView rvParticipant;
-    private String myUID;
 
+    ArrayList<String> roleList;
+
+    private ImageView groupIconIv;
+    private TextView groupTitleTv;
+    private TextView memberRoleTv;
+
+    private String myUID;
     private String gUID;
     private String gROLE;
 
@@ -62,6 +73,15 @@ public class GroupParticipants extends AppCompatActivity {
         checkUserStatus();
         initViews();
         loadGroupInfo();
+        faButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupParticipants.this, Contacts.class);
+                intent.putExtra("REQUEST", "PARTICIPANTS");
+                intent.putExtra("groupeId", gUID);
+                startActivity(intent);
+            }
+        });
     }
 
     private void checkUserStatus(){
@@ -78,190 +98,170 @@ public class GroupParticipants extends AppCompatActivity {
         gUID = getIntent().getStringExtra("gUID");// groupId
         gROLE = getIntent().getStringExtra("gROLE");// myGroupeRole
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Participants");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        groupIconIv = findViewById(R.id.groupIconIv);
+        groupTitleTv = findViewById(R.id.groupTitleTv);
+        memberRoleTv = findViewById(R.id.memberRoleTv);
+        faButton = findViewById(R.id.faButton);
         rvParticipant = findViewById(R.id.rvParticipant);
+        rvParticipant.setHasFixedSize(true);
+        rvParticipant.setLayoutManager(new LinearLayoutManager(this));
 
-    }
-
-    private void allUserContact() {
-        userList = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userList.clear();
-                for (final DataSnapshot ds: dataSnapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
-                    Cursor phones = getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null, null, null, null);
-                    while (phones.moveToNext()) {
-                        String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        // Cleanup the phone number
-                        phoneNumber = formatPhone(phoneNumber);
-                        // Add in the list
-                        assert user != null;
-                        if(phoneNumber.equals(user.getPhoneUser())){
-                            userList.add(user);
-                            break;
-                        }
-                    }
-                    phones.close();
-                    adapterParticipants = new AdapterParticipants(GroupParticipants.this, userList, ""+gUID);
-                    rvParticipant.setAdapter(adapterParticipants);
-                    adapterParticipants.setOnItemClickListener(new IntRvClickListner() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-
-                        }
-
-                        @Override
-                        public void onLongItemClick(View view, final int position) {
-                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Groupes");
-                            ref.child("Participants").child(userList.get(position).getIdUser())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            if (snapshot.exists()){
-                                                String hisPreviousRole = snapshot.child("role").getValue(String.class);
-                                                String[] options;
-                                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupParticipants.this);
-                                                builder.setTitle("Sélectionner une option");
-                                                if (gROLE.equals("creator")){
-                                                    if(hisPreviousRole.equals("admin")){
-                                                        options = new String[]{"Remove admin", "Remove user"};
-                                                        builder.setItems(options, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                switch(which){
-                                                                    case 0 :
-                                                                        removeAdmin(userList.get(position));
-                                                                        break;
-                                                                    case 1 :
-                                                                        removeParticipant(userList.get(position));
-                                                                        break;
-                                                                    default:
-                                                                }
-                                                            }
-                                                        });
-                                                        builder.create().show();
-                                                    }else if (hisPreviousRole.equals("participants")){
-                                                        options = new String[]{"Make admin", "Remove user"};
-                                                        builder.setItems(options, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                switch(which){
-                                                                    case 0 :
-                                                                        makeAdmin(userList.get(position));
-                                                                        break;
-                                                                    case 1 :
-                                                                        removeParticipant(userList.get(position));
-                                                                        break;
-                                                                    default:
-                                                                }
-                                                            }
-                                                        });
-                                                        builder.create().show();
-                                                    }
-                                                }else if (hisPreviousRole.equals("admin")){
-                                                    if (hisPreviousRole.equals("creator")){
-                                                        Toast.makeText(GroupParticipants.this, "Creator of group...", Toast.LENGTH_SHORT).show();
-                                                    }else if (hisPreviousRole.equals("admin")){
-                                                        options = new String[]{"Make admin", "Remove user"};
-                                                        builder.setItems(options, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                switch(which){
-                                                                    case 0 :
-                                                                        removeAdmin(userList.get(position));
-                                                                        break;
-                                                                    case 1 :
-                                                                        removeParticipant(userList.get(position));
-                                                                        break;
-                                                                    default:
-                                                                }
-                                                            }
-                                                        });
-                                                        builder.create().show();
-                                                    }else if (hisPreviousRole.equals("participants")){
-                                                        options = new String[]{"Make admin", "Remove user"};
-                                                        builder.setItems(options, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                switch(which){
-                                                                    case 0 :
-                                                                        makeAdmin(userList.get(position));
-                                                                        break;
-                                                                    case 1 :
-                                                                        removeParticipant(userList.get(position));
-                                                                        break;
-                                                                    default:
-                                                                }
-                                                            }
-                                                        });
-                                                        builder.create().show();
-                                                    }
-                                                }
-                                            }else{
-                                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupParticipants.this);
-                                                builder.setTitle("Ajouter un membre")
-                                                .setMessage("Ajouter cet utilisateur dans ce groupe")
-                                                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        addParticipant(userList.get(position));
-                                                    }
-                                                })
-                                                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                });
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(GroupParticipants.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(GroupParticipants.this, ""+databaseError.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void loadGroupInfo() {
+        userList = new ArrayList<>();
+        roleList = new ArrayList<>();
+        final DatabaseReference refGroupUser = FirebaseDatabase.getInstance().getReference("Users");
         final DatabaseReference refGroup = FirebaseDatabase.getInstance().getReference("Groupes");
         DatabaseReference refGroup1 = FirebaseDatabase.getInstance().getReference("Groupes");
         refGroup1.orderByChild("groupId").equalTo(gUID)
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds:snapshot.getChildren()){
-                    String gId = ds.child("groupId").getValue(String.class);
+                for (final DataSnapshot ds:snapshot.getChildren()){
                     final String gTitle = ds.child("groupTitle").getValue(String.class);
-                    String gDescription = ds.child("groupDescription").getValue(String.class);
-                    String gIcon= ds.child("groupIcon").getValue(String.class);
-                    String timestamp= ds.child("timestamp").getValue(String.class);
-                    String createBy= ds.child("creatBy").getValue(String.class);
+                    final String gIcon= ds.child("groupIcon").getValue(String.class);
 
-                    refGroup.child(gId).child("Participants").child(myUID)
+                    gROLE = ds.child("Participants").child(myUID).child("role").getValue(String.class);
+                    groupTitleTv.setText(gTitle);
+                    memberRoleTv.setText(gROLE);
+                    try {
+                        Picasso.get().load(gIcon).placeholder(R.drawable.ic_action_cover).into(groupIconIv);
+                    }catch(Exception e){
+                        Picasso.get().load(R.drawable.ic_action_cover).into(groupIconIv);
+                    }
+
+                    refGroup.child(gUID).child("Participants")
                             .addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()){
-                                        gROLE = snapshot.child("role").getValue(String.class);
-                                        toolbar.setTitle(gTitle+"("+gROLE+")");
+                                    userList.clear();
+                                    roleList.clear();
+                                    for (DataSnapshot ds1:snapshot.getChildren()){
+                                        final String idUser = ds1.child("uid").getValue(String.class);
+                                        final String role = ds1.child("role").getValue(String.class);
+                                        refGroupUser.orderByChild("idUser").equalTo(idUser).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for (DataSnapshot ds2:snapshot.getChildren()){
+                                                    User user = ds2.getValue(User.class);
+                                                    userList.add(user);
+                                                    roleList.add(role);
+                                                    adapterParticipants = new AdapterParticipants(GroupParticipants.this, userList, ""+gUID);
+                                                    rvParticipant.setAdapter(adapterParticipants);
+                                                    adapterParticipants.setOnItemClickListener(new IntRvClickListner() {
+                                                        @Override
+                                                        public void onItemClick(View view, int position) {
 
-                                        allUserContact();
+                                                        }
+
+                                                        @Override
+                                                        public void onLongItemClick(View view, final int position) {
+                                                            String mUID = userList.get(position).getIdUser();
+                                                            String hisPreviousRole = roleList.get(position);
+                                                            String[] options;
+                                                            AlertDialog.Builder builder = new AlertDialog.Builder(GroupParticipants.this);
+                                                            builder.setTitle("Sélectionner une option");
+                                                            if (gROLE.equals("creator")){
+                                                                if (hisPreviousRole.equals("creator")){
+                                                                    Toast.makeText(GroupParticipants.this, "You", Toast.LENGTH_SHORT).show();
+                                                                }else if (hisPreviousRole.equals("participant")){
+                                                                    options = new String[]{"Make admin", "Remove user"};
+                                                                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            switch(which){
+                                                                                case 0 :
+                                                                                    makeAdmin(userList.get(position));
+                                                                                    break;
+                                                                                case 1 :
+                                                                                    removeParticipant(userList.get(position));
+                                                                                    break;
+                                                                                default:
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                    builder.create().show();
+                                                                }else if(hisPreviousRole.equals("admin")){
+                                                                    options = new String[]{"Remove admin", "Remove user"};
+                                                                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            switch(which){
+                                                                                case 0 :
+                                                                                    removeAdmin(userList.get(position));
+                                                                                    break;
+                                                                                case 1 :
+                                                                                    removeParticipant(userList.get(position));
+                                                                                    break;
+                                                                                default:
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                    builder.create().show();
+                                                                }
+                                                            }else if (gROLE.equals("admin")){
+                                                                if (hisPreviousRole.equals("creator")){
+                                                                    Toast.makeText(GroupParticipants.this, "Creator of group...", Toast.LENGTH_SHORT).show();
+                                                                }else if (hisPreviousRole.equals("admin")){
+                                                                    if(mUID.equals(idUser)){
+                                                                        Toast.makeText(GroupParticipants.this, "You", Toast.LENGTH_SHORT).show();
+                                                                    }else{
+                                                                        options = new String[]{"Make admin", "Remove user"};
+                                                                        builder.setItems(options, new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                switch(which){
+                                                                                    case 0 :
+                                                                                        removeAdmin(userList.get(position));
+                                                                                        break;
+                                                                                    case 1 :
+                                                                                        removeParticipant(userList.get(position));
+                                                                                        break;
+                                                                                    default:
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                        builder.create().show();
+                                                                    }
+                                                                }else if (hisPreviousRole.equals("participants")){
+                                                                    options = new String[]{"Make admin", "Remove user"};
+                                                                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            switch(which){
+                                                                                case 0 :
+                                                                                    //makeAdmin(userList.get(position));
+                                                                                    break;
+                                                                                case 1 :
+                                                                                    //removeParticipant(userList.get(position));
+                                                                                    break;
+                                                                                default:
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                    builder.create().show();
+                                                                }
+                                                            }else if (gROLE.equals("participant")){
+                                                                if(mUID.equals(idUser)){
+                                                                    Toast.makeText(GroupParticipants.this, "You", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                                if (hisPreviousRole.equals("creator")){
+                                                                    Toast.makeText(GroupParticipants.this, "Creator of group...", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(GroupParticipants.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
                                 }
 
@@ -370,7 +370,7 @@ public class GroupParticipants extends AppCompatActivity {
                 if (!TextUtils.isEmpty(query)){
                     searchParticipants(query);
                 }else {
-                    allUserContact();
+                    //allUserContact();
                 }
                 return false;
             }
@@ -380,7 +380,7 @@ public class GroupParticipants extends AppCompatActivity {
                 if (!TextUtils.isEmpty(newText)){
                     searchParticipants(newText);
                 }else {
-                    allUserContact();
+                    //allUserContact();
                 }
                 return false;
             }

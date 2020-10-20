@@ -66,7 +66,7 @@ public class AdapterParticipants extends RecyclerView.Adapter<AdapterParticipant
 
     private void checkIfAlreadyExist(User user, final MyHolder holder) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groupes");
-        reference.child(groupeId).child("Membres").child(user.getIdUser())
+        reference.child(groupeId).child("Participants").child(user.getIdUser())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
